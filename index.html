@@ -464,7 +464,7 @@
               <li>Customised Decoration Options</li>
               <li>Access to Available Celebration Features</li>
             </ul>
-            <a href="#book" class="btn btn--ghost" data-package="2">Enquire on WhatsApp</a>
+            <a href="#book" class="btn btn--ghost" data-package="2">Book This Package</a>
           </article>
 
           <article class="package package--featured reveal">
@@ -478,7 +478,7 @@
               <li>Customised Decoration Options</li>
               <li>Access to Available Celebration Features</li>
             </ul>
-            <a href="#book" class="btn btn--gold" data-package="3">Enquire on WhatsApp</a>
+            <a href="#book" class="btn btn--gold" data-package="3">Book This Package</a>
           </article>
         </div>
 
@@ -492,7 +492,7 @@
         <div class="section__head reveal">
           <h2 id="bookTitle">Book Your Dream Moment</h2>
           <div class="gold-rule"></div>
-          <p>Share your celebration details and our team will help you check availability.</p>
+          <p>Select your slot and reserve with a ₹500 advance payment.</p>
         </div>
 
         <div class="booking-box reveal">
@@ -554,7 +554,7 @@
 
             <div class="form-actions">
               <button type="submit" class="btn btn--pink" id="submitBtn">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.22-8.23 8.22zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.29z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
                 CHECK AVAILABILITY ON WHATSAPP
               </button>
             </div>
@@ -644,6 +644,11 @@
     </div>
   </footer>
 
+  <!-- Firebase v8 + Razorpay Checkout -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
   <script>
     (function () {
       'use strict';
@@ -651,8 +656,28 @@
       document.documentElement.classList.add('js');
 
       /* ---------- Config ---------- */
-      var WHATSAPP_NUMBER = '918097192761';
-      var SUBMIT_LOCK_MS = 4000;
+      var CONTACT_PHONE = '+91 8097192761';
+      var BOOKINGS_NODE = 'dream_moment_bookings';
+      var ADVANCE_RUPEES = 500;
+      var ADVANCE_PAISE = 50000;
+      var PRICES = { '2': 999, '3': 1499 };
+      var RAZORPAY_KEY = 'rzp_test_TyPqbXmV5yrlSJ';
+      var DEFAULT_BTN_TEXT = 'Pay \u20B9500 Advance & Confirm Slot';
+
+      /* ---------- Firebase ---------- */
+      var db = null;
+      try {
+        var firebaseConfig = {
+          apiKey: 'AIzaSyDiGopFOIBanHJROTXL-0sIDAoIVwUSf_w',
+          authDomain: 'football-manager-be26f.firebaseapp.com',
+          databaseURL: 'https://football-manager-be26f-default-rtdb.firebaseio.com',
+          projectId: 'football-manager-be26f'
+        };
+        if (window.firebase) {
+          if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+          db = firebase.database();
+        }
+      } catch (err) { console.error('Firebase init failed:', err); }
 
       /* ---------- Mobile navigation ---------- */
       var toggle = document.getElementById('navToggle');
@@ -739,19 +764,108 @@
       function refreshMinDate() { fields.date.min = todayISO(); }
       refreshMinDate();
 
+      /* Slot message lives in the existing #slotErr element (red = error, green = available) */
+      var slotMsgEl = document.getElementById(errorIds.slot);
+      var slotFieldEl = fields.slot.closest('.field');
+      function setSlotMsg(kind, text) {
+        slotMsgEl.textContent = text || '';
+        slotMsgEl.style.color = kind === 'ok' ? '#4ADE80' : (kind === 'info' ? 'var(--text-muted)' : '');
+        slotFieldEl.classList.toggle('has-error', kind === 'error');
+        fields.slot.setAttribute('aria-invalid', kind === 'error' ? 'true' : 'false');
+      }
+
+      /* ---------- Button text + price summary ---------- */
+      var btnTextNode = null;
+      (function () {
+        for (var i = submitBtn.childNodes.length - 1; i >= 0; i--) {
+          var n = submitBtn.childNodes[i];
+          if (n.nodeType === 3 && n.nodeValue.trim()) { btnTextNode = n; break; }
+        }
+      })();
+      function setBtnText(text) {
+        if (btnTextNode) btnTextNode.nodeValue = '\n                ' + text + '\n              ';
+        else submitBtn.appendChild(document.createTextNode(text));
+      }
+      function money(n) { return '\u20B9' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+      function updatePackageUI() {
+        var v = fields.pkg.value;
+        if (!PRICES[v]) { setBtnText(DEFAULT_BTN_TEXT); statusEl.textContent = ''; return; }
+        setBtnText('Pay \u20B9500 Advance & Confirm [' + v + ' Hours Slot]');
+        statusEl.textContent = 'Package total ' + money(PRICES[v]) + ' \u00B7 Advance ' + money(ADVANCE_RUPEES) + ' now \u00B7 Balance ' + money(PRICES[v] - ADVANCE_RUPEES);
+      }
+
+      /* ---------- Slot availability ---------- */
+      var availState = 'idle';   /* idle | checking | free | booked | error */
+      var processing = false;    /* true while payment / saving is in progress */
+      var checkId = 0;
+
+      function refreshButton() {
+        submitBtn.disabled = processing || availState === 'checking' || availState === 'booked' || availState === 'error';
+      }
+
+      function isSlotTaken(date, slot) {
+        return db.ref(BOOKINGS_NODE).orderByChild('date').equalTo(date).once('value').then(function (snap) {
+          var taken = false;
+          snap.forEach(function (child) {
+            var b = child.val();
+            if (b && b.slot === slot && b.status === 'confirmed') taken = true;
+          });
+          return taken;
+        });
+      }
+
+      function updateAvailability() {
+        var date = fields.date.value, slot = fields.slot.value;
+        var myCheck = ++checkId;
+
+        if (!date || !slot || date < todayISO()) { availState = 'idle'; setSlotMsg('', ''); refreshButton(); return; }
+        if (!db) { availState = 'error'; setSlotMsg('error', 'Booking service is unavailable right now. Please refresh or contact us.'); refreshButton(); return; }
+
+        availState = 'checking';
+        setSlotMsg('info', 'Checking availability\u2026');
+        refreshButton();
+
+        isSlotTaken(date, slot).then(function (taken) {
+          if (myCheck !== checkId) return; /* a newer selection superseded this check */
+          if (taken) {
+            availState = 'booked';
+            setSlotMsg('error', 'Sorry, this slot is already booked. Please choose another date or slot.');
+          } else {
+            availState = 'free';
+            setSlotMsg('ok', 'Great! This slot is available.');
+          }
+          refreshButton();
+        }).catch(function (err) {
+          if (myCheck !== checkId) return;
+          console.error('Availability check failed:', err);
+          availState = 'error';
+          setSlotMsg('error', 'Could not check availability. Please re-select the slot to try again.');
+          refreshButton();
+        });
+      }
+
       /* Package CTAs: preselect the package, then scroll to the form */
       document.querySelectorAll('[data-package]').forEach(function (btn) {
         btn.addEventListener('click', function () {
           fields.pkg.value = btn.getAttribute('data-package');
           setError('pkg', '');
+          updatePackageUI();
         });
       });
 
       /* Clear an error as soon as the user fixes the field */
       Object.keys(fields).forEach(function (key) {
         var evt = (fields[key].tagName === 'SELECT' || key === 'date') ? 'change' : 'input';
-        fields[key].addEventListener(evt, function () { setError(key, ''); statusEl.textContent = ''; });
+        fields[key].addEventListener(evt, function () {
+          setError(key, '');
+          if (key !== 'pkg') statusEl.textContent = ''; /* package change re-renders the price summary below */
+        });
       });
+      fields.pkg.addEventListener('change', updatePackageUI);
+      fields.date.addEventListener('change', updateAvailability);
+      fields.slot.addEventListener('change', updateAvailability);
+      updatePackageUI();
 
       function validate() {
         var ok = true, firstInvalid = null;
@@ -772,46 +886,145 @@
         else setError('date', '');
 
         if (!fields.occasion.value) fail('occasion', 'Please select a celebration type.'); else setError('occasion', '');
-        if (!fields.slot.value) fail('slot', 'Please select a preferred slot.'); else setError('slot', '');
+        /* Slot: only flag when empty; availability messages are managed by updateAvailability() */
+        if (!fields.slot.value) fail('slot', 'Please select a preferred slot.');
         if (!fields.pkg.value) fail('pkg', 'Please select a package.'); else setError('pkg', '');
 
         if (firstInvalid) firstInvalid.focus();
         return ok ? { name: name, phone: phone } : null;
       }
 
-      function buildMessage(clean) {
-        var pkgText = fields.pkg.options[fields.pkg.selectedIndex].text;
-        return [
-          'New Booking Inquiry - DREAM MOMENT',
-          'Name: ' + clean.name,
-          'Contact: +91 ' + clean.phone,
-          'Date: ' + formatDate(fields.date.value),
-          'Occasion: ' + fields.occasion.value,
-          'Slot: ' + fields.slot.value,
-          'Package: ' + pkgText,
-          'Please confirm if this slot is available.'
-        ].join('\n\n');
+      /* ---------- Reset after a confirmed booking ---------- */
+      function resetAfterBooking() {
+        form.reset();
+        checkId++;
+        availState = 'idle';
+        Object.keys(fields).forEach(function (k) { setError(k, ''); });
+        setSlotMsg('', '');
+        statusEl.textContent = '';
+        refreshMinDate();
+        updatePackageUI();
+        refreshButton();
       }
 
-      var locked = false;
+      /* ---------- Save booking (only ever called after a successful payment) ---------- */
+      function saveBooking(booking) {
+        /* Key = date + slot, so two people can never hold the same slot (atomic transaction) */
+        var key = booking.date + '_' + booking.slot.replace(/\s+/g, '');
+        return db.ref(BOOKINGS_NODE).child(key).transaction(function (current) {
+          return current === null ? booking : undefined; /* undefined = abort, slot already taken */
+        }).then(function (result) {
+          if (!result.committed) { var e = new Error('slot-taken'); e.code = 'slot-taken'; throw e; }
+        });
+      }
+
+      /* ---------- Razorpay checkout ---------- */
+      function openCheckout(clean) {
+        var pkgHours = parseInt(fields.pkg.value, 10);
+        var snapshot = {
+          customerName: clean.name,
+          phone: clean.phone,
+          date: fields.date.value,
+          occasion: fields.occasion.value,
+          slot: fields.slot.value,
+          packageHours: pkgHours
+        };
+        var paid = false, failureShown = false;
+
+        var rzp = new Razorpay({
+          key: RAZORPAY_KEY,
+          amount: ADVANCE_PAISE,
+          currency: 'INR',
+          name: 'Dream Moment',
+          description: 'Advance for ' + pkgHours + ' Hours Slot \u2013 ' + snapshot.slot + ', ' + formatDate(snapshot.date),
+          prefill: { name: snapshot.customerName, contact: snapshot.phone },
+          notes: { date: snapshot.date, slot: snapshot.slot, occasion: snapshot.occasion, packageHours: String(pkgHours) },
+          theme: { color: '#D4AF37' },
+          handler: function (response) {
+            paid = true;
+            var booking = {
+              customerName: snapshot.customerName,
+              phone: snapshot.phone,
+              date: snapshot.date,
+              occasion: snapshot.occasion,
+              slot: snapshot.slot,
+              packageHours: snapshot.packageHours,
+              amountPaid: ADVANCE_RUPEES,
+              paymentId: response.razorpay_payment_id,
+              status: 'confirmed',
+              createdAt: new Date().toISOString()
+            };
+            statusEl.textContent = 'Payment received. Confirming your slot\u2026';
+            saveBooking(booking).then(function () {
+              processing = false;
+              alert('Payment Successful! Your Dream Moment slot is confirmed.');
+              resetAfterBooking();
+            }).catch(function (err) {
+              console.error('Saving booking failed:', err);
+              processing = false;
+              refreshButton();
+              if (err && err.code === 'slot-taken') {
+                alert('Your payment (ID: ' + booking.paymentId + ') went through, but this slot was just booked by someone else. Please contact us on ' + CONTACT_PHONE + ' with this Payment ID for a refund or another slot.');
+              } else {
+                alert('Your payment (ID: ' + booking.paymentId + ') was received, but we could not save your booking automatically. Please contact us on ' + CONTACT_PHONE + ' with this Payment ID to confirm your slot.');
+              }
+              updatePackageUI();
+            });
+          },
+          modal: {
+            ondismiss: function () {
+              if (paid) return;
+              processing = false;
+              refreshButton();
+              if (!failureShown) alert('Payment was cancelled. Your slot has not been booked.');
+              updatePackageUI();
+            }
+          }
+        });
+
+        rzp.on('payment.failed', function (resp) {
+          failureShown = true;
+          var reason = resp && resp.error && resp.error.description ? ' (' + resp.error.description + ')' : '';
+          alert('Payment failed' + reason + '. Your slot has not been booked. Please try again.');
+        });
+
+        rzp.open();
+      }
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        if (locked) return;
+        if (processing || submitBtn.disabled) return;
 
         var clean = validate();
         if (!clean) { statusEl.textContent = 'Please fix the highlighted fields and try again.'; return; }
+        if (!db) { alert('Booking service is unavailable right now. Please refresh the page or contact us on ' + CONTACT_PHONE + '.'); return; }
+        if (typeof Razorpay === 'undefined') { alert('Payment service could not be loaded. Please check your connection and refresh the page.'); return; }
 
-        var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(buildMessage(clean));
+        /* Fresh availability check right before payment */
+        processing = true;
+        refreshButton();
+        statusEl.textContent = 'Verifying slot availability\u2026';
 
-        /* Prevent accidental duplicate submissions */
-        locked = true;
-        submitBtn.disabled = true;
-        setTimeout(function () { locked = false; submitBtn.disabled = false; }, SUBMIT_LOCK_MS);
-
-        var win = window.open(url, '_blank', 'noopener');
-        if (!win) { window.location.href = url; } /* popup blocked: use current tab */
-
-        statusEl.innerHTML = 'Opening WhatsApp… review the message and tap Send. If nothing opened, <a href="' + url + '" target="_blank" rel="noopener noreferrer">tap here</a>. Your slot is not confirmed until we reply.';
+        isSlotTaken(fields.date.value, fields.slot.value).then(function (taken) {
+          if (taken) {
+            processing = false;
+            availState = 'booked';
+            setSlotMsg('error', 'Sorry, this slot is already booked. Please choose another date or slot.');
+            refreshButton();
+            updatePackageUI();
+            return;
+          }
+          availState = 'free';
+          setSlotMsg('ok', 'Great! This slot is available.');
+          updatePackageUI();
+          openCheckout(clean); /* button stays locked until payment finishes or is dismissed */
+        }).catch(function (err) {
+          console.error('Availability re-check failed:', err);
+          processing = false;
+          refreshButton();
+          updatePackageUI();
+          alert('We could not verify slot availability. Please check your connection and try again.');
+        });
       });
     })();
   </script>
