@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#121212">
+  <title>Dream Moment | Admin Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #121212;
+      --bg-alt: #1B1B1B;
+      --card: #222222;
+      --gold: #D4AF37;
+      --gold-soft: #F5D98B;
+      --pink: #FF4FA3;
+      --text: #F4F1EA;
+      --text-muted: #B8B8B8;
+      --line: rgba(212, 175, 55, 0.28);
+      --line-strong: rgba(212, 175, 55, 0.6);
+      --ok: #4ADE80;
+      --danger: #E5484D;
+      --danger-soft: #FF8FA3;
+      --font-head: "Poppins", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      --font-body: "Montserrat", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; min-height: 100vh;
+      background: radial-gradient(1200px 500px at 50% -10%, rgba(255, 79, 163, .10), transparent 60%), var(--bg);
+      color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+    }
+    h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; margin: 0; }
+    button, input, select { font: inherit; }
+    :focus-visible { outline: 3px solid var(--gold-soft); outline-offset: 2px; border-radius: 6px; }
+
+    .wrap { width: min(1180px, 100% - 32px); margin-inline: auto; padding-bottom: 60px; }
+
+    /* ---------- Header ---------- */
+    .topbar { border-bottom: 1px solid var(--line); background: rgba(18, 18, 18, .9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 20; }
+    .topbar__in { width: min(1180px, 100% - 32px); margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; }
+    .brand { font-family: var(--font-head); font-weight: 700; letter-spacing: .14em; color: var(--gold-soft); font-size: 1.05rem; }
+    .brand small { display: block; font-weight: 500; letter-spacing: .08em; font-size: .7rem; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
+    .live { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--text-muted); padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, .02); }
+    .live__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 0 rgba(212, 175, 55, .6); }
+    .live.is-on .live__dot { background: var(--ok); animation: pulse 2s infinite; }
+    .live.is-off .live__dot { background: var(--danger); }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, .55); } 70% { box-shadow: 0 0 0 9px rgba(74, 222, 128, 0); } 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
+
+    .page-title { padding: 28px 0 8px; }
+    .page-title h1 { font-size: clamp(1.5rem, 5vw, 2.1rem); font-weight: 700; }
+    .page-title h1 span { background: linear-gradient(90deg, var(--gold-soft), var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .page-title p { margin: 6px 0 0; color: var(--text-muted); }
+
+    /* ---------- Cards ---------- */
+    .card { background: linear-gradient(170deg, #262626 0%, var(--card) 60%); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 22px; }
+    .card__title { font-size: 1.05rem; font-weight: 600; color: var(--gold-soft); display: flex; align-items: center; gap: 10px; }
+    .card__sub { color: var(--text-muted); font-size: .88rem; margin: 6px 0 18px; }
+    section { margin-top: 22px; }
+
+    /* ---------- Metrics ---------- */
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+    .metric { position: relative; overflow: hidden; }
+    .metric::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--pink)); }
+    .metric__label { color: var(--text-muted); font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
+    .metric__value { font-family: var(--font-head); font-weight: 800; font-size: clamp(1.9rem, 6vw, 2.6rem); color: var(--gold-soft); margin-top: 8px; line-height: 1.1; }
+    .metric__hint { color: var(--text-muted); font-size: .8rem; margin-top: 6px; }
+
+    /* ---------- Form ---------- */
+    .grid-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
+    .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .field label { font-family: var(--font-head); font-weight: 500; font-size: .85rem; color: var(--gold-soft); }
+    .field input, .field select {
+      width: 100%; padding: 13px 14px; min-height: 48px; border-radius: var(--radius-md);
+      background: #1a1a1a; color: var(--text); border: 1px solid var(--line); transition: border-color .2s, box-shadow .2s;
+    }
+    .field input:focus, .field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, .22); }
+    .field input::placeholder { color: #777; }
+    .field select option { background: #1a1a1a; }
+    input[type="date"] { color-scheme: dark; }
+    .field.has-error input, .field.has-error select { border-color: var(--danger-soft); }
+    .field__msg { font-size: .8rem; min-height: 1.2em; color: var(--danger-soft); }
+    .field__msg.is-ok { color: var(--ok); }
+    .field__msg.is-info { color: var(--text-muted); }
+    .form-actions { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+    .form-note { font-size: .85rem; min-height: 1.3em; }
+    .form-note.is-ok { color: var(--ok); }
+    .form-note.is-error { color: var(--danger-soft); }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 24px;
+      border-radius: 999px; border: 1.5px solid transparent; cursor: pointer; font-family: var(--font-head); font-weight: 600; font-size: .95rem;
+      transition: transform .2s, box-shadow .2s, opacity .2s, background .2s;
+    }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; }
+    .btn--pink { background: linear-gradient(135deg, var(--gold), var(--pink)); color: #fff; box-shadow: 0 10px 26px rgba(255, 79, 163, .25); }
+    .btn--pink:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(255, 79, 163, .4); }
+    .btn--danger { background: var(--danger); color: #fff; min-height: 40px; padding: 8px 16px; font-size: .82rem; box-shadow: 0 6px 16px rgba(229, 72, 77, .25); }
+    .btn--danger:not(:disabled):hover { background: #f0575c; transform: translateY(-1px); }
+
+    /* ---------- Tabs ---------- */
+    .list-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+    .tabs { display: inline-flex; gap: 6px; padding: 5px; border: 1px solid var(--line); border-radius: 999px; background: #1a1a1a; }
+    .tab {
+      border: 0; background: transparent; color: var(--text-muted); padding: 9px 18px; border-radius: 999px; cursor: pointer;
+      font-family: var(--font-head); font-weight: 600; font-size: .85rem; transition: background .2s, color .2s;
+    }
+    .tab:hover { color: var(--gold-soft); }
+    .tab.is-active { background: linear-gradient(135deg, var(--gold), var(--pink)); color: #fff; }
+    .tab__count { opacity: .85; margin-left: 4px; font-weight: 500; }
+
+    /* ---------- Bookings table ---------- */
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-md); }
+    table { width: 100%; border-collapse: collapse; min-width: 980px; }
+    th { text-align: left; font-family: var(--font-head); font-weight: 600; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-soft); background: #1a1a1a; padding: 13px 14px; white-space: nowrap; }
+    td { padding: 14px; border-top: 1px solid rgba(255, 255, 255, .06); vertical-align: top; font-size: .9rem; }
+    tbody tr:hover { background: rgba(212, 175, 55, .04); }
+    tr.is-past { opacity: .6; }
+    .cell-name { font-weight: 600; }
+    .cell-sub { color: var(--text-muted); font-size: .78rem; margin-top: 2px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .8rem; word-break: break-all; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: .75rem; font-weight: 600; white-space: nowrap; border: 1px solid transparent; }
+    .badge--paid { color: var(--ok); background: rgba(74, 222, 128, .1); border-color: rgba(74, 222, 128, .35); }
+    .badge--offline { color: var(--gold-soft); background: rgba(212, 175, 55, .1); border-color: var(--line-strong); }
+    .badge--today { color: #fff; background: rgba(255, 79, 163, .25); border-color: rgba(255, 79, 163, .6); margin-left: 6px; }
+    .badge--past { color: var(--text-muted); background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .15); margin-left: 6px; }
+
+    /* ---------- States ---------- */
+    .state { text-align: center; padding: 44px 16px; color: var(--text-muted); border: 1px dashed var(--line-strong); border-radius: var(--radius-md); background: rgba(255, 255, 255, .015); }
+    .state strong { display: block; color: var(--gold-soft); font-family: var(--font-head); font-size: 1.02rem; margin-bottom: 6px; }
+    .state--error { border-color: rgba(255, 143, 163, .6); color: var(--danger-soft); }
+    .state--error strong { color: var(--danger-soft); }
+    .spinner { width: 30px; height: 30px; border-radius: 50%; border: 3px solid rgba(212, 175, 55, .25); border-top-color: var(--gold); margin: 0 auto 12px; animation: spin .9s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    [hidden] { display: none !important; }
+
+    /* ---------- Toast ---------- */
+    .toast-host { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 50; display: flex; flex-direction: column; gap: 10px; width: min(440px, 100% - 32px); pointer-events: none; }
+    .toast { pointer-events: auto; padding: 13px 16px; border-radius: var(--radius-md); background: #1d1d1d; border: 1px solid var(--line-strong); color: var(--text); box-shadow: 0 14px 36px rgba(0, 0, 0, .5); font-size: .9rem; animation: toast-in .25s ease-out; }
+    .toast--ok { border-color: rgba(74, 222, 128, .6); }
+    .toast--error { border-color: rgba(255, 143, 163, .7); color: var(--danger-soft); }
+    @keyframes toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px) {
+      .grid-form { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 820px) {
+      .metrics { grid-template-columns: 1fr; }
+      /* table -> stacked cards */
+      .table-wrap { border: 0; overflow: visible; }
+      table, tbody { display: block; min-width: 0; }
+      thead { display: none; }
+      tr { display: block; margin-bottom: 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: #1c1c1c; overflow: hidden; }
+      td { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 11px 14px; text-align: right; border-top: 1px solid rgba(255, 255, 255, .06); }
+      tr td:first-child { border-top: 0; }
+      td::before { content: attr(data-label); color: var(--gold-soft); font-family: var(--font-head); font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; text-align: left; flex: 0 0 38%; padding-top: 2px; }
+      td .cell-wrap { flex: 1; text-align: right; }
+      td.cell-action { justify-content: stretch; }
+      td.cell-action::before { display: none; }
+      td.cell-action .btn { width: 100%; min-height: 46px; }
+    }
+    @media (max-width: 560px) {
+      .grid-form { grid-template-columns: 1fr; }
+      .card { padding: 18px; }
+      .tabs { width: 100%; }
+      .tab { flex: 1; padding: 10px 8px; }
+      .form-actions .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__in">
+      <div class="brand">DREAM MOMENT<small>Owner Dashboard</small></div>
+      <div class="live" id="liveBadge" role="status" aria-live="polite"><span class="live__dot"></span><span id="liveText">Connecting…</span></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <div class="page-title">
+      <h1>Bookings <span>Control Room</span></h1>
+      <p>Live view of online and walk-in reservations. Changes sync instantly with the customer website.</p>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics" aria-label="Key metrics">
+      <div class="card metric">
+        <div class="metric__label">Total Bookings</div>
+        <div class="metric__value" id="mTotal">–</div>
+        <div class="metric__hint">Online + walk-in</div>
+      </div>
+      <div class="card metric">
+        <div class="metric__label">Online Advance Collected</div>
+        <div class="metric__value" id="mAdvance">–</div>
+        <div class="metric__hint" id="mAdvanceHint">₹500 × confirmed online bookings</div>
+      </div>
+      <div class="card metric">
+        <div class="metric__label">Walk-in (Offline) Slots</div>
+        <div class="metric__value" id="mOffline">–</div>
+        <div class="metric__hint">Reserved at the counter</div>
+      </div>
+    </div>
+
+    <!-- Quick action: offline reservation -->
+    <section aria-labelledby="walkinTitle">
+      <div class="card">
+        <h2 class="card__title" id="walkinTitle">Walk-in / Offline Slot Reservation</h2>
+        <p class="card__sub">Reserving here instantly locks the slot, so nobody can book it online.</p>
+
+        <form id="walkinForm" novalidate>
+          <div class="grid-form">
+            <div class="field" id="fDate">
+              <label for="wDate">Date</label>
+              <input type="date" id="wDate" required>
+              <span class="field__msg" id="eDate"></span>
+            </div>
+            <div class="field" id="fSlot">
+              <label for="wSlot">Time Slot</label>
+              <select id="wSlot" required>
+                <option value="" selected disabled>Select a time slot</option>
+                <option>11 AM - 2 PM</option>
+                <option>3 PM - 6 PM</option>
+                <option>7 PM - 10 PM</option>
+              </select>
+              <span class="field__msg" id="eSlot" aria-live="polite"></span>
+            </div>
+            <div class="field" id="fName">
+              <label for="wName">Customer Name</label>
+              <input type="text" id="wName" placeholder="Enter customer name" autocomplete="off" maxlength="80" required>
+              <span class="field__msg" id="eName"></span>
+            </div>
+            <div class="field" id="fPhone">
+              <label for="wPhone">Phone Number</label>
+              <input type="tel" id="wPhone" placeholder="10-digit mobile number" inputmode="tel" autocomplete="off" required>
+              <span class="field__msg" id="ePhone"></span>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn--pink" id="walkinBtn">Reserve Slot (Offline Cash)</button>
+            <span class="form-note" id="walkinNote" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Live bookings -->
+    <section aria-labelledby="listTitle">
+      <div class="card">
+        <div class="list-head">
+          <h2 class="card__title" id="listTitle">Live Bookings</h2>
+          <div class="tabs" role="tablist" aria-label="Booking filters">
+            <button class="tab is-active" role="tab" aria-selected="true" data-tab="today" id="tabToday">Today's Bookings<span class="tab__count" id="cToday"></span></button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="all" id="tabAll">All / Upcoming<span class="tab__count" id="cAll"></span></button>
+          </div>
+        </div>
+
+        <div id="listState"></div>
+        <div class="table-wrap" id="tableWrap" hidden>
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Date</th>
+                <th>Slot</th>
+                <th>Package</th>
+                <th>Advance Status</th>
+                <th>Payment ID</th>
+                <th>Booked At</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="toast-host" id="toastHost" aria-live="polite"></div>
+
+  <!-- Firebase v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---------- Config (same node + key format as index.html) ---------- */
+      var NODE = 'dream_moment_bookings';
+      var OFFLINE_ID = 'OFFLINE_COUNTER';
+      var ADVANCE_RUPEES = 500;
+      var SLOTS = ['11 AM - 2 PM', '3 PM - 6 PM', '7 PM - 10 PM'];
+
+      var firebaseConfig = {
+        apiKey: 'AIzaSyDiGopFOIBanHJROTXL-0sIDAoIVwUSf_w',
+        authDomain: 'football-manager-be26f.firebaseapp.com',
+        databaseURL: 'https://football-manager-be26f-default-rtdb.firebaseio.com',
+        projectId: 'football-manager-be26f'
+      };
+
+      /* ---------- DOM ---------- */
+      function $(id) { return document.getElementById(id); }
+      var el = {
+        liveBadge: $('liveBadge'), liveText: $('liveText'),
+        mTotal: $('mTotal'), mAdvance: $('mAdvance'), mAdvanceHint: $('mAdvanceHint'), mOffline: $('mOffline'),
+        form: $('walkinForm'), btn: $('walkinBtn'), note: $('walkinNote'),
+        date: $('wDate'), slot: $('wSlot'), name: $('wName'), phone: $('wPhone'),
+        cToday: $('cToday'), cAll: $('cAll'),
+        listState: $('listState'), tableWrap: $('tableWrap'), tbody: $('tbody'),
+        toastHost: $('toastHost')
+      };
+      var fieldMap = {
+        date:  { box: $('fDate'),  msg: $('eDate'),  input: el.date },
+        slot:  { box: $('fSlot'),  msg: $('eSlot'),  input: el.slot },
+        name:  { box: $('fName'),  msg: $('eName'),  input: el.name },
+        phone: { box: $('fPhone'), msg: $('ePhone'), input: el.phone }
+      };
+
+      /* ---------- State ---------- */
+      var db = null;
+      var bookings = [];
+      var loaded = false;
+      var loadError = null;
+      var activeTab = 'today';
+      var reserving = false;
+
+      /* ---------- Helpers ---------- */
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+      function todayISO() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+      function esc(v) {
+        return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+      function money(n) { return '\u20B9' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+      function slotKey(date, slot) { return date + '_' + slot.replace(/\s+/g, ''); } /* identical to index.html */
+      function isOffline(b) { return b.paymentId === OFFLINE_ID; }
+      function isConfirmed(b) { return b.status === 'confirmed'; }
+      function slotIndex(s) { var i = SLOTS.indexOf(s); return i === -1 ? 99 : i; }
+
+      function prettyDate(iso) {
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+        if (!m) return iso || '\u2013';
+        return new Date(+m[1], +m[2] - 1, +m[3]).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+      }
+      function prettyDateTime(iso) {
+        var d = new Date(iso);
+        if (!iso || isNaN(d.getTime())) return '\u2013';
+        return d.toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      }
+      function normalizePhone(raw) {
+        var d = String(raw || '').replace(/\D/g, '');
+        if (d.length === 12 && d.indexOf('91') === 0) d = d.slice(2);
+        else if (d.length === 11 && d.charAt(0) === '0') d = d.slice(1);
+        return /^[6-9]\d{9}$/.test(d) ? d : '';
+      }
+
+      function toast(message, type) {
+        var t = document.createElement('div');
+        t.className = 'toast' + (type ? ' toast--' + type : '');
+        t.textContent = message;
+        el.toastHost.appendChild(t);
+        setTimeout(function () { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; setTimeout(function () { t.remove(); }, 320); }, 4200);
+      }
+
+      function setLive(state, text) {
+        el.liveBadge.className = 'live' + (state ? ' is-' + state : '');
+        el.liveText.textContent = text;
+      }
+
+      /* ---------- Firebase init ---------- */
+      try {
+        if (!window.firebase) throw new Error('Firebase SDK failed to load');
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
+      } catch (err) {
+        console.error('Firebase init failed:', err);
+        loadError = 'Could not load Firebase. Check your internet connection and refresh the page.';
+        setLive('off', 'Offline');
+      }
+
+      /* ---------- Rendering ---------- */
+      function sortBookings(list) {
+        return list.slice().sort(function (a, b) {
+          if (a.date !== b.date) return (a.date || '') < (b.date || '') ? -1 : 1;
+          var s = slotIndex(a.slot) - slotIndex(b.slot);
+          if (s) return s;
+          return (a.createdAt || '') < (b.createdAt || '') ? -1 : 1;
+        });
+      }
+
+      function renderMetrics() {
+        if (!loaded) return;
+        var onlineConfirmed = bookings.filter(function (b) { return isConfirmed(b) && !isOffline(b); }).length;
+        var offline = bookings.filter(isOffline).length;
+        el.mTotal.textContent = bookings.length;
+        el.mAdvance.textContent = money(ADVANCE_RUPEES * onlineConfirmed);
+        el.mAdvanceHint.textContent = money(ADVANCE_RUPEES) + ' \u00D7 ' + onlineConfirmed + ' confirmed online booking' + (onlineConfirmed === 1 ? '' : 's');
+        el.mOffline.textContent = offline;
+      }
+
+      function visibleBookings() {
+        var today = todayISO();
+        var sorted = sortBookings(bookings);
+        if (activeTab === 'today') return sorted.filter(function (b) { return b.date === today; });
+        /* All / Upcoming: everything, upcoming first (soonest first), past after (most recent first) */
+        var upcoming = sorted.filter(function (b) { return (b.date || '') >= today; });
+        var past = sorted.filter(function (b) { return (b.date || '') < today; }).reverse();
+        return upcoming.concat(past);
+      }
+
+      function stateBox(html, extraClass) {
+        el.listState.innerHTML = '<div class="state' + (extraClass ? ' ' + extraClass : '') + '">' + html + '</div>';
+        el.listState.hidden = false;
+        el.tableWrap.hidden = true;
+      }
+
+      function renderList() {
+        var today = todayISO();
+
+        el.cToday.textContent = loaded ? '(' + bookings.filter(function (b) { return b.date === today; }).length + ')' : '';
+        el.cAll.textContent = loaded ? '(' + bookings.length + ')' : '';
+
+        if (loadError) { stateBox('<strong>Something went wrong</strong>' + esc(loadError), 'state--error'); return; }
+        if (!loaded) { stateBox('<div class="spinner"></div>Loading bookings\u2026'); return; }
+
+        var rows = visibleBookings();
+        if (!rows.length) {
+          stateBox(activeTab === 'today'
+            ? '<strong>No bookings today</strong>Nothing is reserved for ' + esc(prettyDate(today)) + '.'
+            : '<strong>No bookings yet</strong>Online and walk-in reservations will appear here instantly.');
+          return;
+        }
+
+        el.listState.hidden = true;
+        el.tableWrap.hidden = false;
+        el.tbody.innerHTML = rows.map(function (b) {
+          var offline = isOffline(b);
+          var isToday = b.date === today;
+          var isPast = (b.date || '') < today;
+          var advance = offline
+            ? '<span class="badge badge--offline">Offline \u2013 Cash at counter</span>'
+            : (isConfirmed(b) ? '<span class="badge badge--paid">Paid ' + money(b.amountPaid != null ? b.amountPaid : ADVANCE_RUPEES) + '</span>'
+                              : '<span class="badge badge--offline">' + esc(b.status || 'Unknown') + '</span>');
+          var tag = isToday ? '<span class="badge badge--today">Today</span>' : (isPast ? '<span class="badge badge--past">Past</span>' : '');
+          var pkg = b.packageHours ? esc(b.packageHours) + ' Hours' : '\u2013';
+          var occasion = b.occasion ? '<div class="cell-sub">' + esc(b.occasion) + '</div>' : '';
+
+          return '<tr' + (isPast ? ' class="is-past"' : '') + '>' +
+            '<td data-label="Customer"><div class="cell-wrap"><div class="cell-name">' + esc(b.customerName || '\u2013') + '</div>' + occasion + '</div></td>' +
+            '<td data-label="Phone"><div class="cell-wrap">' + (b.phone ? '<a href="tel:' + esc(b.phone) + '" style="color:inherit">' + esc(b.phone) + '</a>' : '\u2013') + '</div></td>' +
+            '<td data-label="Date"><div class="cell-wrap">' + esc(prettyDate(b.date)) + tag + '</div></td>' +
+            '<td data-label="Slot"><div class="cell-wrap">' + esc(b.slot || '\u2013') + '</div></td>' +
+            '<td data-label="Package"><div class="cell-wrap">' + pkg + '</div></td>' +
+            '<td data-label="Advance Status"><div class="cell-wrap">' + advance + '</div></td>' +
+            '<td data-label="Payment ID"><div class="cell-wrap mono">' + esc(b.paymentId || '\u2013') + '</div></td>' +
+            '<td data-label="Booked At"><div class="cell-wrap">' + esc(prettyDateTime(b.createdAt)) + '</div></td>' +
+            '<td class="cell-action"><button type="button" class="btn btn--danger" data-cancel="' + esc(b._key) + '">Cancel / Release Slot</button></td>' +
+            '</tr>';
+        }).join('');
+      }
+
+      function renderAll() { renderMetrics(); renderList(); refreshSlotHint(); }
+
+      /* ---------- Real-time listeners ---------- */
+      if (db) {
+        db.ref('.info/connected').on('value', function (snap) {
+          if (snap.val() === true) setLive('on', 'Live');
+          else setLive('', loaded ? 'Reconnecting\u2026' : 'Connecting\u2026');
+        });
+
+        db.ref(NODE).on('value', function (snap) {
+          var list = [];
+          snap.forEach(function (child) {
+            var v = child.val();
+            if (v && typeof v === 'object') { v._key = child.key; list.push(v); }
+          });
+          bookings = list;
+          loaded = true;
+          loadError = null;
+          renderAll();
+        }, function (err) {
+          console.error('Realtime listener failed:', err);
+          loadError = (err && err.code === 'PERMISSION_DENIED')
+            ? 'Permission denied. Check your Firebase Realtime Database rules for "' + NODE + '".'
+            : 'Could not load bookings. ' + (err && err.message ? err.message : '');
+          setLive('off', 'Error');
+          renderAll();
+        });
+      }
+
+      /* ---------- Tabs ---------- */
+      document.querySelectorAll('.tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          activeTab = tab.getAttribute('data-tab');
+          document.querySelectorAll('.tab').forEach(function (t) {
+            var on = t === tab;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          renderList();
+        });
+      });
+
+      /* ---------- Cancel / Release ---------- */
+      el.tbody.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-cancel]');
+        if (!btn || !db) return;
+        var key = btn.getAttribute('data-cancel');
+        var b = bookings.filter(function (x) { return x._key === key; })[0];
+        if (!b) return;
+
+        var msg = 'Cancel this booking and release the slot?\n\n' +
+          (b.customerName || 'Customer') + '\n' + prettyDate(b.date) + ' \u00B7 ' + (b.slot || '') +
+          (isOffline(b) ? '' : '\n\nNote: the online advance (' + money(b.amountPaid != null ? b.amountPaid : ADVANCE_RUPEES) + ') is NOT refunded automatically. Refund it from your Razorpay dashboard if needed.');
+        if (!window.confirm(msg)) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Releasing\u2026';
+        db.ref(NODE).child(key).remove().then(function () {
+          toast('Booking cancelled. The slot is now free on the website.', 'ok');
+        }).catch(function (err) {
+          console.error('Delete failed:', err);
+          btn.disabled = false;
+          btn.textContent = 'Cancel / Release Slot';
+          toast(err && err.code === 'PERMISSION_DENIED' ? 'Permission denied by Firebase rules.' : 'Could not cancel the booking. Please try again.', 'error');
+        });
+      });
+
+      /* ---------- Walk-in form ---------- */
+      el.date.min = todayISO();
+      el.date.value = todayISO();
+
+      function setFieldMsg(key, text, kind) {
+        var f = fieldMap[key];
+        f.msg.textContent = text || '';
+        f.msg.className = 'field__msg' + (kind === 'ok' ? ' is-ok' : kind === 'info' ? ' is-info' : '');
+        f.box.classList.toggle('has-error', kind === 'error');
+      }
+      function setFormNote(text, kind) {
+        el.note.textContent = text || '';
+        el.note.className = 'form-note' + (kind ? ' is-' + kind : '');
+      }
+
+      /* Live hint using the real-time bookings list */
+      function localSlotTaken(date, slot) {
+        return bookings.some(function (b) { return b.date === date && b.slot === slot && isConfirmed(b); });
+      }
+      function refreshSlotHint() {
+        var date = el.date.value, slot = el.slot.value;
+        if (!loaded || !date || !slot) { if (!reserving) el.btn.disabled = false; return; }
+        if (localSlotTaken(date, slot)) {
+          setFieldMsg('slot', 'This slot is already booked.', 'error');
+          el.btn.disabled = true;
+        } else {
+          setFieldMsg('slot', 'This slot is free.', 'ok');
+          el.btn.disabled = reserving;
+        }
+      }
+
+      ['date', 'slot', 'name', 'phone'].forEach(function (key) {
+        var input = fieldMap[key].input;
+        input.addEventListener(key === 'date' || key === 'slot' ? 'change' : 'input', function () {
+          setFieldMsg(key, '');
+          setFormNote('');
+          if (key === 'date' || key === 'slot') refreshSlotHint();
+        });
+      });
+
+      function validate() {
+        var ok = true, first = null;
+        function fail(key, msg) { setFieldMsg(key, msg, 'error'); ok = false; if (!first) first = fieldMap[key].input; }
+
+        var date = el.date.value, slot = el.slot.value;
+        var name = el.name.value.trim().replace(/\s+/g, ' ');
+        var phone = normalizePhone(el.phone.value);
+
+        if (!date) fail('date', 'Please choose a date.');
+        else if (date < todayISO()) fail('date', 'Please choose today or a future date.');
+        if (!slot) fail('slot', 'Please select a slot.');
+        if (name.length < 2) fail('name', 'Please enter the customer name.');
+        if (!el.phone.value.trim()) fail('phone', 'Please enter a phone number.');
+        else if (!phone) fail('phone', 'Enter a valid 10-digit Indian mobile number.');
+
+        if (first) first.focus();
+        return ok ? { date: date, slot: slot, name: name, phone: phone } : null;
+      }
+
+      /* Server-side duplicate check + atomic write (same key scheme as index.html) */
+      function reserveOffline(data) {
+        return db.ref(NODE).orderByChild('date').equalTo(data.date).once('value').then(function (snap) {
+          var taken = false;
+          snap.forEach(function (child) {
+            var b = child.val();
+            if (b && b.slot === data.slot && b.status === 'confirmed') taken = true;
+          });
+          if (taken) { var e = new Error('slot-taken'); e.code = 'slot-taken'; throw e; }
+
+          var booking = {
+            customerName: data.name,
+            phone: data.phone,
+            date: data.date,
+            occasion: 'Walk-in',
+            slot: data.slot,
+            amountPaid: 0,
+            paymentId: OFFLINE_ID,
+            status: 'confirmed',
+            createdAt: new Date().toISOString()
+          };
+          return db.ref(NODE).child(slotKey(data.date, data.slot)).transaction(function (current) {
+            return current === null ? booking : undefined; /* abort if someone grabbed it first */
+          });
+        }).then(function (result) {
+          if (!result.committed) { var e = new Error('slot-taken'); e.code = 'slot-taken'; throw e; }
+        });
+      }
+
+      el.form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (reserving) return;
+        setFormNote('');
+        if (!db) { setFormNote('Firebase is not available. Refresh the page and try again.', 'error'); return; }
+
+        var data = validate();
+        if (!data) { setFormNote('Please fix the highlighted fields.', 'error'); return; }
+
+        reserving = true;
+        el.btn.disabled = true;
+        el.btn.textContent = 'Reserving\u2026';
+        setFormNote('Checking availability\u2026');
+
+        reserveOffline(data).then(function () {
+          toast('Slot reserved for ' + data.name + ' \u2013 ' + prettyDate(data.date) + ', ' + data.slot + '.', 'ok');
+          setFormNote('Reserved! This slot is now locked on the website.', 'ok');
+          el.slot.value = ''; el.name.value = ''; el.phone.value = '';
+          ['slot', 'name', 'phone'].forEach(function (k) { setFieldMsg(k, ''); });
+        }).catch(function (err) {
+          if (err && err.code === 'slot-taken') {
+            setFieldMsg('slot', 'Sorry, this slot is already booked. Choose another date or slot.', 'error');
+            setFormNote('Slot already booked. Nothing was saved.', 'error');
+          } else {
+            console.error('Offline reservation failed:', err);
+            var denied = err && err.code === 'PERMISSION_DENIED';
+            setFormNote(denied ? 'Permission denied by Firebase rules.' : 'Could not reserve the slot. Please check your connection and try again.', 'error');
+          }
+        }).then(function () {
+          reserving = false;
+          el.btn.textContent = 'Reserve Slot (Offline Cash)';
+          el.btn.disabled = false;
+          refreshSlotHint();
+        });
+      });
+
+      /* ---------- Midnight rollover: keep "Today" accurate ---------- */
+      var lastDay = todayISO();
+      setInterval(function () {
+        var now = todayISO();
+        if (now !== lastDay) { lastDay = now; el.date.min = now; if (el.date.value < now) el.date.value = now; renderAll(); }
+      }, 60000);
+
+      renderAll();
+    })();
+  </script>
+</body>
+</html>

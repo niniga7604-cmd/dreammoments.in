@@ -307,6 +307,8 @@
     .form-privacy { text-align: center; color: var(--text-muted); font-size: .85rem; margin-top: 16px; }
     .form-status { text-align: center; font-size: .92rem; margin-top: 14px; min-height: 1.4em; color: var(--gold-soft); }
     .form-status a { text-decoration: underline; font-weight: 600; }
+    .venue-balance { text-align: center; font-size: .85rem; font-weight: 500; letter-spacing: .01em; color: var(--gold-soft); margin: 14px auto 0; padding: 8px 14px; max-width: fit-content; border: 1px solid var(--line); border-radius: 999px; background: rgba(212, 175, 55, .08); }
+    .venue-balance[hidden] { display: none; }
 
     @media all /* mobile layout always on */ {
       .booking-box { padding: 28px 18px; border-radius: 22px; }
@@ -555,10 +557,10 @@
             <div class="form-actions">
               <button type="submit" class="btn btn--pink" id="submitBtn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
-                CHECK AVAILABILITY ON WHATSAPP
+                Pay ₹500 Advance & Confirm Slot
               </button>
             </div>
-            <p class="form-privacy">Your details will only be used to respond to your booking inquiry.</p>
+            <div class="venue-balance" id="venueBalanceNote" aria-live="polite" hidden></div>
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -709,7 +711,8 @@
       }
 
       /* ---------- Scroll reveal ---------- */
-      var revealEls = document.querySelectorAll('.reveal');
+      var revealEls = document.querySelectorAll('.reveal, .feature');
+      revealEls.forEach(function (el) { el.classList.add('reveal'); });
       if ('IntersectionObserver' in window) {
         var revealObserver = new IntersectionObserver(function (entries, obs) {
           entries.forEach(function (entry) {
@@ -788,11 +791,19 @@
       }
       function money(n) { return '\u20B9' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 
+      var balanceEl = document.getElementById('venueBalanceNote');
       function updatePackageUI() {
         var v = fields.pkg.value;
-        if (!PRICES[v]) { setBtnText(DEFAULT_BTN_TEXT); statusEl.textContent = ''; return; }
+        statusEl.textContent = '';
+        if (!PRICES[v]) {
+          setBtnText(DEFAULT_BTN_TEXT);
+          balanceEl.textContent = '';
+          balanceEl.hidden = true;
+          return;
+        }
         setBtnText('Pay \u20B9500 Advance & Confirm [' + v + ' Hours Slot]');
-        statusEl.textContent = 'Package total ' + money(PRICES[v]) + ' \u00B7 Advance ' + money(ADVANCE_RUPEES) + ' now \u00B7 Balance ' + money(PRICES[v] - ADVANCE_RUPEES);
+        balanceEl.textContent = 'Balance Due at Venue: ' + money(PRICES[v] - ADVANCE_RUPEES) + ' (Pay via Cash/UPI)';
+        balanceEl.hidden = false;
       }
 
       /* ---------- Slot availability ---------- */
@@ -957,7 +968,7 @@
             statusEl.textContent = 'Payment received. Confirming your slot\u2026';
             saveBooking(booking).then(function () {
               processing = false;
-              alert('Payment Successful! Your Dream Moment slot is confirmed.');
+              alert('Payment Successful! Your Dream Moment slot is confirmed. Please pay the remaining balance at the venue during check-in.');
               resetAfterBooking();
             }).catch(function (err) {
               console.error('Saving booking failed:', err);
