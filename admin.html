@@ -2,677 +2,1063 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#121212">
-  <title>Dream Moment | Admin Dashboard</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-
+  <title>ProKick Turf Manager | Control Room</title>
   <style>
-    :root {
-      --bg: #121212;
-      --bg-alt: #1B1B1B;
-      --card: #222222;
-      --gold: #D4AF37;
-      --gold-soft: #F5D98B;
-      --pink: #FF4FA3;
-      --text: #F4F1EA;
-      --text-muted: #B8B8B8;
-      --line: rgba(212, 175, 55, 0.28);
-      --line-strong: rgba(212, 175, 55, 0.6);
-      --ok: #4ADE80;
-      --danger: #E5484D;
-      --danger-soft: #FF8FA3;
-      --font-head: "Poppins", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-      --font-body: "Montserrat", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-      --radius-lg: 20px;
-      --radius-md: 12px;
-    }
-
     *, *::before, *::after { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      margin: 0; min-height: 100vh;
-      background: radial-gradient(1200px 500px at 50% -10%, rgba(255, 79, 163, .10), transparent 60%), var(--bg);
-      color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.55;
-    }
-    h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; margin: 0; }
-    button, input, select { font: inherit; }
-    :focus-visible { outline: 3px solid var(--gold-soft); outline-offset: 2px; border-radius: 6px; }
 
-    .wrap { width: min(1180px, 100% - 32px); margin-inline: auto; padding-bottom: 60px; }
+    :root {
+      --bg-outer: #050706;
+      --bg-app: #0e1210;
+      --bg-card: #161c18;
+      --bg-input: #0f1411;
+      --border: #26302a;
+      --border-strong: #34413a;
+      --lime: #b6f23a;
+      --lime-deep: #8fd11a;
+      --text: #f5f7f4;
+      --text-muted: #9aa69f;
+      --red: #ff6b6b;
+      --amber: #f5b942;
+      --radius: 14px;
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg-outer);
+      color: var(--text);
+      font-family: "Segoe UI", "Helvetica Neue", Roboto, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 64rem; /* max-w-5xl */
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+      background:
+        radial-gradient(120% 40% at 50% 0%, rgba(182, 242, 58, 0.08) 0%, rgba(182, 242, 58, 0) 70%),
+        var(--bg-app);
+      box-shadow: 0 0 0 1px #1a211d, 0 0 60px rgba(0, 0, 0, 0.8);
+      overflow-x: hidden;
+    }
 
     /* ---------- Header ---------- */
-    .topbar { border-bottom: 1px solid var(--line); background: rgba(18, 18, 18, .9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 20; }
-    .topbar__in { width: min(1180px, 100% - 32px); margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; }
-    .brand { font-family: var(--font-head); font-weight: 700; letter-spacing: .14em; color: var(--gold-soft); font-size: 1.05rem; }
-    .brand small { display: block; font-weight: 500; letter-spacing: .08em; font-size: .7rem; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
-    .live { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--text-muted); padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, .02); }
-    .live__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 0 rgba(212, 175, 55, .6); }
-    .live.is-on .live__dot { background: var(--ok); animation: pulse 2s infinite; }
-    .live.is-off .live__dot { background: var(--danger); }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, .55); } 70% { box-shadow: 0 0 0 9px rgba(74, 222, 128, 0); } 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
-
-    .page-title { padding: 28px 0 8px; }
-    .page-title h1 { font-size: clamp(1.5rem, 5vw, 2.1rem); font-weight: 700; }
-    .page-title h1 span { background: linear-gradient(90deg, var(--gold-soft), var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .page-title p { margin: 6px 0 0; color: var(--text-muted); }
-
-    /* ---------- Cards ---------- */
-    .card { background: linear-gradient(170deg, #262626 0%, var(--card) 60%); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 22px; }
-    .card__title { font-size: 1.05rem; font-weight: 600; color: var(--gold-soft); display: flex; align-items: center; gap: 10px; }
-    .card__sub { color: var(--text-muted); font-size: .88rem; margin: 6px 0 18px; }
-    section { margin-top: 22px; }
-
-    /* ---------- Metrics ---------- */
-    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
-    .metric { position: relative; overflow: hidden; }
-    .metric::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--pink)); }
-    .metric__label { color: var(--text-muted); font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
-    .metric__value { font-family: var(--font-head); font-weight: 800; font-size: clamp(1.9rem, 6vw, 2.6rem); color: var(--gold-soft); margin-top: 8px; line-height: 1.1; }
-    .metric__hint { color: var(--text-muted); font-size: .8rem; margin-top: 6px; }
-
-    /* ---------- Form ---------- */
-    .grid-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
-    .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-    .field label { font-family: var(--font-head); font-weight: 500; font-size: .85rem; color: var(--gold-soft); }
-    .field input, .field select {
-      width: 100%; padding: 13px 14px; min-height: 48px; border-radius: var(--radius-md);
-      background: #1a1a1a; color: var(--text); border: 1px solid var(--line); transition: border-color .2s, box-shadow .2s;
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 24px;
     }
-    .field input:focus, .field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, .22); }
-    .field input::placeholder { color: #777; }
-    .field select option { background: #1a1a1a; }
-    input[type="date"] { color-scheme: dark; }
-    .field.has-error input, .field.has-error select { border-color: var(--danger-soft); }
-    .field__msg { font-size: .8rem; min-height: 1.2em; color: var(--danger-soft); }
-    .field__msg.is-ok { color: var(--ok); }
-    .field__msg.is-info { color: var(--text-muted); }
-    .form-actions { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
-    .form-note { font-size: .85rem; min-height: 1.3em; }
-    .form-note.is-ok { color: var(--ok); }
-    .form-note.is-error { color: var(--danger-soft); }
+
+    .brand { display: flex; align-items: center; gap: 14px; }
+
+    .brand-mark {
+      position: relative;
+      flex: 0 0 auto;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #d6ff6b 0%, var(--lime) 40%, var(--lime-deep) 100%);
+      box-shadow: 0 6px 18px rgba(182, 242, 58, 0.28);
+      overflow: hidden;
+    }
+    .brand-mark::before, .brand-mark::after {
+      content: "";
+      position: absolute;
+      top: -6px;
+      bottom: -6px;
+      width: 20px;
+      border: 2px dashed rgba(14, 18, 16, 0.75);
+      border-radius: 50%;
+    }
+    .brand-mark::before { left: -13px; }
+    .brand-mark::after { right: -13px; }
+
+    .brand h1 { margin: 0; font-size: 22px; line-height: 1.15; font-weight: 900; letter-spacing: -0.3px; }
+    .brand p { margin: 2px 0 0; font-size: 13px; color: var(--text-muted); }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--lime);
+      text-decoration: none;
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+    }
+    .link-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+    /* ---------- Layout ---------- */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+    @media (min-width: 900px) {
+      .grid-2 { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px; }
+    }
+
+    .card {
+      padding: 22px 18px 20px;
+      background: linear-gradient(180deg, #1a211c 0%, var(--bg-card) 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+      min-width: 0;
+    }
+
+    .card h2 { margin: 0 0 4px; font-size: 18px; font-weight: 800; }
+    .card .sub { margin: 0 0 18px; font-size: 13px; color: var(--text-muted); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    @media (min-width: 560px) {
+      .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .form-grid .span-2 { grid-column: span 2; }
+    }
+
+    label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+
+    input, select {
+      display: block;
+      width: 100%;
+      height: 50px;
+      padding: 0 14px;
+      font: inherit;
+      font-size: 16px;
+      color: var(--text);
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input::placeholder { color: #66736b; }
+    input[type="date"] { color-scheme: dark; min-width: 0; }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(85%) sepia(60%) saturate(500%) hue-rotate(35deg);
+      cursor: pointer;
+    }
+    select {
+      padding-right: 42px;
+      color-scheme: dark;
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--lime) 50%),
+        linear-gradient(135deg, var(--lime) 50%, transparent 50%);
+      background-position: calc(100% - 21px) 21px, calc(100% - 15px) 21px;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+    select option { background: #161c18; color: var(--text); }
+    select option:disabled { color: #66736b; }
+    input:focus, select:focus {
+      border-color: var(--lime);
+      box-shadow: 0 0 0 3px rgba(182, 242, 58, 0.22);
+    }
+
+    .hint { margin: 8px 0 0; font-size: 13px; font-weight: 600; color: var(--text-muted); }
+    .hint:empty { display: none; }
+    .hint.is-warn { color: var(--amber); }
+    .hint.is-error { color: var(--red); }
 
     /* ---------- Buttons ---------- */
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 24px;
-      border-radius: 999px; border: 1.5px solid transparent; cursor: pointer; font-family: var(--font-head); font-weight: 600; font-size: .95rem;
-      transition: transform .2s, box-shadow .2s, opacity .2s, background .2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      border: 0;
+      border-radius: 14px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.15s ease, filter 0.15s ease;
     }
-    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; }
-    .btn--pink { background: linear-gradient(135deg, var(--gold), var(--pink)); color: #fff; box-shadow: 0 10px 26px rgba(255, 79, 163, .25); }
-    .btn--pink:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(255, 79, 163, .4); }
-    .btn--danger { background: var(--danger); color: #fff; min-height: 40px; padding: 8px 16px; font-size: .82rem; box-shadow: 0 6px 16px rgba(229, 72, 77, .25); }
-    .btn--danger:not(:disabled):hover { background: #f0575c; transform: translateY(-1px); }
+    .btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    @media (hover: hover) { .btn:not(:disabled):hover { filter: brightness(1.1); } }
 
-    /* ---------- Tabs ---------- */
-    .list-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
-    .tabs { display: inline-flex; gap: 6px; padding: 5px; border: 1px solid var(--line); border-radius: 999px; background: #1a1a1a; }
-    .tab {
-      border: 0; background: transparent; color: var(--text-muted); padding: 9px 18px; border-radius: 999px; cursor: pointer;
-      font-family: var(--font-head); font-weight: 600; font-size: .85rem; transition: background .2s, color .2s;
+    .btn-primary {
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px 16px;
+      font-size: 16px;
+      color: #0b1004;
+      background: linear-gradient(180deg, #c8ff4d 0%, var(--lime) 55%, var(--lime-deep) 100%);
+      box-shadow: 0 10px 24px rgba(182, 242, 58, 0.22);
     }
-    .tab:hover { color: var(--gold-soft); }
-    .tab.is-active { background: linear-gradient(135deg, var(--gold), var(--pink)); color: #fff; }
-    .tab__count { opacity: .85; margin-left: 4px; font-weight: 500; }
 
-    /* ---------- Bookings table ---------- */
-    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-md); }
-    table { width: 100%; border-collapse: collapse; min-width: 980px; }
-    th { text-align: left; font-family: var(--font-head); font-weight: 600; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-soft); background: #1a1a1a; padding: 13px 14px; white-space: nowrap; }
-    td { padding: 14px; border-top: 1px solid rgba(255, 255, 255, .06); vertical-align: top; font-size: .9rem; }
-    tbody tr:hover { background: rgba(212, 175, 55, .04); }
-    tr.is-past { opacity: .6; }
-    .cell-name { font-weight: 600; }
-    .cell-sub { color: var(--text-muted); font-size: .78rem; margin-top: 2px; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .8rem; word-break: break-all; }
-    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: .75rem; font-weight: 600; white-space: nowrap; border: 1px solid transparent; }
-    .badge--paid { color: var(--ok); background: rgba(74, 222, 128, .1); border-color: rgba(74, 222, 128, .35); }
-    .badge--offline { color: var(--gold-soft); background: rgba(212, 175, 55, .1); border-color: var(--line-strong); }
-    .badge--today { color: #fff; background: rgba(255, 79, 163, .25); border-color: rgba(255, 79, 163, .6); margin-left: 6px; }
-    .badge--past { color: var(--text-muted); background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .15); margin-left: 6px; }
+    .btn-warn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px 16px;
+      font-size: 16px;
+      color: #1a1203;
+      background: linear-gradient(180deg, #ffd27a 0%, var(--amber) 100%);
+    }
 
-    /* ---------- States ---------- */
-    .state { text-align: center; padding: 44px 16px; color: var(--text-muted); border: 1px dashed var(--line-strong); border-radius: var(--radius-md); background: rgba(255, 255, 255, .015); }
-    .state strong { display: block; color: var(--gold-soft); font-family: var(--font-head); font-size: 1.02rem; margin-bottom: 6px; }
-    .state--error { border-color: rgba(255, 143, 163, .6); color: var(--danger-soft); }
-    .state--error strong { color: var(--danger-soft); }
-    .spinner { width: 30px; height: 30px; border-radius: 50%; border: 3px solid rgba(212, 175, 55, .25); border-top-color: var(--gold); margin: 0 auto 12px; animation: spin .9s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    [hidden] { display: none !important; }
+    .btn-small {
+      min-height: 40px;
+      padding: 0 14px;
+      font-size: 13px;
+      border-radius: 10px;
+    }
+
+    .btn-danger {
+      color: var(--red);
+      background: rgba(255, 107, 107, 0.08);
+      border: 1px solid rgba(255, 107, 107, 0.5);
+    }
+
+    .btn-ghost {
+      color: var(--lime);
+      background: transparent;
+      border: 1px solid var(--border-strong);
+    }
+
+    /* ---------- Blocked days ---------- */
+    .blocked-list { margin: 20px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+    .blocked-list h3 { margin: 0 0 4px; font-size: 14px; font-weight: 700; color: var(--text-muted); }
+
+    .blocked-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--bg-input);
+      border: 1px solid rgba(245, 185, 66, 0.4);
+      border-radius: 12px;
+    }
+    .blocked-item strong { display: block; font-size: 14px; }
+    .blocked-item span { font-size: 12px; color: var(--amber); font-weight: 600; }
+
+    /* ---------- Bookings list ---------- */
+    .list-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .list-head h2 { margin: 0; }
+
+    .filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
+    .filters select, .filters input { height: 44px; font-size: 15px; width: auto; min-width: 150px; }
+
+    .day-group + .day-group { margin-top: 22px; }
+
+    .day-title {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .tag-closed { color: var(--amber); border-color: rgba(245, 185, 66, 0.45); background: rgba(245, 185, 66, 0.08); }
+    .tag-online { color: var(--lime); border-color: rgba(182, 242, 58, 0.4); }
+    .tag-manual { color: #8ec5ff; border-color: rgba(142, 197, 255, 0.45); background: rgba(142, 197, 255, 0.07); }
+
+    .rows { display: grid; gap: 10px; }
+
+    .row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-strong);
+      border-radius: 14px;
+    }
+    @media (min-width: 640px) {
+      .row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+    }
+
+    .row-slot { font-size: 15px; font-weight: 800; }
+    .row-meta { margin: 4px 0 0; font-size: 14px; color: var(--text-muted); overflow-wrap: anywhere; }
+    .row-meta strong { color: var(--text); }
+    .row-meta a { color: var(--lime); text-decoration: none; }
+    .row-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+    .row-action .btn { width: 100%; }
+    @media (min-width: 640px) { .row-action .btn { width: auto; } }
+
+    .empty {
+      margin: 0;
+      padding: 26px 14px;
+      font-size: 14px;
+      text-align: center;
+      color: var(--text-muted);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius);
+    }
+    .empty.is-error { color: var(--red); }
+
+    .count { font-size: 13px; font-weight: 600; color: var(--text-muted); }
 
     /* ---------- Toast ---------- */
-    .toast-host { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 50; display: flex; flex-direction: column; gap: 10px; width: min(440px, 100% - 32px); pointer-events: none; }
-    .toast { pointer-events: auto; padding: 13px 16px; border-radius: var(--radius-md); background: #1d1d1d; border: 1px solid var(--line-strong); color: var(--text); box-shadow: 0 14px 36px rgba(0, 0, 0, .5); font-size: .9rem; animation: toast-in .25s ease-out; }
-    .toast--ok { border-color: rgba(74, 222, 128, .6); }
-    .toast--error { border-color: rgba(255, 143, 163, .7); color: var(--danger-soft); }
-    @keyframes toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .toast-wrap {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .toast {
+      max-width: 440px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0b1004;
+      background: var(--lime);
+      border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+    }
+    .toast.is-error { color: #2a0606; background: var(--red); }
 
-    /* ---------- Responsive ---------- */
-    @media (max-width: 960px) {
-      .grid-form { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 820px) {
-      .metrics { grid-template-columns: 1fr; }
-      /* table -> stacked cards */
-      .table-wrap { border: 0; overflow: visible; }
-      table, tbody { display: block; min-width: 0; }
-      thead { display: none; }
-      tr { display: block; margin-bottom: 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: #1c1c1c; overflow: hidden; }
-      td { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 11px 14px; text-align: right; border-top: 1px solid rgba(255, 255, 255, .06); }
-      tr td:first-child { border-top: 0; }
-      td::before { content: attr(data-label); color: var(--gold-soft); font-family: var(--font-head); font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; text-align: left; flex: 0 0 38%; padding-top: 2px; }
-      td .cell-wrap { flex: 1; text-align: right; }
-      td.cell-action { justify-content: stretch; }
-      td.cell-action::before { display: none; }
-      td.cell-action .btn { width: 100%; min-height: 46px; }
-    }
-    @media (max-width: 560px) {
-      .grid-form { grid-template-columns: 1fr; }
-      .card { padding: 18px; }
-      .tabs { width: 100%; }
-      .tab { flex: 1; padding: 10px 8px; }
-      .form-actions .btn { width: 100%; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+    @media (max-width: 360px) {
+      .app { padding: 18px 14px 40px; }
+      .card { padding: 18px 14px; }
     }
   </style>
 </head>
 <body>
+  <main class="app">
 
-  <header class="topbar">
-    <div class="topbar__in">
-      <div class="brand">DREAM MOMENT<small>Owner Dashboard</small></div>
-      <div class="live" id="liveBadge" role="status" aria-live="polite"><span class="live__dot"></span><span id="liveText">Connecting…</span></div>
-    </div>
-  </header>
-
-  <main class="wrap">
-
-    <div class="page-title">
-      <h1>Bookings <span>Control Room</span></h1>
-      <p>Live view of online and walk-in reservations. Changes sync instantly with the customer website.</p>
-    </div>
-
-    <!-- Metrics -->
-    <div class="metrics" aria-label="Key metrics">
-      <div class="card metric">
-        <div class="metric__label">Total Bookings</div>
-        <div class="metric__value" id="mTotal">–</div>
-        <div class="metric__hint">Online + walk-in</div>
+    <header class="top">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          <h1>Turf Manager Control Room</h1>
+          <p>ProKick Box Cricket Turf</p>
+        </div>
       </div>
-      <div class="card metric">
-        <div class="metric__label">Online Advance Collected</div>
-        <div class="metric__value" id="mAdvance">–</div>
-        <div class="metric__hint" id="mAdvanceHint">₹500 × confirmed online bookings</div>
-      </div>
-      <div class="card metric">
-        <div class="metric__label">Walk-in (Offline) Slots</div>
-        <div class="metric__value" id="mOffline">–</div>
-        <div class="metric__hint">Reserved at the counter</div>
-      </div>
-    </div>
+      <a class="link-btn" href="index.html" target="_blank" rel="noopener">View public page</a>
+    </header>
 
-    <!-- Quick action: offline reservation -->
-    <section aria-labelledby="walkinTitle">
-      <div class="card">
-        <h2 class="card__title" id="walkinTitle">Walk-in / Offline Slot Reservation</h2>
-        <p class="card__sub">Reserving here instantly locks the slot, so nobody can book it online.</p>
+    <div class="grid-2">
 
-        <form id="walkinForm" novalidate>
-          <div class="grid-form">
-            <div class="field" id="fDate">
-              <label for="wDate">Date</label>
-              <input type="date" id="wDate" required>
-              <span class="field__msg" id="eDate"></span>
+      <!-- MANUAL WALK-IN / CALL BOOKING -->
+      <section class="card" aria-labelledby="manual-title">
+        <h2 id="manual-title">Manual Walk-in / Call Booking</h2>
+        <p class="sub">Lock a slot for a phone or walk-in customer. It shows as Booked on the public site right away.</p>
+
+        <form id="manual-form" novalidate>
+          <div class="form-grid">
+            <div>
+              <label for="m-date">Select Date</label>
+              <input type="date" id="m-date" required>
             </div>
-            <div class="field" id="fSlot">
-              <label for="wSlot">Time Slot</label>
-              <select id="wSlot" required>
-                <option value="" selected disabled>Select a time slot</option>
-                <option>11 AM - 2 PM</option>
-                <option>3 PM - 6 PM</option>
-                <option>7 PM - 10 PM</option>
+            <div>
+              <label for="m-slot">Select Time Slot</label>
+              <select id="m-slot" required></select>
+            </div>
+            <div>
+              <label for="m-name">Player / Team Name</label>
+              <input type="text" id="m-name" placeholder="e.g. Thunder XI" autocomplete="off" maxlength="60" required>
+            </div>
+            <div>
+              <label for="m-phone">Mobile Number</label>
+              <input type="tel" id="m-phone" placeholder="10-digit mobile number" inputmode="numeric" maxlength="10" autocomplete="off" required>
+            </div>
+            <div class="span-2">
+              <label for="m-pay">Payment Mode</label>
+              <select id="m-pay" required>
+                <option value="cash_at_turf">Cash Received at Turf</option>
+                <option value="upi_advance">UPI Advance</option>
               </select>
-              <span class="field__msg" id="eSlot" aria-live="polite"></span>
-            </div>
-            <div class="field" id="fName">
-              <label for="wName">Customer Name</label>
-              <input type="text" id="wName" placeholder="Enter customer name" autocomplete="off" maxlength="80" required>
-              <span class="field__msg" id="eName"></span>
-            </div>
-            <div class="field" id="fPhone">
-              <label for="wPhone">Phone Number</label>
-              <input type="tel" id="wPhone" placeholder="10-digit mobile number" inputmode="tel" autocomplete="off" required>
-              <span class="field__msg" id="ePhone"></span>
             </div>
           </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn--pink" id="walkinBtn">Reserve Slot (Offline Cash)</button>
-            <span class="form-note" id="walkinNote" role="status" aria-live="polite"></span>
-          </div>
+          <p class="hint" id="m-hint" role="status" aria-live="polite"></p>
+          <button type="submit" class="btn btn-primary" id="m-btn">Lock Slot Manually</button>
         </form>
-      </div>
-    </section>
+      </section>
 
-    <!-- Live bookings -->
-    <section aria-labelledby="listTitle">
-      <div class="card">
-        <div class="list-head">
-          <h2 class="card__title" id="listTitle">Live Bookings</h2>
-          <div class="tabs" role="tablist" aria-label="Booking filters">
-            <button class="tab is-active" role="tab" aria-selected="true" data-tab="today" id="tabToday">Today's Bookings<span class="tab__count" id="cToday"></span></button>
-            <button class="tab" role="tab" aria-selected="false" data-tab="all" id="tabAll">All / Upcoming<span class="tab__count" id="cAll"></span></button>
+      <!-- BLOCK FULL DAY -->
+      <section class="card" aria-labelledby="block-title">
+        <h2 id="block-title">Block Full Day</h2>
+        <p class="sub">Close an entire date for rain, maintenance or a tournament. Every slot shows Closed on the public site.</p>
+
+        <form id="block-form" novalidate>
+          <div class="form-grid">
+            <div class="span-2">
+              <label for="b-date">Date to close</label>
+              <input type="date" id="b-date" required>
+            </div>
+            <div class="span-2">
+              <label for="b-reason">Reason</label>
+              <select id="b-reason">
+                <option value="Rain">Rain</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Tournament">Tournament</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
           </div>
-        </div>
+          <p class="hint" id="b-hint" role="status" aria-live="polite"></p>
+          <button type="submit" class="btn btn-warn" id="b-btn">Block Full Day</button>
+        </form>
 
-        <div id="listState"></div>
-        <div class="table-wrap" id="tableWrap" hidden>
-          <table>
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Phone</th>
-                <th>Date</th>
-                <th>Slot</th>
-                <th>Package</th>
-                <th>Advance Status</th>
-                <th>Payment ID</th>
-                <th>Booked At</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="tbody"></tbody>
-          </table>
+        <div class="blocked-list-wrap">
+          <ul class="blocked-list" id="blocked-list" aria-label="Closed dates"></ul>
+        </div>
+      </section>
+    </div>
+
+    <!-- BOOKINGS LIST -->
+    <section class="card" aria-labelledby="list-title">
+      <div class="list-head">
+        <div>
+          <h2 id="list-title">Booked Slots</h2>
+          <span class="count" id="list-count"></span>
+        </div>
+        <div class="filters">
+          <div>
+            <label for="f-view" class="sr-only" style="position:absolute;left:-9999px;">Show</label>
+            <select id="f-view" aria-label="Show bookings">
+              <option value="upcoming">Today &amp; upcoming</option>
+              <option value="all">All bookings</option>
+            </select>
+          </div>
+          <div>
+            <label for="f-date" class="sr-only" style="position:absolute;left:-9999px;">Filter by date</label>
+            <input type="date" id="f-date" aria-label="Filter by date">
+          </div>
+          <button type="button" class="btn btn-small btn-ghost" id="f-clear">Clear date</button>
         </div>
       </div>
+
+      <div id="bookings-root"></div>
     </section>
 
   </main>
 
-  <div class="toast-host" id="toastHost" aria-live="polite"></div>
+  <div class="toast-wrap" id="toast-wrap" aria-live="polite"></div>
 
-  <!-- Firebase v8 -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
   <script>
     (function () {
-      'use strict';
+      "use strict";
 
-      /* ---------- Config (same node + key format as index.html) ---------- */
-      var NODE = 'dream_moment_bookings';
-      var OFFLINE_ID = 'OFFLINE_COUNTER';
-      var ADVANCE_RUPEES = 500;
-      var SLOTS = ['11 AM - 2 PM', '3 PM - 6 PM', '7 PM - 10 PM'];
-
+      // Firebase (v8 compat) initialization: same project and config as index.html
       var firebaseConfig = {
-        apiKey: 'AIzaSyDiGopFOIBanHJROTXL-0sIDAoIVwUSf_w',
-        authDomain: 'football-manager-be26f.firebaseapp.com',
-        databaseURL: 'https://football-manager-be26f-default-rtdb.firebaseio.com',
-        projectId: 'football-manager-be26f'
+        apiKey: "AIzaSyDiGopFOIBanHJROTXL-0sIDAoIVwUSf_w",
+        authDomain: "football-manager-be26f.firebaseapp.com",
+        databaseURL: "https://football-manager-be26f-default-rtdb.firebaseio.com",
+        projectId: "football-manager-be26f",
+        storageBucket: "football-manager-be26f.firebasestorage.app",
+        messagingSenderId: "815291979801",
+        appId: "1:815291979801:web:3a9db5b3eaa32b4630f288",
+        measurementId: "G-RGD41F9JGL"
       };
 
-      /* ---------- DOM ---------- */
-      function $(id) { return document.getElementById(id); }
-      var el = {
-        liveBadge: $('liveBadge'), liveText: $('liveText'),
-        mTotal: $('mTotal'), mAdvance: $('mAdvance'), mAdvanceHint: $('mAdvanceHint'), mOffline: $('mOffline'),
-        form: $('walkinForm'), btn: $('walkinBtn'), note: $('walkinNote'),
-        date: $('wDate'), slot: $('wSlot'), name: $('wName'), phone: $('wPhone'),
-        cToday: $('cToday'), cAll: $('cAll'),
-        listState: $('listState'), tableWrap: $('tableWrap'), tbody: $('tbody'),
-        toastHost: $('toastHost')
-      };
-      var fieldMap = {
-        date:  { box: $('fDate'),  msg: $('eDate'),  input: el.date },
-        slot:  { box: $('fSlot'),  msg: $('eSlot'),  input: el.slot },
-        name:  { box: $('fName'),  msg: $('eName'),  input: el.name },
-        phone: { box: $('fPhone'), msg: $('ePhone'), input: el.phone }
-      };
-
-      /* ---------- State ---------- */
       var db = null;
-      var bookings = [];
-      var loaded = false;
-      var loadError = null;
-      var activeTab = 'today';
-      var reserving = false;
-
-      /* ---------- Helpers ---------- */
-      function pad(n) { return n < 10 ? '0' + n : '' + n; }
-      function todayISO() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
-      function esc(v) {
-        return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
-          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-        });
-      }
-      function money(n) { return '\u20B9' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-      function slotKey(date, slot) { return date + '_' + slot.replace(/\s+/g, ''); } /* identical to index.html */
-      function isOffline(b) { return b.paymentId === OFFLINE_ID; }
-      function isConfirmed(b) { return b.status === 'confirmed'; }
-      function slotIndex(s) { var i = SLOTS.indexOf(s); return i === -1 ? 99 : i; }
-
-      function prettyDate(iso) {
-        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
-        if (!m) return iso || '\u2013';
-        return new Date(+m[1], +m[2] - 1, +m[3]).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
-      }
-      function prettyDateTime(iso) {
-        var d = new Date(iso);
-        if (!iso || isNaN(d.getTime())) return '\u2013';
-        return d.toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-      }
-      function normalizePhone(raw) {
-        var d = String(raw || '').replace(/\D/g, '');
-        if (d.length === 12 && d.indexOf('91') === 0) d = d.slice(2);
-        else if (d.length === 11 && d.charAt(0) === '0') d = d.slice(1);
-        return /^[6-9]\d{9}$/.test(d) ? d : '';
-      }
-
-      function toast(message, type) {
-        var t = document.createElement('div');
-        t.className = 'toast' + (type ? ' toast--' + type : '');
-        t.textContent = message;
-        el.toastHost.appendChild(t);
-        setTimeout(function () { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; setTimeout(function () { t.remove(); }, 320); }, 4200);
-      }
-
-      function setLive(state, text) {
-        el.liveBadge.className = 'live' + (state ? ' is-' + state : '');
-        el.liveText.textContent = text;
-      }
-
-      /* ---------- Firebase init ---------- */
       try {
-        if (!window.firebase) throw new Error('Firebase SDK failed to load');
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        db = firebase.database();
-      } catch (err) {
-        console.error('Firebase init failed:', err);
-        loadError = 'Could not load Firebase. Check your internet connection and refresh the page.';
-        setLive('off', 'Offline');
-      }
-
-      /* ---------- Rendering ---------- */
-      function sortBookings(list) {
-        return list.slice().sort(function (a, b) {
-          if (a.date !== b.date) return (a.date || '') < (b.date || '') ? -1 : 1;
-          var s = slotIndex(a.slot) - slotIndex(b.slot);
-          if (s) return s;
-          return (a.createdAt || '') < (b.createdAt || '') ? -1 : 1;
-        });
-      }
-
-      function renderMetrics() {
-        if (!loaded) return;
-        var onlineConfirmed = bookings.filter(function (b) { return isConfirmed(b) && !isOffline(b); }).length;
-        var offline = bookings.filter(isOffline).length;
-        el.mTotal.textContent = bookings.length;
-        el.mAdvance.textContent = money(ADVANCE_RUPEES * onlineConfirmed);
-        el.mAdvanceHint.textContent = money(ADVANCE_RUPEES) + ' \u00D7 ' + onlineConfirmed + ' confirmed online booking' + (onlineConfirmed === 1 ? '' : 's');
-        el.mOffline.textContent = offline;
-      }
-
-      function visibleBookings() {
-        var today = todayISO();
-        var sorted = sortBookings(bookings);
-        if (activeTab === 'today') return sorted.filter(function (b) { return b.date === today; });
-        /* All / Upcoming: everything, upcoming first (soonest first), past after (most recent first) */
-        var upcoming = sorted.filter(function (b) { return (b.date || '') >= today; });
-        var past = sorted.filter(function (b) { return (b.date || '') < today; }).reverse();
-        return upcoming.concat(past);
-      }
-
-      function stateBox(html, extraClass) {
-        el.listState.innerHTML = '<div class="state' + (extraClass ? ' ' + extraClass : '') + '">' + html + '</div>';
-        el.listState.hidden = false;
-        el.tableWrap.hidden = true;
-      }
-
-      function renderList() {
-        var today = todayISO();
-
-        el.cToday.textContent = loaded ? '(' + bookings.filter(function (b) { return b.date === today; }).length + ')' : '';
-        el.cAll.textContent = loaded ? '(' + bookings.length + ')' : '';
-
-        if (loadError) { stateBox('<strong>Something went wrong</strong>' + esc(loadError), 'state--error'); return; }
-        if (!loaded) { stateBox('<div class="spinner"></div>Loading bookings\u2026'); return; }
-
-        var rows = visibleBookings();
-        if (!rows.length) {
-          stateBox(activeTab === 'today'
-            ? '<strong>No bookings today</strong>Nothing is reserved for ' + esc(prettyDate(today)) + '.'
-            : '<strong>No bookings yet</strong>Online and walk-in reservations will appear here instantly.');
-          return;
+        if (typeof firebase !== "undefined") {
+          if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+          db = firebase.database();
+        } else {
+          console.error("Firebase SDK failed to load.");
         }
-
-        el.listState.hidden = true;
-        el.tableWrap.hidden = false;
-        el.tbody.innerHTML = rows.map(function (b) {
-          var offline = isOffline(b);
-          var isToday = b.date === today;
-          var isPast = (b.date || '') < today;
-          var advance = offline
-            ? '<span class="badge badge--offline">Offline \u2013 Cash at counter</span>'
-            : (isConfirmed(b) ? '<span class="badge badge--paid">Paid ' + money(b.amountPaid != null ? b.amountPaid : ADVANCE_RUPEES) + '</span>'
-                              : '<span class="badge badge--offline">' + esc(b.status || 'Unknown') + '</span>');
-          var tag = isToday ? '<span class="badge badge--today">Today</span>' : (isPast ? '<span class="badge badge--past">Past</span>' : '');
-          var pkg = b.packageHours ? esc(b.packageHours) + ' Hours' : '\u2013';
-          var occasion = b.occasion ? '<div class="cell-sub">' + esc(b.occasion) + '</div>' : '';
-
-          return '<tr' + (isPast ? ' class="is-past"' : '') + '>' +
-            '<td data-label="Customer"><div class="cell-wrap"><div class="cell-name">' + esc(b.customerName || '\u2013') + '</div>' + occasion + '</div></td>' +
-            '<td data-label="Phone"><div class="cell-wrap">' + (b.phone ? '<a href="tel:' + esc(b.phone) + '" style="color:inherit">' + esc(b.phone) + '</a>' : '\u2013') + '</div></td>' +
-            '<td data-label="Date"><div class="cell-wrap">' + esc(prettyDate(b.date)) + tag + '</div></td>' +
-            '<td data-label="Slot"><div class="cell-wrap">' + esc(b.slot || '\u2013') + '</div></td>' +
-            '<td data-label="Package"><div class="cell-wrap">' + pkg + '</div></td>' +
-            '<td data-label="Advance Status"><div class="cell-wrap">' + advance + '</div></td>' +
-            '<td data-label="Payment ID"><div class="cell-wrap mono">' + esc(b.paymentId || '\u2013') + '</div></td>' +
-            '<td data-label="Booked At"><div class="cell-wrap">' + esc(prettyDateTime(b.createdAt)) + '</div></td>' +
-            '<td class="cell-action"><button type="button" class="btn btn--danger" data-cancel="' + esc(b._key) + '">Cancel / Release Slot</button></td>' +
-            '</tr>';
-        }).join('');
+      } catch (fbErr) {
+        console.error("Firebase initialization error:", fbErr);
       }
 
-      function renderAll() { renderMetrics(); renderList(); refreshSlotHint(); }
+      // ---- Slot catalogue: must match index.html (labels are stored in bookings/timeSlot) ----
+      var SLOTS = [
+        { value: "06:00-07:00", label: "06:00 AM - 07:00 AM" },
+        { value: "07:00-08:00", label: "07:00 AM - 08:00 AM" },
+        { value: "18:00-19:00", label: "06:00 PM - 07:00 PM" },
+        { value: "19:00-20:00", label: "07:00 PM - 08:00 PM" },
+        { value: "20:00-21:00", label: "08:00 PM - 09:00 PM" },
+        { value: "21:00-22:00", label: "09:00 PM - 10:00 PM" }
+      ];
+      SLOTS.forEach(function (s) {
+        var p = s.value.split("-");
+        s.start = p[0];
+        s.end = p[1];
+      });
 
-      /* ---------- Real-time listeners ---------- */
+      function slotIndexByLabel(label) {
+        for (var i = 0; i < SLOTS.length; i++) { if (SLOTS[i].label === label) { return i; } }
+        return -1;
+      }
+
+      // Labels a booking occupies (multi-hour online bookings spill into the next back-to-back slots)
+      function occupiedLabels(b) {
+        var idx = slotIndexByLabel(b.timeSlot);
+        if (idx === -1) { return b.timeSlot ? [b.timeSlot] : []; }
+        var out = [SLOTS[idx].label];
+        var hours = Number(b.duration) || 1;
+        for (var k = 1; k < hours; k++) {
+          var cur = SLOTS[idx + k - 1], next = SLOTS[idx + k];
+          if (!next || cur.end !== next.start) { break; }
+          out.push(next.label);
+        }
+        return out;
+      }
+
+      // ---- Elements ----
+      var mForm = document.getElementById("manual-form");
+      var mDate = document.getElementById("m-date");
+      var mSlot = document.getElementById("m-slot");
+      var mName = document.getElementById("m-name");
+      var mPhone = document.getElementById("m-phone");
+      var mPay = document.getElementById("m-pay");
+      var mHint = document.getElementById("m-hint");
+      var mBtn = document.getElementById("m-btn");
+
+      var bForm = document.getElementById("block-form");
+      var bDate = document.getElementById("b-date");
+      var bReason = document.getElementById("b-reason");
+      var bHint = document.getElementById("b-hint");
+      var bBtn = document.getElementById("b-btn");
+      var blockedListEl = document.getElementById("blocked-list");
+
+      var fView = document.getElementById("f-view");
+      var fDate = document.getElementById("f-date");
+      var fClear = document.getElementById("f-clear");
+      var bookingsRoot = document.getElementById("bookings-root");
+      var listCount = document.getElementById("list-count");
+
+      var toastWrap = document.getElementById("toast-wrap");
+
+      // ---- Helpers ----
+      var now = new Date();
+      var today = now.getFullYear() + "-" +
+        String(now.getMonth() + 1).padStart(2, "0") + "-" +
+        String(now.getDate()).padStart(2, "0");
+      mDate.setAttribute("min", today);
+      bDate.setAttribute("min", today);
+
+      function toast(text, isError) {
+        var t = document.createElement("div");
+        t.className = "toast" + (isError ? " is-error" : "");
+        t.textContent = text;
+        toastWrap.appendChild(t);
+        setTimeout(function () { if (t.parentNode) { t.parentNode.removeChild(t); } }, 3600);
+      }
+
+      function setHint(el, text, type) {
+        el.textContent = text;
+        el.className = "hint" + (type ? " is-" + type : "");
+      }
+
+      function formatDate(iso) {
+        var p = iso.split("-");
+        var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+        return d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+      }
+
+      mPhone.addEventListener("input", function () {
+        mPhone.value = mPhone.value.replace(/\D/g, "").slice(0, 10);
+      });
+
+      // ---- Live data (cached from Firebase) ----
+      var bookings = [];          // [{ key, ...fields }]
+      var blocked = {};           // { "YYYY-MM-DD": { reason } }
+      var bookingsLoaded = false;
+      var blockedLoaded = false;
+      var loadError = false;
+
+      function onLoadError(err) {
+        console.error("Firebase read error:", err);
+        loadError = true;
+        renderAll();
+      }
+
       if (db) {
-        db.ref('.info/connected').on('value', function (snap) {
-          if (snap.val() === true) setLive('on', 'Live');
-          else setLive('', loaded ? 'Reconnecting\u2026' : 'Connecting\u2026');
-        });
-
-        db.ref(NODE).on('value', function (snap) {
+        db.ref("bookings").on("value", function (snap) {
           var list = [];
           snap.forEach(function (child) {
             var v = child.val();
-            if (v && typeof v === 'object') { v._key = child.key; list.push(v); }
+            if (v && typeof v === "object") {
+              v.key = child.key;
+              list.push(v);
+            }
           });
           bookings = list;
-          loaded = true;
-          loadError = null;
+          bookingsLoaded = true;
           renderAll();
-        }, function (err) {
-          console.error('Realtime listener failed:', err);
-          loadError = (err && err.code === 'PERMISSION_DENIED')
-            ? 'Permission denied. Check your Firebase Realtime Database rules for "' + NODE + '".'
-            : 'Could not load bookings. ' + (err && err.message ? err.message : '');
-          setLive('off', 'Error');
-          renderAll();
-        });
-      }
+        }, onLoadError);
 
-      /* ---------- Tabs ---------- */
-      document.querySelectorAll('.tab').forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          activeTab = tab.getAttribute('data-tab');
-          document.querySelectorAll('.tab').forEach(function (t) {
-            var on = t === tab;
-            t.classList.toggle('is-active', on);
-            t.setAttribute('aria-selected', on ? 'true' : 'false');
+        db.ref("blockedDates").on("value", function (snap) {
+          var map = {};
+          snap.forEach(function (child) {
+            var v = child.val();
+            map[child.key] = { reason: v && typeof v === "object" && v.reason ? String(v.reason) : "" };
           });
-          renderList();
+          blocked = map;
+          blockedLoaded = true;
+          renderAll();
+        }, onLoadError);
+      } else {
+        loadError = true;
+      }
+
+      function occupiedForDate(date) {
+        var map = {};
+        bookings.forEach(function (b) {
+          if (b.date === date) { occupiedLabels(b).forEach(function (l) { map[l] = true; }); }
         });
-      });
+        return map;
+      }
 
-      /* ---------- Cancel / Release ---------- */
-      el.tbody.addEventListener('click', function (e) {
-        var btn = e.target.closest('[data-cancel]');
-        if (!btn || !db) return;
-        var key = btn.getAttribute('data-cancel');
-        var b = bookings.filter(function (x) { return x._key === key; })[0];
-        if (!b) return;
+      // ---- Manual booking form: slot dropdown reflects live availability ----
+      function renderManualSlots() {
+        var prev = mSlot.value;
+        mSlot.textContent = "";
 
-        var msg = 'Cancel this booking and release the slot?\n\n' +
-          (b.customerName || 'Customer') + '\n' + prettyDate(b.date) + ' \u00B7 ' + (b.slot || '') +
-          (isOffline(b) ? '' : '\n\nNote: the online advance (' + money(b.amountPaid != null ? b.amountPaid : ADVANCE_RUPEES) + ') is NOT refunded automatically. Refund it from your Razorpay dashboard if needed.');
-        if (!window.confirm(msg)) return;
+        var placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = mDate.value ? "Select Time Slot" : "Select a date first";
+        mSlot.appendChild(placeholder);
 
-        btn.disabled = true;
-        btn.textContent = 'Releasing\u2026';
-        db.ref(NODE).child(key).remove().then(function () {
-          toast('Booking cancelled. The slot is now free on the website.', 'ok');
-        }).catch(function (err) {
-          console.error('Delete failed:', err);
-          btn.disabled = false;
-          btn.textContent = 'Cancel / Release Slot';
-          toast(err && err.code === 'PERMISSION_DENIED' ? 'Permission denied by Firebase rules.' : 'Could not cancel the booking. Please try again.', 'error');
+        var date = mDate.value;
+        var occupied = date ? occupiedForDate(date) : {};
+        var closed = date && blocked[date];
+        var openCount = 0;
+
+        SLOTS.forEach(function (s) {
+          var opt = document.createElement("option");
+          opt.value = s.value;
+          var text = s.label;
+          if (date && closed) {
+            opt.disabled = true;
+            text += " (Closed)";
+          } else if (date && occupied[s.label]) {
+            opt.disabled = true;
+            text += " (Booked)";
+          } else {
+            openCount++;
+          }
+          opt.textContent = text;
+          mSlot.appendChild(opt);
         });
-      });
 
-      /* ---------- Walk-in form ---------- */
-      el.date.min = todayISO();
-      el.date.value = todayISO();
+        mSlot.disabled = !date;
+        if (prev) {
+          var still = Array.prototype.some.call(mSlot.options, function (o) { return o.value === prev && !o.disabled; });
+          mSlot.value = still ? prev : "";
+        }
 
-      function setFieldMsg(key, text, kind) {
-        var f = fieldMap[key];
-        f.msg.textContent = text || '';
-        f.msg.className = 'field__msg' + (kind === 'ok' ? ' is-ok' : kind === 'info' ? ' is-info' : '');
-        f.box.classList.toggle('has-error', kind === 'error');
-      }
-      function setFormNote(text, kind) {
-        el.note.textContent = text || '';
-        el.note.className = 'form-note' + (kind ? ' is-' + kind : '');
-      }
-
-      /* Live hint using the real-time bookings list */
-      function localSlotTaken(date, slot) {
-        return bookings.some(function (b) { return b.date === date && b.slot === slot && isConfirmed(b); });
-      }
-      function refreshSlotHint() {
-        var date = el.date.value, slot = el.slot.value;
-        if (!loaded || !date || !slot) { if (!reserving) el.btn.disabled = false; return; }
-        if (localSlotTaken(date, slot)) {
-          setFieldMsg('slot', 'This slot is already booked.', 'error');
-          el.btn.disabled = true;
-        } else {
-          setFieldMsg('slot', 'This slot is free.', 'ok');
-          el.btn.disabled = reserving;
+        if (!date) {
+          setHint(mHint, "", "");
+        } else if (closed) {
+          setHint(mHint, "This date is blocked" + (closed.reason ? " (" + closed.reason + ")" : "") + ". Reopen it below to take bookings.", "warn");
+        } else if (openCount === 0) {
+          setHint(mHint, "Every slot on this date is already booked.", "warn");
+        } else if (mHint.className.indexOf("is-error") === -1) {
+          setHint(mHint, "", "");
         }
       }
 
-      ['date', 'slot', 'name', 'phone'].forEach(function (key) {
-        var input = fieldMap[key].input;
-        input.addEventListener(key === 'date' || key === 'slot' ? 'change' : 'input', function () {
-          setFieldMsg(key, '');
-          setFormNote('');
-          if (key === 'date' || key === 'slot') refreshSlotHint();
-        });
-      });
+      mDate.addEventListener("change", function () { setHint(mHint, "", ""); renderManualSlots(); });
 
-      function validate() {
-        var ok = true, first = null;
-        function fail(key, msg) { setFieldMsg(key, msg, 'error'); ok = false; if (!first) first = fieldMap[key].input; }
+      mForm.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-        var date = el.date.value, slot = el.slot.value;
-        var name = el.name.value.trim().replace(/\s+/g, ' ');
-        var phone = normalizePhone(el.phone.value);
+        var date = mDate.value;
+        var slotValue = mSlot.value;
+        var name = mName.value.trim();
+        var phone = mPhone.value.trim();
+        var mode = mPay.value;
 
-        if (!date) fail('date', 'Please choose a date.');
-        else if (date < todayISO()) fail('date', 'Please choose today or a future date.');
-        if (!slot) fail('slot', 'Please select a slot.');
-        if (name.length < 2) fail('name', 'Please enter the customer name.');
-        if (!el.phone.value.trim()) fail('phone', 'Please enter a phone number.');
-        else if (!phone) fail('phone', 'Enter a valid 10-digit Indian mobile number.');
+        if (!date || !slotValue || !name || !phone) {
+          setHint(mHint, "Please fill in the date, time slot, name and mobile number.", "error");
+          return;
+        }
+        if (!/^[0-9]{10}$/.test(phone)) {
+          setHint(mHint, "Enter a valid 10-digit mobile number.", "error");
+          mPhone.focus();
+          return;
+        }
+        if (date < today) {
+          setHint(mHint, "Pick today's date or a future date.", "error");
+          return;
+        }
+        if (!db) {
+          setHint(mHint, "Firebase is not connected. Refresh the page.", "error");
+          return;
+        }
 
-        if (first) first.focus();
-        return ok ? { date: date, slot: slot, name: name, phone: phone } : null;
-      }
+        var slotIdx = -1;
+        for (var i = 0; i < SLOTS.length; i++) { if (SLOTS[i].value === slotValue) { slotIdx = i; } }
+        if (slotIdx === -1) {
+          setHint(mHint, "Choose a valid time slot.", "error");
+          return;
+        }
+        var slotLabel = SLOTS[slotIdx].label;
 
-      /* Server-side duplicate check + atomic write (same key scheme as index.html) */
-      function reserveOffline(data) {
-        return db.ref(NODE).orderByChild('date').equalTo(data.date).once('value').then(function (snap) {
+        mBtn.disabled = true;
+        setHint(mHint, "Locking slot...", "");
+
+        // Fresh read right before writing, so two managers can't double-book
+        Promise.all([
+          db.ref("bookings").orderByChild("date").equalTo(date).once("value"),
+          db.ref("blockedDates/" + date).once("value")
+        ]).then(function (res) {
+          if (res[1].exists()) { return { ok: false, msg: "This date is blocked. Reopen it first." }; }
           var taken = false;
-          snap.forEach(function (child) {
+          res[0].forEach(function (child) {
             var b = child.val();
-            if (b && b.slot === data.slot && b.status === 'confirmed') taken = true;
+            if (b && occupiedLabels(b).indexOf(slotLabel) !== -1) { taken = true; }
           });
-          if (taken) { var e = new Error('slot-taken'); e.code = 'slot-taken'; throw e; }
+          if (taken) { return { ok: false, msg: "That slot is already booked." }; }
 
-          var booking = {
-            customerName: data.name,
-            phone: data.phone,
-            date: data.date,
-            occasion: 'Walk-in',
-            slot: data.slot,
-            amountPaid: 0,
-            paymentId: OFFLINE_ID,
-            status: 'confirmed',
+          var record = {
+            teamName: name,
+            phone: phone,
+            date: date,
+            timeSlot: slotLabel,
+            duration: 1,
+            source: "manual",
+            paymentMode: mode,
+            paymentId: "MANUAL-" + Date.now(),
+            paymentStatus: mode === "upi_advance" ? "manual_upi_advance" : "manual_cash_at_turf",
+            currency: "INR",
             createdAt: new Date().toISOString()
           };
-          return db.ref(NODE).child(slotKey(data.date, data.slot)).transaction(function (current) {
-            return current === null ? booking : undefined; /* abort if someone grabbed it first */
-          });
+          return db.ref("bookings").push(record).then(function () { return { ok: true }; });
         }).then(function (result) {
-          if (!result.committed) { var e = new Error('slot-taken'); e.code = 'slot-taken'; throw e; }
-        });
-      }
-
-      el.form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (reserving) return;
-        setFormNote('');
-        if (!db) { setFormNote('Firebase is not available. Refresh the page and try again.', 'error'); return; }
-
-        var data = validate();
-        if (!data) { setFormNote('Please fix the highlighted fields.', 'error'); return; }
-
-        reserving = true;
-        el.btn.disabled = true;
-        el.btn.textContent = 'Reserving\u2026';
-        setFormNote('Checking availability\u2026');
-
-        reserveOffline(data).then(function () {
-          toast('Slot reserved for ' + data.name + ' \u2013 ' + prettyDate(data.date) + ', ' + data.slot + '.', 'ok');
-          setFormNote('Reserved! This slot is now locked on the website.', 'ok');
-          el.slot.value = ''; el.name.value = ''; el.phone.value = '';
-          ['slot', 'name', 'phone'].forEach(function (k) { setFieldMsg(k, ''); });
-        }).catch(function (err) {
-          if (err && err.code === 'slot-taken') {
-            setFieldMsg('slot', 'Sorry, this slot is already booked. Choose another date or slot.', 'error');
-            setFormNote('Slot already booked. Nothing was saved.', 'error');
-          } else {
-            console.error('Offline reservation failed:', err);
-            var denied = err && err.code === 'PERMISSION_DENIED';
-            setFormNote(denied ? 'Permission denied by Firebase rules.' : 'Could not reserve the slot. Please check your connection and try again.', 'error');
+          mBtn.disabled = false;
+          if (!result.ok) {
+            setHint(mHint, result.msg, "error");
+            renderManualSlots();
+            return;
           }
-        }).then(function () {
-          reserving = false;
-          el.btn.textContent = 'Reserve Slot (Offline Cash)';
-          el.btn.disabled = false;
-          refreshSlotHint();
+          toast("Slot locked: " + formatDate(date) + ", " + slotLabel);
+          mName.value = "";
+          mPhone.value = "";
+          mSlot.value = "";
+          setHint(mHint, "", "");
+        }).catch(function (err) {
+          mBtn.disabled = false;
+          console.error("Manual booking error:", err);
+          setHint(mHint, "Could not save the booking. Check your connection and try again.", "error");
         });
       });
 
-      /* ---------- Midnight rollover: keep "Today" accurate ---------- */
-      var lastDay = todayISO();
-      setInterval(function () {
-        var now = todayISO();
-        if (now !== lastDay) { lastDay = now; el.date.min = now; if (el.date.value < now) el.date.value = now; renderAll(); }
-      }, 60000);
+      // ---- Block full day ----
+      bDate.addEventListener("change", function () {
+        var d = bDate.value;
+        if (d && blocked[d]) {
+          setHint(bHint, "This date is already blocked.", "warn");
+        } else {
+          setHint(bHint, "", "");
+        }
+      });
+
+      bForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var date = bDate.value;
+        var reason = bReason.value;
+
+        if (!date) {
+          setHint(bHint, "Pick the date you want to close.", "error");
+          return;
+        }
+        if (date < today) {
+          setHint(bHint, "Pick today's date or a future date.", "error");
+          return;
+        }
+        if (!db) {
+          setHint(bHint, "Firebase is not connected. Refresh the page.", "error");
+          return;
+        }
+        if (blocked[date]) {
+          setHint(bHint, "This date is already blocked.", "warn");
+          return;
+        }
+
+        var existing = bookings.filter(function (b) { return b.date === date; }).length;
+        var msg = "Close " + formatDate(date) + " (" + reason + ")? Customers will not be able to book any slot on this date.";
+        if (existing > 0) {
+          msg += "\n\n" + existing + " booking" + (existing === 1 ? " already exists" : "s already exist") +
+            " on this date. They stay on record; cancel them separately if needed.";
+        }
+        if (!window.confirm(msg)) { return; }
+
+        bBtn.disabled = true;
+        db.ref("blockedDates/" + date).set({
+          reason: reason,
+          blockedAt: new Date().toISOString()
+        }).then(function () {
+          bBtn.disabled = false;
+          toast("Closed " + formatDate(date));
+          setHint(bHint, "", "");
+          bDate.value = "";
+        }).catch(function (err) {
+          bBtn.disabled = false;
+          console.error("Block day error:", err);
+          setHint(bHint, "Could not block the date. Check your connection and database rules.", "error");
+        });
+      });
+
+      function renderBlockedList() {
+        blockedListEl.textContent = "";
+        var dates = Object.keys(blocked).filter(function (d) { return d >= today; }).sort();
+        if (!dates.length) { return; }
+
+        var title = document.createElement("h3");
+        title.textContent = "Closed dates";
+        blockedListEl.appendChild(title);
+
+        dates.forEach(function (d) {
+          var li = document.createElement("li");
+          li.className = "blocked-item";
+
+          var info = document.createElement("div");
+          var strong = document.createElement("strong");
+          strong.textContent = formatDate(d);
+          var span = document.createElement("span");
+          span.textContent = blocked[d].reason || "Closed";
+          info.appendChild(strong);
+          info.appendChild(span);
+
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn btn-small btn-ghost";
+          btn.textContent = "Reopen day";
+          btn.addEventListener("click", function () {
+            if (!window.confirm("Reopen " + formatDate(d) + " for bookings?")) { return; }
+            btn.disabled = true;
+            db.ref("blockedDates/" + d).remove().then(function () {
+              toast("Reopened " + formatDate(d));
+            }).catch(function (err) {
+              btn.disabled = false;
+              console.error("Reopen day error:", err);
+              toast("Could not reopen the date.", true);
+            });
+          });
+
+          li.appendChild(info);
+          li.appendChild(btn);
+          blockedListEl.appendChild(li);
+        });
+      }
+
+      // ---- Bookings list ----
+      function slotOrder(label) {
+        var i = slotIndexByLabel(label);
+        return i === -1 ? 99 : i;
+      }
+
+      function sourceTag(b) {
+        var tag = document.createElement("span");
+        if (b.source === "manual") {
+          tag.className = "tag tag-manual";
+          tag.textContent = b.paymentMode === "upi_advance" ? "Manual: UPI advance" : "Manual: cash at turf";
+        } else {
+          tag.className = "tag tag-online";
+          var paid = Number(b.amountPaid);
+          tag.textContent = paid > 0 ? "Online paid \u20B9" + paid : "Online booking";
+        }
+        return tag;
+      }
+
+      function cancelBooking(b, btn) {
+        var when = b.date ? formatDate(b.date) : "this date";
+        var msg = "Cancel the booking for " + (b.teamName || "this team") + " on " + when + ", " + b.timeSlot + "?\n\nThe slot will open up on the public page immediately.";
+        if (b.source !== "manual" && Number(b.amountPaid) > 0) {
+          msg += "\n\nThis was paid online (\u20B9" + Number(b.amountPaid) + "). Issue any refund from your Razorpay dashboard.";
+        }
+        if (!window.confirm(msg)) { return; }
+
+        btn.disabled = true;
+        db.ref("bookings/" + b.key).remove().then(function () {
+          toast("Booking cancelled. Slot is free again.");
+        }).catch(function (err) {
+          btn.disabled = false;
+          console.error("Cancel booking error:", err);
+          toast("Could not cancel the booking. Please try again.", true);
+        });
+      }
+
+      function renderBookings() {
+        bookingsRoot.textContent = "";
+
+        if (loadError) {
+          var err = document.createElement("p");
+          err.className = "empty is-error";
+          err.textContent = "Could not load bookings. Refresh the page or check your database rules.";
+          bookingsRoot.appendChild(err);
+          listCount.textContent = "";
+          return;
+        }
+        if (!bookingsLoaded || !blockedLoaded) {
+          var load = document.createElement("p");
+          load.className = "empty";
+          load.textContent = "Loading bookings...";
+          bookingsRoot.appendChild(load);
+          return;
+        }
+
+        var showAll = fView.value === "all";
+        var filterDate = fDate.value;
+
+        var rows = bookings.filter(function (b) {
+          if (!b.date) { return false; }
+          if (filterDate) { return b.date === filterDate; }
+          return showAll || b.date >= today;
+        });
+
+        rows.sort(function (a, b) {
+          if (a.date !== b.date) { return a.date < b.date ? -1 : 1; }
+          return slotOrder(a.timeSlot) - slotOrder(b.timeSlot);
+        });
+
+        listCount.textContent = rows.length + (rows.length === 1 ? " booking" : " bookings");
+
+        // Dates to show: those with bookings, plus blocked dates inside the current view
+        var byDate = {};
+        rows.forEach(function (b) { (byDate[b.date] = byDate[b.date] || []).push(b); });
+        Object.keys(blocked).forEach(function (d) {
+          var inView = filterDate ? d === filterDate : (showAll || d >= today);
+          if (inView && !byDate[d]) { byDate[d] = []; }
+        });
+        var dates = Object.keys(byDate).sort();
+
+        if (!dates.length) {
+          var empty = document.createElement("p");
+          empty.className = "empty";
+          empty.textContent = filterDate ? "No bookings on this date." : "No bookings yet. New bookings appear here live.";
+          bookingsRoot.appendChild(empty);
+          return;
+        }
+
+        dates.forEach(function (d) {
+          var group = document.createElement("div");
+          group.className = "day-group";
+
+          var title = document.createElement("h3");
+          title.className = "day-title";
+          var tText = document.createElement("span");
+          tText.textContent = formatDate(d);
+          title.appendChild(tText);
+          if (blocked[d]) {
+            var closedTag = document.createElement("span");
+            closedTag.className = "tag tag-closed";
+            closedTag.textContent = "Day closed" + (blocked[d].reason ? ": " + blocked[d].reason : "");
+            title.appendChild(closedTag);
+          }
+          group.appendChild(title);
+
+          var list = document.createElement("div");
+          list.className = "rows";
+
+          if (!byDate[d].length) {
+            var none = document.createElement("p");
+            none.className = "empty";
+            none.textContent = "No bookings on this day.";
+            list.appendChild(none);
+          }
+
+          byDate[d].forEach(function (b) {
+            var row = document.createElement("div");
+            row.className = "row";
+
+            var info = document.createElement("div");
+
+            var slot = document.createElement("div");
+            slot.className = "row-slot";
+            var hours = Number(b.duration) || 1;
+            slot.textContent = b.timeSlot + (hours > 1 ? " (" + hours + " hours)" : "");
+
+            var meta = document.createElement("p");
+            meta.className = "row-meta";
+            var nameEl = document.createElement("strong");
+            nameEl.textContent = b.teamName || "Unnamed";
+            meta.appendChild(nameEl);
+            if (b.phone) {
+              meta.appendChild(document.createTextNode(" \u00B7 "));
+              var tel = document.createElement("a");
+              var digits = String(b.phone).replace(/[^0-9+]/g, "");
+              tel.href = "tel:" + digits;
+              tel.textContent = b.phone;
+              meta.appendChild(tel);
+            }
+
+            var tags = document.createElement("div");
+            tags.className = "row-tags";
+            tags.appendChild(sourceTag(b));
+
+            info.appendChild(slot);
+            info.appendChild(meta);
+            info.appendChild(tags);
+
+            var action = document.createElement("div");
+            action.className = "row-action";
+            var cancel = document.createElement("button");
+            cancel.type = "button";
+            cancel.className = "btn btn-small btn-danger";
+            cancel.textContent = "Remove / Cancel Booking";
+            cancel.addEventListener("click", function () { cancelBooking(b, cancel); });
+            action.appendChild(cancel);
+
+            row.appendChild(info);
+            row.appendChild(action);
+            list.appendChild(row);
+          });
+
+          group.appendChild(list);
+          bookingsRoot.appendChild(group);
+        });
+      }
+
+      fView.addEventListener("change", renderBookings);
+      fDate.addEventListener("change", renderBookings);
+      fClear.addEventListener("click", function () { fDate.value = ""; renderBookings(); });
+
+      function renderAll() {
+        renderManualSlots();
+        renderBlockedList();
+        renderBookings();
+      }
 
       renderAll();
     })();
