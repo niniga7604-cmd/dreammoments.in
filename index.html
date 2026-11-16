@@ -373,6 +373,123 @@
       *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
       .js .reveal { opacity: 1; transform: none; }
     }
+
+    /* =========================================================
+       MY BOOKINGS + DIGITAL BOOKING PASS (added feature)
+       Uses the existing design tokens (gold / pink / dark).
+       ========================================================= */
+    .btn[hidden] { display: none; }
+    .nav__actions { display: flex; align-items: center; gap: 10px; flex: none; }
+    .nav__inner .brand { min-width: 0; }
+
+    .mb-btn {
+      display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 6px 13px;
+      border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(212, 175, 55, .1);
+      color: var(--gold-soft); font-family: var(--font-head); font-weight: 600; font-size: .8rem; line-height: 1;
+      white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: background .2s, border-color .2s, transform .2s var(--ease);
+    }
+    .mb-btn:hover { background: rgba(212, 175, 55, .2); border-color: var(--gold); }
+    .mb-btn:active { transform: scale(.97); }
+    .mb-btn__count { font-variant-numeric: tabular-nums; }
+    @media (max-width: 494px) { .mb-btn__label { display: none; } .mb-btn { padding: 6px 11px; } }
+    @media (max-width: 420px) {
+      .nav__actions { gap: 8px; }
+      .nav__inner .brand { font-size: .74rem; letter-spacing: .05em; gap: 6px; }
+      .nav__inner .brand svg { width: 18px; height: 18px; }
+      .nav__toggle { width: 42px; height: 42px; }
+      .nav__toggle span, .nav__toggle span::before, .nav__toggle span::after { left: 11px; }
+      .nav__toggle span::before, .nav__toggle span::after { left: 0; }
+      .nav__toggle span { top: 20px; }
+    }
+    @media (max-width: 350px) { .nav__inner .brand svg { display: none; } }
+    .nav__links .nav__mb {
+      appearance: none; -webkit-appearance: none; background: none; border: 0; border-bottom: 1px solid rgba(255, 255, 255, .06);
+      color: var(--text-muted); font: inherit; font-size: 1rem; font-weight: 500; text-align: left; padding: 15px 4px; cursor: pointer;
+    }
+    .nav__links .nav__mb:hover { color: var(--gold-soft); }
+
+    html.mb-lock, html.mb-lock body { overflow: hidden; }
+    .mb-overlay {
+      position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; padding: 12px;
+      background: rgba(0, 0, 0, .68); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      opacity: 0; transition: opacity .25s var(--ease);
+    }
+    .mb-overlay[hidden] { display: none; }
+    .mb-overlay.is-open { opacity: 1; }
+    .mb-panel {
+      position: relative; width: min(480px, 100%); max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px);
+      display: flex; flex-direction: column; overflow: hidden; outline: none;
+      background: linear-gradient(180deg, #202020, #171717); border: 1px solid var(--line-strong); border-radius: 24px;
+      box-shadow: var(--shadow), 0 0 60px rgba(255, 79, 163, .08);
+      transform: translateY(26px) scale(.98); transition: transform .32s var(--ease);
+    }
+    .mb-overlay.is-open .mb-panel { transform: none; }
+    .mb-panel__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 16px 14px 20px; border-bottom: 1px solid var(--line); flex: none; }
+    .mb-panel__head h2 { font-size: 1.3rem; font-weight: 700; color: var(--gold-soft); }
+    .mb-panel__head p { color: var(--text-muted); font-size: .82rem; margin-top: 4px; }
+    .mb-close {
+      flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+      background: rgba(255, 255, 255, .05); border: 1px solid var(--line); color: var(--gold-soft);
+      transition: background .2s, border-color .2s; -webkit-tap-highlight-color: transparent;
+    }
+    .mb-close:hover { background: rgba(212, 175, 55, .15); border-color: var(--gold); }
+    .mb-close svg { width: 18px; height: 18px; }
+    .mb-close--float { position: absolute; top: 12px; right: 12px; z-index: 2; }
+    .mb-panel__body { flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 16px 16px 20px; display: grid; gap: 16px; align-content: start; }
+    .mb-panel__foot { flex: none; padding: 12px 20px 16px; border-top: 1px solid var(--line); color: var(--text-muted); font-size: .76rem; text-align: center; }
+    .mb-panel__foot strong { color: var(--error); font-weight: 600; }
+
+    .bk-card { background: #252525; border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 14px; }
+    .bk-card__top { display: flex; align-items: center; justify-content: space-between; gap: 8px 10px; flex-wrap: wrap; }
+    .bk-id { font-family: var(--font-head); font-weight: 800; font-size: 1.25rem; letter-spacing: .04em; color: var(--gold-soft); }
+    .bk-chip { font-size: .68rem; font-weight: 600; line-height: 1.3; padding: 5px 10px; border-radius: 999px; color: #4ADE80; background: rgba(74, 222, 128, .1); border: 1px solid rgba(74, 222, 128, .35); }
+    .bk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; margin: 0; }
+    .bk-grid > div { min-width: 0; }
+    .bk-grid .is-full { grid-column: 1 / -1; }
+    .bk-grid dt { font-size: .66rem; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); }
+    .bk-grid dd { margin: 3px 0 0; font-family: var(--font-head); font-weight: 600; font-size: .9rem; line-height: 1.35; overflow-wrap: anywhere; }
+    .bk-pay { border: 1px dashed var(--line-strong); border-radius: 14px; padding: 12px 14px; display: grid; gap: 7px; background: rgba(212, 175, 55, .06); }
+    .bk-pay__row { display: flex; justify-content: space-between; gap: 10px; font-size: .86rem; color: #e6e6e6; }
+    .bk-pay__row b { font-family: var(--font-head); font-weight: 700; }
+    .bk-pay__row small { color: #4ADE80; font-weight: 600; margin-left: 4px; }
+    .bk-pay__row--due { border-top: 1px solid var(--line); padding-top: 9px; margin-top: 2px; color: var(--gold-soft); font-weight: 600; }
+    .bk-pay__row--due b { color: var(--pink); font-size: 1.1rem; font-weight: 800; }
+    .bk-actions { display: grid; gap: 10px; }
+    .bk-actions .btn { width: 100%; min-height: 48px; padding: 10px 16px; font-size: .88rem; }
+    @media (max-width: 400px) { .bk-actions .btn { font-size: .8rem; padding: 10px 8px; } }
+
+    .bk-empty { text-align: center; padding: 34px 12px 26px; display: grid; gap: 10px; justify-items: center; }
+    .bk-empty__icon { width: 84px; height: 84px; border-radius: 26px; display: grid; place-items: center; font-size: 2.3rem; background: rgba(212, 175, 55, .1); border: 1px dashed var(--line-strong); }
+    .bk-empty h3 { font-size: 1.15rem; font-weight: 700; }
+    .bk-empty p { color: var(--text-muted); font-size: .9rem; max-width: 320px; }
+    .bk-empty .btn { margin-top: 10px; min-height: 48px; padding: 10px 24px; font-size: .9rem; }
+
+    .cf-body { padding-top: 26px; justify-items: center; text-align: center; }
+    .cf-badge { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; color: #4ADE80; background: rgba(74, 222, 128, .1); border: 2px solid rgba(74, 222, 128, .55); box-shadow: 0 0 34px rgba(74, 222, 128, .22); }
+    .cf-badge svg { width: 36px; height: 36px; }
+    .cf-kicker { font-family: var(--font-head); font-weight: 600; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-top: -4px; }
+    .cf-body h2 { font-size: 1.35rem; font-weight: 700; padding: 0 14px; }
+    .cf-id { width: 100%; padding: 12px 14px; border-radius: 16px; border: 1px solid var(--line-strong); background: #141414; display: grid; gap: 2px; }
+    .cf-id span { font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); }
+    .cf-id b { font-family: var(--font-head); font-weight: 800; font-size: 1.9rem; letter-spacing: .06em; background: linear-gradient(180deg, var(--gold-soft), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .cf-summary { width: 100%; margin: 0; display: grid; gap: 8px; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); text-align: left; }
+    .cf-summary div { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
+    .cf-summary dt { color: var(--text-muted); }
+    .cf-summary dd { margin: 0; font-family: var(--font-head); font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+    .cf-summary .is-due dd { color: var(--pink); font-weight: 800; }
+    .cf-note { color: var(--gold-soft); font-size: .88rem; }
+    .cf-hint { color: var(--text-muted); font-size: .76rem; }
+    .cf-body .bk-actions { width: 100%; }
+
+    .mb-toast {
+      position: fixed; left: 50%; bottom: 22px; z-index: 400; max-width: min(440px, calc(100% - 32px));
+      transform: translate(-50%, 18px); opacity: 0; pointer-events: none; text-align: center;
+      padding: 12px 18px; border-radius: 14px; font-size: .88rem; color: #fff; background: #1d1d1d;
+      border: 1px solid var(--line-strong); box-shadow: var(--shadow); transition: opacity .25s var(--ease), transform .25s var(--ease);
+    }
+    .mb-toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+    .mb-toast.is-error { border-color: var(--error); }
   </style>
 </head>
 
@@ -384,12 +501,16 @@
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 2.7 4.5 6.3 4.5c2.1 0 3.7 1.1 5.7 3.3 2-2.2 3.6-3.3 5.7-3.3 3.6 0 5.4 3.8 3.9 7.2C19.5 16.4 12 21 12 21z"/></svg>
         <span class="brand__txt">ARYX BOOKING STUDIO<small>(Live System Demo)</small></span>
       </a>
-      <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu"><span></span></button>
+      <div class="nav__actions">
+        <button type="button" class="mb-btn js-open-bookings" id="myBookingsBtn" aria-haspopup="dialog" aria-label="My Bookings, 0 saved"><span aria-hidden="true">🎟️</span><span class="mb-btn__label">My Bookings</span><span class="mb-btn__count">(<span class="js-mb-count">0</span>)</span></button>
+        <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu"><span></span></button>
+      </div>
       <nav class="nav__links" id="navLinks" aria-label="Main navigation">
         <a href="#home">Home</a>
         <a href="#experiences">Features</a>
         <a href="#packages">Packages</a>
         <a href="#contact">Contact</a>
+        <button type="button" class="nav__mb js-open-bookings">🎟️ My Bookings (<span class="js-mb-count">0</span>)</button>
         <a href="#book" class="btn btn--pink">Book Now</a>
       </nav>
     </div>
@@ -648,6 +769,45 @@
       <p class="footer__bottom">© 2026 ARYX WEB. All Rights Reserved.<br><span class="footer__powered">Powered by ARYX WEB | Aryan H. Pagare (<a href="tel:+919372503446">+91 9372503446</a>)</span></p>
     </div>
   </footer>
+
+  <!-- ================= MY BOOKINGS DRAWER ================= -->
+  <div class="mb-overlay" id="mbOverlay" hidden>
+    <div class="mb-panel" role="dialog" aria-modal="true" aria-labelledby="mbTitle" tabindex="-1">
+      <div class="mb-panel__head">
+        <div>
+          <h2 id="mbTitle">🎟️ My Bookings</h2>
+          <p id="mbSub">Your confirmed bookings will appear here</p>
+        </div>
+        <button type="button" class="mb-close" id="mbClose" aria-label="Close My Bookings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="mb-panel__body" id="mbList"></div>
+      <div class="mb-panel__foot" id="mbFoot"></div>
+    </div>
+  </div>
+
+  <!-- ================= BOOKING CONFIRMED ================= -->
+  <div class="mb-overlay" id="cfOverlay" hidden>
+    <div class="mb-panel" id="cfPanel" role="dialog" aria-modal="true" aria-labelledby="cfTitle" tabindex="-1">
+      <button type="button" class="mb-close mb-close--float" id="cfClose" aria-label="Close booking confirmation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div class="mb-panel__body cf-body">
+        <div class="cf-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <p class="cf-kicker">Booking Confirmation</p>
+        <h2 id="cfTitle">Your Booking Has Been Successfully Confirmed!</h2>
+        <div class="cf-id"><span>Booking ID</span><b id="cfBookingId">ABX-0000</b></div>
+        <dl class="cf-summary" id="cfSummary"></dl>
+        <p class="cf-note">Please pay the remaining balance at the venue during check-in.</p>
+        <div class="bk-actions">
+          <button type="button" class="btn btn--gold" id="cfDownload">📥 Download Booking Pass (PNG)</button>
+          <button type="button" class="btn btn--ghost" id="cfWhatsApp">📲 Send Copy on WhatsApp</button>
+          <button type="button" class="btn btn--ghost" id="cfShare" hidden>📤 Share Pass Image</button>
+          <button type="button" class="btn btn--ghost" id="cfView">🎟️ View My Bookings</button>
+        </div>
+        <p class="cf-hint">WhatsApp links cannot attach images automatically. Download your pass first, then attach it in the chat before you send.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-toast" id="mbToast" role="status" aria-live="polite"></div>
 
   <!-- Firebase v8 + Razorpay Checkout -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -971,8 +1131,14 @@
             statusEl.textContent = 'Payment received. Confirming your slot\u2026';
             saveBooking(booking).then(function () {
               processing = false;
-              alert('Payment Successful (demo)! Your slot is confirmed. Please pay the remaining balance at the venue during check-in.');
+              /* NEW: runs only after payment succeeded AND the slot was saved. Fully guarded so it can never
+                 trigger the "could not save your booking" message below. */
+              var confirmed = null;
+              try { confirmed = recordConfirmedBooking(booking); } catch (histErr) { console.error('Saving booking history failed:', histErr); }
               resetAfterBooking();
+              var shown = false;
+              if (confirmed) { try { openConfirmation(confirmed); shown = true; } catch (uiErr) { console.error('Confirmation screen failed:', uiErr); } }
+              if (!shown) alert('Payment Successful (demo)! Your slot is confirmed. Please pay the remaining balance at the venue during check-in.');
             }).catch(function (err) {
               console.error('Saving booking failed:', err);
               processing = false;
@@ -1040,6 +1206,763 @@
           alert('We could not verify slot availability. Please check your connection and try again.');
         });
       });
+
+      /* =========================================================
+         MY BOOKINGS HISTORY + DIGITAL BOOKING PASS  (added feature)
+         One booking record in LocalStorage is the single source of
+         truth for the confirmation screen, history, PNG pass,
+         WhatsApp message and header count.
+         ========================================================= */
+      var HISTORY_KEY = 'aryx_booking_history_v1';
+      var HISTORY_BACKUP_KEY = 'aryx_booking_history_v1_corrupt_backup';
+      var STATUS_TEXT = 'Advance Paid \u2014 Slot Confirmed';
+      var POWERED_BY = 'Powered by AryxWeb';
+      var POWERED_PHONE = '+91 93725 03446';
+      var PASS_SCALES = [3, 2];          /* try 3x first, fall back to 2x if the device cannot allocate it */
+      var memoryHistory = [];            /* used only when LocalStorage is unavailable */
+      var storageUsable = null;
+
+      /* ---------- Small helpers ---------- */
+      function h(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text !== undefined && text !== null) e.textContent = text;
+        return e;
+      }
+      function safeStr(v, fallback, max) {
+        return (typeof v === 'string' && v.trim()) ? v.trim().slice(0, max || 120) : fallback;
+      }
+      function safeNum(v, fallback) {
+        var n = Number(v);
+        return isFinite(n) && n >= 0 ? n : fallback;
+      }
+      function validISODate(s) {
+        return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(new Date(s + 'T00:00:00').getTime());
+      }
+      function fmtDateSafe(iso) {
+        try { return validISODate(iso) ? formatDate(iso) : 'Not available'; } catch (e) { return 'Not available'; }
+      }
+      function fmtStamp(ts) {
+        if (!ts) return 'Not available';
+        var d = new Date(ts);
+        if (isNaN(d.getTime())) return 'Not available';
+        try { return d.toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }); }
+        catch (e) { return d.toString(); }
+      }
+      function fmtPhone(m) {
+        var d = normalizePhone(m || '');
+        if (d) return '+91 ' + d.slice(0, 5) + ' ' + d.slice(5);
+        return m ? String(m) : 'Not available';
+      }
+      function brandInfo() {
+        var title = 'ARYX BOOKING STUDIO', sub = '';
+        try {
+          var el = document.querySelector('.brand__txt');
+          if (el) {
+            var first = '';
+            for (var i = 0; i < el.childNodes.length; i++) if (el.childNodes[i].nodeType === 3) first += el.childNodes[i].nodeValue;
+            first = first.trim();
+            if (first) title = first.toUpperCase();
+            var sm = el.querySelector('small');
+            if (sm) sub = sm.textContent.trim();
+          }
+        } catch (e) { /* keep defaults */ }
+        return { title: title, sub: sub };
+      }
+
+      /* ---------- LocalStorage layer (never throws) ---------- */
+      function storageAvailable() {
+        if (storageUsable !== null) return storageUsable;
+        try {
+          var k = '__aryx_probe__';
+          window.localStorage.setItem(k, '1');
+          window.localStorage.removeItem(k);
+          storageUsable = true;
+        } catch (e) { storageUsable = false; }
+        return storageUsable;
+      }
+      function readRawHistory() {
+        if (!storageAvailable()) return memoryHistory.slice();
+        var text = null;
+        try { text = window.localStorage.getItem(HISTORY_KEY); } catch (e) { return memoryHistory.slice(); }
+        if (text === null || text === '') return [];
+        try {
+          var parsed = JSON.parse(text);
+          if (Array.isArray(parsed)) return parsed;
+          throw new Error('not-an-array');
+        } catch (e) {
+          /* Corrupted data: keep a backup copy, then start a clean list. Nothing else in LocalStorage is touched. */
+          try { window.localStorage.setItem(HISTORY_BACKUP_KEY, text); } catch (e2) { /* ignore */ }
+          return [];
+        }
+      }
+      function writeRawHistory(arr) {
+        if (storageAvailable()) {
+          try { window.localStorage.setItem(HISTORY_KEY, JSON.stringify(arr)); return true; }
+          catch (e) { storageUsable = false; }
+        }
+        memoryHistory = arr.slice();
+        return false;
+      }
+
+      /* Validate + normalise one stored record. Returns null if it cannot be shown safely. */
+      function sanitizeRecord(r) {
+        if (!r || typeof r !== 'object' || Array.isArray(r)) return null;
+        var id = typeof r.bookingId === 'string' ? r.bookingId.trim() : '';
+        if (!/^ABX-\d{3,8}$/.test(id)) return null;
+        var total = safeNum(r.totalAmount, 0);
+        var adv = safeNum(r.advancePaid, ADVANCE_RUPEES);
+        return {
+          bookingId: id,
+          customerName: safeStr(r.customerName, 'Guest', 80),
+          mobileNumber: String(r.mobileNumber === undefined || r.mobileNumber === null ? '' : r.mobileNumber).replace(/[^\d+]/g, '').slice(0, 15),
+          packageName: safeStr(r.packageName, 'Package', 60),
+          eventType: safeStr(r.eventType, 'Not specified', 60),
+          bookingDate: validISODate(r.bookingDate) ? r.bookingDate : '',
+          timeSlot: safeStr(r.timeSlot, 'Not specified', 40),
+          totalAmount: total,
+          advancePaid: adv,
+          balancePayable: Math.max(0, total - adv),   /* always recalculated: Total - Advance */
+          paymentStatus: safeStr(r.paymentStatus, STATUS_TEXT, 60),
+          timestamp: (typeof r.timestamp === 'string' && !isNaN(Date.parse(r.timestamp))) ? r.timestamp : '',
+          paymentId: typeof r.paymentId === 'string' ? r.paymentId.replace(/[^\w\-]/g, '').slice(0, 40) : ''
+        };
+      }
+
+      /* Valid records only, newest first */
+      function getHistory() {
+        var out = [];
+        readRawHistory().forEach(function (r, i) {
+          var c = sanitizeRecord(r);
+          if (c) out.push({ rec: c, idx: i, t: Date.parse(c.timestamp) || 0 });
+        });
+        out.sort(function (a, b) { return (b.t - a.t) || (a.idx - b.idx); });
+        return out.map(function (o) { return o.rec; });
+      }
+      function findBooking(id) {
+        var list = getHistory();
+        for (var i = 0; i < list.length; i++) if (list[i].bookingId === id) return list[i];
+        return null;
+      }
+
+      /* Booking ID: ABX-#### derived from the Razorpay payment id, so the same payment can never create two IDs. */
+      function hashString(s) {
+        var x = 2166136261;
+        for (var i = 0; i < s.length; i++) { x ^= s.charCodeAt(i); x = Math.imul(x, 16777619); }
+        return x >>> 0;
+      }
+      function makeBookingId(paymentId, taken) {
+        var seed = paymentId || (String(Date.now()) + Math.random());
+        var n = 1000 + (hashString(seed) % 9000);
+        for (var i = 0; i < 9000; i++) {
+          var id = 'ABX-' + n;
+          if (!taken[id]) return id;
+          n = n === 9999 ? 1000 : n + 1;
+        }
+        return 'ABX-' + String(Date.now()).slice(-8);
+      }
+
+      /* Called ONLY after the existing flow has paid (Razorpay handler) AND saved the slot (Firebase transaction). */
+      function recordConfirmedBooking(b) {
+        if (!b || b.status !== 'confirmed') return null;
+        var raw = readRawHistory();
+        var taken = {};
+        for (var i = 0; i < raw.length; i++) {
+          var r = raw[i];
+          if (!r || typeof r !== 'object') continue;
+          if (b.paymentId && r.paymentId === b.paymentId) return sanitizeRecord(r); /* duplicate callback / refresh: reuse */
+          if (typeof r.bookingId === 'string') taken[r.bookingId] = true;
+        }
+        var hours = parseInt(b.packageHours, 10);
+        var total = PRICES[String(hours)] || 0;
+        var advance = safeNum(b.amountPaid, ADVANCE_RUPEES);
+        var rec = sanitizeRecord({
+          bookingId: makeBookingId(b.paymentId, taken),
+          customerName: b.customerName,
+          mobileNumber: b.phone,
+          packageName: hours ? hours + ' Hours Package' : 'Package',
+          eventType: b.occasion,
+          bookingDate: b.date,
+          timeSlot: b.slot,
+          totalAmount: total,
+          advancePaid: advance,
+          paymentStatus: STATUS_TEXT,
+          timestamp: b.createdAt,
+          paymentId: b.paymentId
+        });
+        if (!rec) return null;
+        raw.unshift(rec);
+        writeRawHistory(raw);
+        refreshCount();
+        return rec;
+      }
+
+      /* ---------- Header count ---------- */
+      function refreshCount() {
+        var n = 0;
+        try { n = getHistory().length; } catch (e) { n = 0; }
+        document.querySelectorAll('.js-mb-count').forEach(function (el) { el.textContent = String(n); });
+        var btn = document.getElementById('myBookingsBtn');
+        if (btn) btn.setAttribute('aria-label', 'My Bookings, ' + n + ' saved');
+        return n;
+      }
+
+      /* ---------- Toast ---------- */
+      var toastEl = null, toastTimer = null;
+      function toast(msg, isError) {
+        if (!toastEl) toastEl = document.getElementById('mbToast');
+        if (!toastEl) return;
+        toastEl.textContent = msg;
+        toastEl.classList.toggle('is-error', !!isError);
+        toastEl.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toastEl.classList.remove('is-show'); }, isError ? 6000 : 4200);
+      }
+
+      /* ---------- Modal controller ---------- */
+      var openStack = [];
+      var lastFocus = null;
+      var backdropDown = false;
+      function setBackgroundInert(on) {
+        ['header.nav', 'main', 'footer.footer'].forEach(function (sel) {
+          var e = document.querySelector(sel);
+          if (!e) return;
+          if (on) e.setAttribute('inert', ''); else e.removeAttribute('inert');
+        });
+      }
+      function openModal(ov) {
+        if (!ov || ov.classList.contains('is-open')) return;
+        openStack.slice().forEach(function (other) { closeModal(other, true); });
+        if (!openStack.length && !lastFocus) lastFocus = document.activeElement;
+        ov.hidden = false;
+        document.documentElement.classList.add('mb-lock');
+        setBackgroundInert(true);
+        openStack.push(ov);
+        void ov.offsetWidth;
+        requestAnimationFrame(function () { ov.classList.add('is-open'); });
+        var body = ov.querySelector('.mb-panel__body');
+        if (body) body.scrollTop = 0;
+        var panel = ov.querySelector('.mb-panel');
+        if (panel) { try { panel.focus({ preventScroll: true }); } catch (e) { panel.focus(); } }
+      }
+      function closeModal(ov, keepLock) {
+        var idx = openStack.indexOf(ov);
+        if (idx < 0) return;
+        openStack.splice(idx, 1);
+        ov.classList.remove('is-open');
+        setTimeout(function () { if (!ov.classList.contains('is-open')) ov.hidden = true; }, 280);
+        if (!keepLock && !openStack.length) {
+          document.documentElement.classList.remove('mb-lock');
+          setBackgroundInert(false);
+          if (lastFocus && typeof lastFocus.focus === 'function') { try { lastFocus.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+          lastFocus = null;
+        }
+      }
+      function bindOverlay(ov, closeBtn) {
+        if (!ov) return;
+        ov.addEventListener('mousedown', function (e) { backdropDown = (e.target === ov); });
+        ov.addEventListener('touchstart', function (e) { backdropDown = (e.target === ov); }, { passive: true });
+        ov.addEventListener('click', function (e) { if (e.target === ov && backdropDown) closeModal(ov); backdropDown = false; });
+        if (closeBtn) closeBtn.addEventListener('click', function () { closeModal(ov); });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (!openStack.length) return;
+        var top = openStack[openStack.length - 1];
+        if (e.key === 'Escape') { closeModal(top); return; }
+        if (e.key === 'Tab') {
+          var items = Array.prototype.filter.call(
+            top.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'),
+            function (el) { return el.offsetParent !== null; }
+          );
+          if (!items.length) { e.preventDefault(); return; }
+          var first = items[0], last = items[items.length - 1];
+          if (e.shiftKey && (document.activeElement === first || document.activeElement === top.querySelector('.mb-panel'))) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+
+      /* ---------- WhatsApp copy ---------- */
+      function buildWhatsAppMessage(r) {
+        var brand = brandInfo().title;
+        return [
+          'Hello! Your booking has been successfully confirmed.',
+          '',
+          '\uD83C\uDF9F\uFE0F ' + brand + ' \u2014 OFFICIAL BOOKING CONFIRMATION',
+          '',
+          'Booking ID: ' + r.bookingId,
+          '',
+          'Customer: ' + r.customerName,
+          '',
+          'Package: ' + r.packageName,
+          '',
+          'Event: ' + r.eventType,
+          '',
+          'Date: ' + fmtDateSafe(r.bookingDate),
+          '',
+          'Time: ' + r.timeSlot,
+          '',
+          'Total Amount: ' + money(r.totalAmount),
+          '',
+          'Advance Paid: ' + money(r.advancePaid),
+          '',
+          'Balance Due at Venue: ' + money(r.balancePayable),
+          '',
+          'Status: ' + r.paymentStatus,
+          '',
+          'Please present your digital booking pass at the venue.',
+          '',
+          POWERED_BY,
+          POWERED_PHONE
+        ].join('\n');
+      }
+      function openWhatsApp(r) {
+        var digits = normalizePhone(r.mobileNumber || '');
+        var url = 'https://wa.me/' + (digits ? '91' + digits : '') + '?text=' + encodeURIComponent(buildWhatsAppMessage(r));
+        var a = document.createElement('a');
+        a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () { if (a.parentNode) a.parentNode.removeChild(a); }, 500);
+        toast(digits
+          ? 'WhatsApp opened with your message. To include the pass, download the PNG and attach it in the chat.'
+          : 'WhatsApp opened. Pick a contact to send. To include the pass, download the PNG and attach it.');
+      }
+
+      /* ---------- PNG pass (native HTML5 Canvas) ---------- */
+      function loadPassFonts() {
+        if (!document.fonts || !document.fonts.load) return Promise.resolve();
+        var specs = ['800 40px Poppins', '700 30px Poppins', '600 18px Poppins', '500 14px Poppins', '400 14px Montserrat', '500 14px Montserrat', '600 14px Montserrat'];
+        var loads = Promise.all(specs.map(function (s) { return document.fonts.load(s, '\u20B9 ABCabc0123').catch(function () {}); }));
+        var timeout = new Promise(function (res) { setTimeout(res, 3000); });
+        return Promise.race([loads, timeout]);
+      }
+
+      function drawPass(r, scale) {
+        var W = 640, H = 1194;
+        var cv = document.createElement('canvas');
+        cv.width = W * scale; cv.height = H * scale;
+        var c = cv.getContext('2d');
+        if (!c) throw new Error('canvas-unsupported');
+        c.scale(scale, scale);
+        c.textBaseline = 'alphabetic';
+
+        var HEAD = '"Poppins","Segoe UI",system-ui,-apple-system,Arial,sans-serif';
+        var BODY = '"Montserrat","Segoe UI",system-ui,-apple-system,Arial,sans-serif';
+        var GOLD = '#D4AF37', GOLDS = '#F5D98B', PINK = '#FF4FA3', MUTED = '#B8B8B8', GREEN = '#4ADE80', BG = '#0b0b0b';
+        var brand = brandInfo();
+
+        function ls(px) { if ('letterSpacing' in c) c.letterSpacing = px + 'px'; }
+        function font(weight, size, fam) { c.font = weight + ' ' + size + 'px ' + fam; }
+        function rrect(x, y, w, hh, rad) {
+          c.beginPath();
+          c.moveTo(x + rad, y);
+          c.arcTo(x + w, y, x + w, y + hh, rad);
+          c.arcTo(x + w, y + hh, x, y + hh, rad);
+          c.arcTo(x, y + hh, x, y, rad);
+          c.arcTo(x, y, x + w, y, rad);
+          c.closePath();
+        }
+        /* Shrinks the font until the text fits; ellipsis only as a last resort. Never wraps. */
+        function fit(text, weight, size, min, fam, maxW) {
+          var s = size;
+          for (;;) { font(weight, s, fam); if (c.measureText(text).width <= maxW || s <= min) break; s -= 0.5; }
+          if (c.measureText(text).width > maxW) {
+            var t = text;
+            while (t.length > 1 && c.measureText(t + '\u2026').width > maxW) t = t.slice(0, -1);
+            return t + '\u2026';
+          }
+          return text;
+        }
+        function gradText(x0, x1) {
+          var g = c.createLinearGradient(x0, 0, x1, 0);
+          g.addColorStop(0, GOLDS); g.addColorStop(1, GOLD);
+          return g;
+        }
+        function sectionTitle(text, y) {
+          font(600, 11, HEAD); ls(3); c.fillStyle = GOLD; c.textAlign = 'left';
+          c.fillText(text, 48, y);
+          var w = c.measureText(text).width; ls(0);
+          c.strokeStyle = 'rgba(212,175,55,.3)'; c.lineWidth = 1;
+          c.beginPath(); c.moveTo(48 + w + 14, y - 4); c.lineTo(592, y - 4); c.stroke();
+        }
+        function cell(label, value, x, y, w) {
+          font(600, 10.5, BODY); ls(1.4); c.fillStyle = MUTED; c.textAlign = 'left';
+          c.fillText(label.toUpperCase(), x, y); ls(0);
+          var v = fit(value, 600, 18, 11, HEAD, w);
+          c.fillStyle = '#FFFFFF'; c.fillText(v, x, y + 27);
+        }
+
+        /* Canvas background */
+        c.fillStyle = BG; c.fillRect(0, 0, W, H);
+
+        /* Ticket body */
+        var CX = 22, CY = 22, CW = 596, CH = 1150, CR = 28;
+        var body = c.createLinearGradient(0, CY, 0, CY + CH);
+        body.addColorStop(0, '#222222'); body.addColorStop(1, '#151515');
+        c.save();
+        c.shadowColor = 'rgba(0,0,0,.6)'; c.shadowBlur = 24; c.shadowOffsetY = 8;
+        rrect(CX, CY, CW, CH, CR); c.fillStyle = body; c.fill();
+        c.restore();
+        c.save();
+        rrect(CX, CY, CW, CH, CR); c.clip();
+        var g1 = c.createRadialGradient(560, 70, 0, 560, 70, 340);
+        g1.addColorStop(0, 'rgba(255,79,163,.22)'); g1.addColorStop(1, 'rgba(255,79,163,0)');
+        c.fillStyle = g1; c.fillRect(CX, CY, CW, 520);
+        var g2 = c.createRadialGradient(40, 1100, 0, 40, 1100, 360);
+        g2.addColorStop(0, 'rgba(212,175,55,.16)'); g2.addColorStop(1, 'rgba(212,175,55,0)');
+        c.fillStyle = g2; c.fillRect(CX, 700, CW, 460);
+        c.restore();
+        var bd = c.createLinearGradient(CX, CY, CX + CW, CY + CH);
+        bd.addColorStop(0, GOLD); bd.addColorStop(0.5, 'rgba(212,175,55,.55)'); bd.addColorStop(1, PINK);
+        rrect(CX, CY, CW, CH, CR); c.strokeStyle = bd; c.lineWidth = 2; c.stroke();
+
+        /* Brand header */
+        try {
+          c.save();
+          c.translate(W / 2 - 22, 52); c.scale(44 / 24, 44 / 24);
+          c.shadowColor = 'rgba(255,79,163,.75)'; c.shadowBlur = 8;
+          c.fillStyle = PINK;
+          c.fill(new Path2D('M12 21s-7.5-4.6-9.6-9.3C.9 8.3 2.7 4.5 6.3 4.5c2.1 0 3.7 1.1 5.7 3.3 2-2.2 3.6-3.3 5.7-3.3 3.6 0 5.4 3.8 3.9 7.2C19.5 16.4 12 21 12 21z'));
+          c.restore();
+        } catch (e) { /* logo is decorative; skip if Path2D is unavailable */ }
+
+        c.textAlign = 'center';
+        ls(3);
+        var title = fit(brand.title, 700, 30, 16, HEAD, 520);
+        c.fillStyle = gradText(W / 2 - 200, W / 2 + 200);
+        c.fillText(title, W / 2, 136);
+        ls(0);
+        if (brand.sub) {
+          font(500, 12, BODY); ls(1.5); c.fillStyle = MUTED;
+          c.fillText(fit(brand.sub, 500, 12, 9, BODY, 480), W / 2, 160); ls(0);
+        }
+
+        /* Badge */
+        font(600, 13, HEAD); ls(2.2);
+        var badgeText = 'OFFICIAL SLOT BOOKING PASS';
+        var bw = Math.min(520, c.measureText(badgeText).width + 56);
+        rrect(W / 2 - bw / 2, 180, bw, 40, 20);
+        c.fillStyle = 'rgba(212,175,55,.12)'; c.fill();
+        c.strokeStyle = 'rgba(212,175,55,.75)'; c.lineWidth = 1.3; c.stroke();
+        c.fillStyle = GOLDS; c.textAlign = 'center';
+        c.fillText(badgeText, W / 2, 205); ls(0);
+
+        /* Booking ID block */
+        rrect(48, 244, 544, 86, 18);
+        c.fillStyle = '#0f0f0f'; c.fill();
+        c.strokeStyle = 'rgba(212,175,55,.6)'; c.lineWidth = 1.5; c.stroke();
+        font(600, 11, BODY); ls(3.4); c.fillStyle = MUTED; c.textAlign = 'center';
+        c.fillText('BOOKING ID', W / 2, 270); ls(0);
+        ls(2);
+        var idText = fit(r.bookingId, 800, 44, 24, HEAD, 480);
+        c.fillStyle = gradText(W / 2 - 140, W / 2 + 140);
+        c.fillText(idText, W / 2, 314); ls(0);
+
+        /* Booking details */
+        sectionTitle('BOOKING DETAILS', 372);
+        function rowLine(y) {
+          c.strokeStyle = 'rgba(255,255,255,.08)'; c.lineWidth = 1;
+          c.beginPath(); c.moveTo(48, y); c.lineTo(592, y); c.stroke();
+        }
+        cell('Customer Name', r.customerName, 48, 404, 544); rowLine(436 + 8);
+        cell('Mobile Number', fmtPhone(r.mobileNumber), 48, 468, 250);
+        cell('Booking Date', fmtDateSafe(r.bookingDate), 342, 468, 250); rowLine(500 + 8);
+        cell('Package', r.packageName, 48, 532, 250);
+        cell('Event Type', r.eventType, 342, 532, 250); rowLine(564 + 8);
+        cell('Time Slot', r.timeSlot, 48, 596, 544);
+
+        /* Perforation + ticket notches */
+        var PY = 676;
+        c.save();
+        c.setLineDash([7, 7]); c.strokeStyle = 'rgba(212,175,55,.5)'; c.lineWidth = 1.5;
+        c.beginPath(); c.moveTo(CX + 24, PY); c.lineTo(CX + CW - 24, PY); c.stroke();
+        c.restore();
+        c.fillStyle = BG;
+        c.beginPath(); c.arc(CX, PY, 15, 0, Math.PI * 2); c.fill();
+        c.beginPath(); c.arc(CX + CW, PY, 15, 0, Math.PI * 2); c.fill();
+
+        /* Payment breakdown */
+        sectionTitle('PAYMENT BREAKDOWN', 722);
+        rrect(48, 742, 544, 176, 18);
+        c.fillStyle = 'rgba(212,175,55,.07)'; c.fill();
+        c.strokeStyle = 'rgba(212,175,55,.4)'; c.lineWidth = 1.2; c.stroke();
+
+        font(500, 15, BODY); c.fillStyle = '#E6E6E6'; c.textAlign = 'left';
+        c.fillText('Total Package Amount', 72, 784);
+        c.textAlign = 'right'; font(700, 18, HEAD); c.fillStyle = '#FFFFFF';
+        c.fillText(money(r.totalAmount), 568, 785);
+
+        c.textAlign = 'left'; font(500, 15, BODY); c.fillStyle = '#E6E6E6';
+        c.fillText('Advance Paid', 72, 826);
+        c.textAlign = 'right'; font(600, 12, BODY); c.fillStyle = GREEN;
+        c.fillText('(Confirmed)', 568, 826);
+        var confW = c.measureText('(Confirmed)').width;
+        font(700, 18, HEAD); c.fillStyle = GOLDS;
+        c.fillText(money(r.advancePaid), 568 - confW - 8, 827);
+
+        c.save();
+        c.setLineDash([5, 5]); c.strokeStyle = 'rgba(212,175,55,.45)'; c.lineWidth = 1;
+        c.beginPath(); c.moveTo(72, 852); c.lineTo(568, 852); c.stroke();
+        c.restore();
+
+        c.textAlign = 'left'; font(600, 16, HEAD); c.fillStyle = GOLDS;
+        c.fillText('Balance Due at Venue', 72, 892);
+        c.textAlign = 'right';
+        var due = fit(money(r.balancePayable), 800, 28, 16, HEAD, 220);
+        c.fillStyle = PINK; c.fillText(due, 568, 894);
+
+        /* Payment status badge */
+        rrect(48, 938, 544, 52, 26);
+        c.fillStyle = 'rgba(74,222,128,.12)'; c.fill();
+        c.strokeStyle = 'rgba(74,222,128,.6)'; c.lineWidth = 1.5; c.stroke();
+        var stText = 'ADVANCE PAID \u2014 SLOT CONFIRMED';
+        font(700, 15, HEAD); ls(1.4);
+        var stW = c.measureText(stText).width, ic = 22, gap = 12;
+        var sx = W / 2 - (stW + ic + gap) / 2;
+        c.beginPath(); c.arc(sx + ic / 2, 964, ic / 2, 0, Math.PI * 2); c.fillStyle = GREEN; c.fill();
+        c.strokeStyle = '#0b0b0b'; c.lineWidth = 2.4; c.lineCap = 'round'; c.lineJoin = 'round';
+        c.beginPath(); c.moveTo(sx + 6, 964.5); c.lineTo(sx + 10, 968.5); c.lineTo(sx + 16.5, 960); c.stroke();
+        c.textAlign = 'left'; c.fillStyle = GREEN;
+        c.fillText(stText, sx + ic + gap, 969); ls(0);
+
+        /* Footer */
+        c.textAlign = 'center';
+        font(600, 16, HEAD); c.fillStyle = GOLDS;
+        c.fillText('Present this Digital Pass at Venue', W / 2, 1030);
+        c.strokeStyle = 'rgba(212,175,55,.3)'; c.lineWidth = 1;
+        c.beginPath(); c.moveTo(W / 2 - 40, 1050); c.lineTo(W / 2 + 40, 1050); c.stroke();
+        font(500, 11.5, BODY); c.fillStyle = MUTED;
+        c.fillText(fit('Confirmed on ' + fmtStamp(r.timestamp), 500, 11.5, 8, BODY, 520), W / 2, 1074);
+        if (r.paymentId) c.fillText(fit('Payment Ref: ' + r.paymentId, 500, 11.5, 8, BODY, 520), W / 2, 1094);
+        font(600, 13, HEAD); c.fillStyle = GOLDS;
+        c.fillText(POWERED_BY, W / 2, 1122);
+        font(500, 13, HEAD); c.fillStyle = '#E6E6E6';
+        c.fillText(POWERED_PHONE, W / 2, 1142);
+        return cv;
+      }
+
+      function canvasToBlob(cv) {
+        return new Promise(function (resolve, reject) {
+          if (cv.toBlob) {
+            cv.toBlob(function (b) { if (b) resolve(b); else reject(new Error('toBlob-empty')); }, 'image/png');
+          } else {
+            try {
+              var bin = atob(cv.toDataURL('image/png').split(',')[1]);
+              var u = new Uint8Array(bin.length);
+              for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+              resolve(new Blob([u], { type: 'image/png' }));
+            } catch (e) { reject(e); }
+          }
+        });
+      }
+      function buildPassBlob(rec) {
+        return loadPassFonts().then(function () {
+          function attempt(i) {
+            return Promise.resolve().then(function () { return canvasToBlob(drawPass(rec, PASS_SCALES[i])); })
+              .catch(function (err) { if (i + 1 < PASS_SCALES.length) return attempt(i + 1); throw err; });
+          }
+          return attempt(0);
+        });
+      }
+      function passFileName(rec) { return 'ARYX-Booking-Pass-' + rec.bookingId + '.png'; }
+      function triggerDownload(blob, name) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        if (!('download' in a)) { window.open(url, '_blank'); setTimeout(function () { URL.revokeObjectURL(url); }, 60000); return 'opened'; }
+        a.href = url; a.download = name; a.rel = 'noopener'; a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () { if (a.parentNode) a.parentNode.removeChild(a); URL.revokeObjectURL(url); }, 30000);
+        return 'downloaded';
+      }
+      function setBusy(btn, busy, label) {
+        if (!btn) return;
+        if (busy) { btn.dataset.label = btn.textContent; btn.dataset.busy = '1'; btn.disabled = true; btn.textContent = label; }
+        else { btn.disabled = false; btn.dataset.busy = '0'; if (btn.dataset.label) btn.textContent = btn.dataset.label; }
+      }
+      function handleDownload(id, btn) {
+        var rec = findBooking(id);
+        if (!rec) { toast('We could not find this booking on this device.', true); return; }
+        if (btn && btn.dataset.busy === '1') return;
+        setBusy(btn, true, 'Preparing your pass\u2026');
+        buildPassBlob(rec).then(function (blob) {
+          var how = triggerDownload(blob, passFileName(rec));
+          toast(how === 'opened' ? 'Pass opened in a new tab. Long-press the image to save it.' : 'Booking pass downloaded.');
+        }).catch(function (err) {
+          console.error('Booking pass failed:', err);
+          toast('We could not create the booking pass. Please try again. Your booking is safe.', true);
+        }).then(function () { setBusy(btn, false); });
+      }
+      function canShareFiles() {
+        try {
+          if (typeof navigator.share !== 'function' || typeof navigator.canShare !== 'function' || typeof File !== 'function') return false;
+          return navigator.canShare({ files: [new File(['x'], 'x.png', { type: 'image/png' })] });
+        } catch (e) { return false; }
+      }
+      function handleShare(id, btn) {
+        var rec = findBooking(id);
+        if (!rec) { toast('We could not find this booking on this device.', true); return; }
+        if (btn && btn.dataset.busy === '1') return;
+        setBusy(btn, true, 'Preparing\u2026');
+        buildPassBlob(rec).then(function (blob) {
+          var file = new File([blob], passFileName(rec), { type: 'image/png' });
+          if (!navigator.canShare({ files: [file] })) throw new Error('share-unsupported');
+          return navigator.share({ files: [file], title: brandInfo().title + ' Booking Pass', text: 'Booking ID: ' + rec.bookingId });
+        }).catch(function (err) {
+          if (err && err.name === 'AbortError') return;
+          console.error('Share failed:', err);
+          toast('Sharing is not available here. Please use Download Booking Pass instead.', true);
+        }).then(function () { setBusy(btn, false); });
+      }
+
+      /* ---------- My Bookings drawer ---------- */
+      var mbOverlay, mbList, mbSub, mbFoot, cfOverlay, cfPanel;
+
+      function detail(label, value, full) {
+        var d = h('div', full ? 'is-full' : '');
+        d.appendChild(h('dt', '', label));
+        d.appendChild(h('dd', '', value));
+        return d;
+      }
+      function payRow(label, value, extraSmall, cls) {
+        var row = h('div', 'bk-pay__row' + (cls ? ' ' + cls : ''));
+        row.appendChild(h('span', '', label));
+        var b = h('b', '', value);
+        if (extraSmall) b.appendChild(h('small', '', extraSmall));
+        row.appendChild(b);
+        return row;
+      }
+      function actionBtn(cls, text, act, id) {
+        var b = h('button', 'btn ' + cls, text);
+        b.type = 'button';
+        b.setAttribute('data-act', act);
+        b.setAttribute('data-id', id);
+        return b;
+      }
+      function buildCard(r) {
+        var card = h('article', 'bk-card');
+        var top = h('div', 'bk-card__top');
+        top.appendChild(h('span', 'bk-id', r.bookingId));
+        top.appendChild(h('span', 'bk-chip', r.paymentStatus));
+        card.appendChild(top);
+
+        var grid = h('dl', 'bk-grid');
+        grid.appendChild(detail('Customer Name', r.customerName));
+        grid.appendChild(detail('Mobile Number', fmtPhone(r.mobileNumber)));
+        grid.appendChild(detail('Package', r.packageName));
+        grid.appendChild(detail('Event Type', r.eventType));
+        grid.appendChild(detail('Booking Date', fmtDateSafe(r.bookingDate)));
+        grid.appendChild(detail('Time Slot', r.timeSlot));
+        grid.appendChild(detail('Confirmed On', fmtStamp(r.timestamp), true));
+        card.appendChild(grid);
+
+        var pay = h('div', 'bk-pay');
+        pay.appendChild(payRow('Total Package Amount', money(r.totalAmount)));
+        pay.appendChild(payRow('Advance Paid', money(r.advancePaid), '(Confirmed)'));
+        pay.appendChild(payRow('Balance Payable at Venue', money(r.balancePayable), '', 'bk-pay__row--due'));
+        card.appendChild(pay);
+
+        var acts = h('div', 'bk-actions');
+        acts.appendChild(actionBtn('btn--gold', '\uD83D\uDCE5 Download Booking Pass (PNG)', 'download', r.bookingId));
+        acts.appendChild(actionBtn('btn--ghost', '\uD83D\uDCF2 Send Copy on WhatsApp', 'whatsapp', r.bookingId));
+        card.appendChild(acts);
+        return card;
+      }
+      function buildEmpty() {
+        var box = h('div', 'bk-empty');
+        box.appendChild(h('div', 'bk-empty__icon', '\uD83C\uDF9F\uFE0F'));
+        box.appendChild(h('h3', '', 'No bookings yet'));
+        box.appendChild(h('p', '', 'Once you confirm a slot, your booking and its downloadable digital pass will be saved here.'));
+        var go = h('button', 'btn btn--gold', 'Book Your Slot');
+        go.type = 'button';
+        go.setAttribute('data-act', 'book');
+        box.appendChild(go);
+        return box;
+      }
+      function renderHistory() {
+        var items = [];
+        try { items = getHistory(); } catch (e) { console.error('History read failed:', e); }
+        while (mbList.firstChild) mbList.removeChild(mbList.firstChild);
+        if (!items.length) mbList.appendChild(buildEmpty());
+        else items.forEach(function (r) { mbList.appendChild(buildCard(r)); });
+        mbSub.textContent = items.length ? items.length + (items.length === 1 ? ' booking' : ' bookings') + ' saved on this device' : 'Your confirmed bookings will appear here';
+        while (mbFoot.firstChild) mbFoot.removeChild(mbFoot.firstChild);
+        if (!storageAvailable()) {
+          var s = h('strong', '', 'Browser storage is unavailable. ');
+          mbFoot.appendChild(s);
+          mbFoot.appendChild(document.createTextNode('Bookings are kept only until you close this page.'));
+        } else {
+          mbFoot.textContent = 'Saved in this browser only. Bookings do not sync to other devices.';
+        }
+        refreshCount();
+      }
+      function openBookings() { renderHistory(); openModal(mbOverlay); }
+
+      /* ---------- Booking confirmation screen ---------- */
+      function openConfirmation(r) {
+        document.getElementById('cfBookingId').textContent = r.bookingId;
+        cfPanel.setAttribute('data-id', r.bookingId);
+        var sum = document.getElementById('cfSummary');
+        while (sum.firstChild) sum.removeChild(sum.firstChild);
+        [
+          ['Package', r.packageName, ''],
+          ['Date', fmtDateSafe(r.bookingDate), ''],
+          ['Time Slot', r.timeSlot, ''],
+          ['Advance Paid', money(r.advancePaid), ''],
+          ['Balance Due at Venue', money(r.balancePayable), 'is-due']
+        ].forEach(function (row) {
+          var d = h('div', row[2]);
+          d.appendChild(h('dt', '', row[0]));
+          d.appendChild(h('dd', '', row[1]));
+          sum.appendChild(d);
+        });
+        document.getElementById('cfShare').hidden = !canShareFiles();
+        openModal(cfOverlay);
+      }
+
+      /* ---------- Wire everything up ---------- */
+      function initBookingHistory() {
+        mbOverlay = document.getElementById('mbOverlay');
+        mbList = document.getElementById('mbList');
+        mbSub = document.getElementById('mbSub');
+        mbFoot = document.getElementById('mbFoot');
+        cfOverlay = document.getElementById('cfOverlay');
+        cfPanel = document.getElementById('cfPanel');
+        if (!mbOverlay || !mbList || !cfOverlay || !cfPanel) return;
+
+        refreshCount();
+
+        document.querySelectorAll('.js-open-bookings').forEach(function (btn) {
+          btn.addEventListener('click', function () { setMenu(false); openBookings(); });
+        });
+        bindOverlay(mbOverlay, document.getElementById('mbClose'));
+        bindOverlay(cfOverlay, document.getElementById('cfClose'));
+
+        mbList.addEventListener('click', function (e) {
+          var btn = e.target.closest('button[data-act]');
+          if (!btn) return;
+          var act = btn.getAttribute('data-act'), id = btn.getAttribute('data-id');
+          if (act === 'download') handleDownload(id, btn);
+          else if (act === 'whatsapp') { var rec = findBooking(id); if (rec) openWhatsApp(rec); else toast('We could not find this booking on this device.', true); }
+          else if (act === 'book') { closeModal(mbOverlay); var bk = document.getElementById('book'); if (bk) bk.scrollIntoView(); }
+        });
+
+        document.getElementById('cfDownload').addEventListener('click', function () { handleDownload(cfPanel.getAttribute('data-id'), this); });
+        document.getElementById('cfWhatsApp').addEventListener('click', function () {
+          var rec = findBooking(cfPanel.getAttribute('data-id'));
+          if (rec) openWhatsApp(rec); else toast('We could not find this booking on this device.', true);
+        });
+        document.getElementById('cfShare').addEventListener('click', function () { handleShare(cfPanel.getAttribute('data-id'), this); });
+        document.getElementById('cfView').addEventListener('click', function () { openBookings(); });
+
+        /* Keep the count / list in sync if another tab adds a booking */
+        window.addEventListener('storage', function (e) {
+          if (e.key !== HISTORY_KEY && e.key !== null) return;
+          refreshCount();
+          if (mbOverlay.classList.contains('is-open')) renderHistory();
+        });
+      }
+      try { initBookingHistory(); } catch (err) { console.error('Booking history init failed:', err); }
     })();
   </script>
 </body>
