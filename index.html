@@ -7,22 +7,17 @@
   <meta name="description" content="Book private celebration halls and luxury screening lounges at ARYXWEB. Automated hourly slot booking, curated packages starting at ₹699, and instant digital passes.">
   <meta name="theme-color" content="#060608">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ARYXWEB">
   <meta property="og:title" content="ARYXWEB | Private Celebration Lounge &amp; Screening Suites">
   <meta property="og:description" content="Luxury private celebration venues and screening suites. Pick your hourly slot, customize add-ons, and reserve with an instant digital pass.">
   <meta property="og:locale" content="en_IN">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* =========================================================
-       DESIGN TOKENS — ARYXWEB LUXURY PALETTE
-       ========================================================= */
     :root {
       --bg: #060608;
       --bg-alt: #0c0c10;
@@ -36,6 +31,7 @@
       --line: rgba(212, 175, 55, 0.24);
       --line-strong: rgba(212, 175, 55, 0.6);
       --green: #4ADE80;
+      --wa-green: #25D366;
       --amber: #FBBF24;
       --error: #FB7185;
 
@@ -52,9 +48,6 @@
       --ease: cubic-bezier(.2, .7, .2, 1);
     }
 
-    /* =========================================================
-       BASE & RESET
-       ========================================================= */
     *, *::before, *::after { box-sizing: border-box; }
     html {
       scroll-behavior: smooth;
@@ -102,9 +95,6 @@
     .section__head p { color: var(--text-muted); margin-top: 10px; font-size: 0.95rem; }
     .gold-rule { width: 76px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--gold-deep), var(--gold-soft), var(--gold)); margin: 16px auto 0; }
 
-    /* =========================================================
-       BUTTONS
-       ========================================================= */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 9px;
       min-height: 48px; padding: 12px 24px;
@@ -120,6 +110,17 @@
       box-shadow: 0 10px 26px rgba(212, 175, 55, 0.28);
     }
     .btn--gold:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(212, 175, 55, 0.42); }
+    .btn--wa-mandatory {
+      background: linear-gradient(135deg, #2ee574, #1ebe5d);
+      color: #041b0c;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(37, 211, 102, 0.36);
+      animation: waPulse 2s infinite;
+    }
+    @keyframes waPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+      50% { box-shadow: 0 0 0 8px rgba(37, 211, 102, 0); }
+    }
     .btn--royal {
       background: linear-gradient(135deg, var(--gold) 0%, #B8860B 50%, var(--gold-soft) 100%);
       color: #0b0904;
@@ -135,9 +136,6 @@
     .btn[disabled] { opacity: 0.55; cursor: not-allowed; transform: none !important; }
     .btn[hidden] { display: none; }
 
-    /* =========================================================
-       LOGO CREST
-       ========================================================= */
     .crest-wrap {
       width: 50px; height: 50px; flex: none; position: relative;
       display: grid; place-items: center; border-radius: 50%;
@@ -145,9 +143,6 @@
     .crest-wrap svg { width: 100%; height: 100%; border-radius: 50%; }
     .crest-wrap--lg { width: 112px; height: 112px; }
 
-    /* =========================================================
-       NAVIGATION
-       ========================================================= */
     .nav {
       position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--nav-h);
       background: rgba(6, 6, 8, 0.88);
@@ -219,9 +214,6 @@
       .brand__sub { display: none; }
     }
 
-    /* =========================================================
-       HERO SECTION
-       ========================================================= */
     .hero {
       position: relative;
       padding: calc(var(--nav-h) + 44px) 0 58px;
@@ -231,12 +223,8 @@
         radial-gradient(720px 440px at 14% 84%, rgba(245, 217, 139, 0.14), transparent 65%),
         linear-gradient(180deg, #060608 0%, #0e0c08 55%, #060608 100%);
     }
-    .hero__grid {
-      display: grid; gap: 32px; align-items: center;
-    }
-    @media (min-width: 880px) {
-      .hero__grid { grid-template-columns: 1.15fr 0.85fr; gap: 44px; }
-    }
+    .hero__grid { display: grid; gap: 32px; align-items: center; }
+    @media (min-width: 880px) { .hero__grid { grid-template-columns: 1.15fr 0.85fr; gap: 44px; } }
     .hero__badge {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 7px 14px; border-radius: 999px;
@@ -254,16 +242,11 @@
       margin-bottom: 12px;
     }
     .hero__tagline {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: clamp(1.15rem, 3vw, 1.5rem);
-      color: var(--gold-soft);
-      margin-bottom: 14px;
+      font-family: var(--font-display); font-style: italic;
+      font-size: clamp(1.15rem, 3vw, 1.5rem); color: var(--gold-soft); margin-bottom: 14px;
     }
     .hero__desc { color: var(--text-muted); font-size: clamp(0.95rem, 2.5vw, 1.06rem); max-width: 560px; margin-bottom: 22px; }
-    .hero__highlights {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px;
-    }
+    .hero__highlights { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
     .hero__pill {
       display: inline-flex; align-items: center; gap: 7px;
       padding: 8px 14px; border-radius: 999px;
@@ -295,9 +278,6 @@
     .hero__stat strong { display: block; font-family: var(--font-head); font-size: 1.02rem; color: var(--gold-soft); }
     .hero__stat span { font-size: 0.72rem; color: var(--text-muted); }
 
-    /* =========================================================
-       VENUE LOCATION CARD
-       ========================================================= */
     .location-card {
       background:
         radial-gradient(360px 180px at 90% 10%, rgba(212, 175, 55, 0.12), transparent 70%),
@@ -309,16 +289,13 @@
       display: grid; gap: 22px; align-items: center;
       max-width: 920px; margin: 0 auto;
     }
-    @media (min-width: 760px) {
-      .location-card { grid-template-columns: 1.35fr 0.65fr; padding: 34px 32px; }
-    }
+    @media (min-width: 760px) { .location-card { grid-template-columns: 1.35fr 0.65fr; padding: 34px 32px; } }
     .location-card__main { display: flex; gap: 18px; align-items: flex-start; }
     .location-pin {
       width: 54px; height: 54px; border-radius: 16px; flex: none;
       display: grid; place-items: center;
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.06));
-      border: 1px solid var(--line-strong);
-      color: var(--gold-soft);
+      border: 1px solid var(--line-strong); color: var(--gold-soft);
     }
     .location-card__kicker {
       font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
@@ -326,156 +303,76 @@
     }
     .location-card__title { font-size: 1.28rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
     .location-card__addr { color: var(--text-muted); font-size: 0.92rem; line-height: 1.65; }
-    .location-card__meta {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px;
-    }
+    .location-card__meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
     .location-chip {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 12px; border-radius: 999px;
       background: rgba(212, 175, 55, 0.08); border: 1px solid var(--line);
       font-size: 0.78rem; color: var(--gold-soft); font-weight: 500;
     }
-    .location-card__actions {
-      display: grid; gap: 10px;
-    }
+    .location-card__actions { display: grid; gap: 10px; }
     .location-card__actions .btn { width: 100%; }
 
-    /* =========================================================
-       CELEBRATION PHOTO GALLERY (#selectedPackageGallery)
-       ========================================================= */
     .pkg-gallery-box {
-      margin-top: 34px;
-      padding: 26px 22px;
-      background: var(--card);
-      border: 1px solid var(--line-strong);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
+      margin-top: 34px; padding: 26px 22px; background: var(--card);
+      border: 1px solid var(--line-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow);
     }
     .pkg-gallery-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px;
     }
-    .pkg-gallery-head h3 {
-      font-size: 1.18rem;
-      color: var(--gold-soft);
-    }
-    .pkg-gallery-sub {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-      font-weight: 500;
-      margin-top: 3px;
-    }
-    #selectedPackageGallery {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
+    .pkg-gallery-head h3 { font-size: 1.18rem; color: var(--gold-soft); }
+    .pkg-gallery-sub { font-size: 0.86rem; color: var(--text-muted); font-weight: 500; margin-top: 3px; }
+    #selectedPackageGallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .gallery-slot {
-      position: relative;
-      aspect-ratio: 4 / 3;
-      border-radius: 14px;
-      overflow: hidden;
+      position: relative; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden;
       background: linear-gradient(145deg, #1b1710, #0b0b0e);
       border: 1px solid rgba(212, 175, 55, 0.55);
       transition: transform .28s var(--ease), border-color .28s, box-shadow .28s;
     }
-    .gallery-slot:hover {
-      border-color: var(--gold-soft);
-      box-shadow: 0 12px 28px rgba(212, 175, 55, 0.2);
-    }
-    .gallery-slot img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .45s var(--ease);
-    }
-    .gallery-slot:hover img {
-      transform: scale(1.04);
-    }
+    .gallery-slot:hover { border-color: var(--gold-soft); box-shadow: 0 12px 28px rgba(212, 175, 55, 0.2); }
+    .gallery-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .45s var(--ease); }
+    .gallery-slot:hover img { transform: scale(1.04); }
     .gallery-slot__overlay {
-      position: absolute;
-      inset: auto 0 0 0;
-      padding: 24px 12px 10px;
+      position: absolute; inset: auto 0 0 0; padding: 24px 12px 10px;
       background: linear-gradient(180deg, transparent 0%, rgba(6, 6, 8, 0.86) 100%);
-      pointer-events: none;
-      z-index: 2;
+      pointer-events: none; z-index: 2;
     }
-    .gallery-slot__title {
-      font-family: var(--font-head);
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.25;
-    }
+    .gallery-slot__title { font-family: var(--font-head); font-size: 0.82rem; font-weight: 600; color: var(--text); line-height: 1.25; }
     .gallery-fallback {
-      position: absolute;
-      inset: 0;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 16px;
-      gap: 8px;
+      position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 16px; gap: 8px;
       background: linear-gradient(145deg, rgba(212, 175, 55, 0.28) 0%, rgba(158, 123, 27, 0.14) 50%, #0d0c0a 100%);
     }
-    .gallery-fallback.is-visible {
-      display: flex;
-    }
+    .gallery-fallback.is-visible { display: flex; }
     .gallery-fallback__icon {
       width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
-      background: rgba(212, 175, 55, 0.16); border: 1px solid var(--line-strong);
-      color: var(--gold-soft); font-size: 1.1rem;
+      background: rgba(212, 175, 55, 0.16); border: 1px solid var(--line-strong); color: var(--gold-soft); font-size: 1.1rem;
     }
     .gallery-fallback__label { font-family: var(--font-head); font-size: 0.82rem; font-weight: 600; color: var(--gold-soft); }
     .gallery-fallback__sub { font-size: 0.72rem; color: var(--text-muted); }
 
-    .gallery-reel {
-      margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-    }
+    .gallery-reel { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
     .gallery-reel a {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 20px; border-radius: 999px;
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px;
       background: rgba(212, 175, 55, 0.1); border: 1px solid var(--line-strong);
       color: var(--gold-soft); font-family: var(--font-head); font-size: 0.85rem; font-weight: 600;
       transition: background .2s, transform .2s;
     }
     .gallery-reel a:hover { background: rgba(212, 175, 55, 0.2); transform: translateY(-1px); }
 
-    /* =========================================================
-       PACKAGE CATEGORIES & CARDS
-       ========================================================= */
-    .pkg-tabs {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-      max-width: 620px; margin: 0 auto 24px;
-    }
-    @media (max-width: 520px) {
-      .pkg-tabs { grid-template-columns: 1fr; }
-    }
+    .pkg-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 620px; margin: 0 auto 24px; }
+    @media (max-width: 520px) { .pkg-tabs { grid-template-columns: 1fr; } }
     .pkg-tab {
-      padding: 14px 16px; border-radius: 999px;
-      background: var(--card); border: 1.5px solid var(--line);
+      padding: 14px 16px; border-radius: 999px; background: var(--card); border: 1.5px solid var(--line);
       color: var(--text-muted); font-family: var(--font-head); font-weight: 600; font-size: 0.88rem;
       cursor: pointer; transition: all .22s var(--ease);
     }
     .pkg-tab.is-active {
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.24), rgba(245, 217, 139, 0.12));
-      border-color: var(--gold); color: var(--gold-soft);
-      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.18);
+      border-color: var(--gold); color: var(--gold-soft); box-shadow: 0 8px 24px rgba(212, 175, 55, 0.18);
     }
-    .pkg-cat-note {
-      text-align: center; color: var(--text-muted); font-size: 0.86rem; font-weight: 500;
-      margin: -6px auto 28px;
-    }
-    .packages-grid {
-      display: grid; grid-template-columns: 1fr; gap: 22px;
-    }
+    .pkg-cat-note { text-align: center; color: var(--text-muted); font-size: 0.86rem; font-weight: 500; margin: -6px auto 28px; }
+    .packages-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
     @media (min-width: 820px) { .packages-grid { grid-template-columns: repeat(3, 1fr); } }
     .pkg-card {
       position: relative;
@@ -488,11 +385,7 @@
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(245, 217, 139, 0.12);
       transition: transform .25s var(--ease), border-color .25s, box-shadow .25s;
     }
-    .pkg-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(245, 217, 139, 0.72);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 28px rgba(212, 175, 55, 0.14);
-    }
+    .pkg-card:hover { transform: translateY(-4px); border-color: rgba(245, 217, 139, 0.72); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 28px rgba(212, 175, 55, 0.14); }
     .pkg-card.is-featured {
       border: 1.5px solid var(--gold-soft);
       background:
@@ -500,10 +393,7 @@
         linear-gradient(170deg, #1f1a10 0%, #131317 68%);
       box-shadow: var(--shadow), 0 0 42px rgba(212, 175, 55, 0.18);
     }
-    .pkg-card.is-selected {
-      border: 2px solid var(--gold);
-      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3), var(--shadow);
-    }
+    .pkg-card.is-selected { border: 2px solid var(--gold); box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3), var(--shadow); }
     .pkg-card__badge {
       position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
       padding: 4px 14px; border-radius: 999px; white-space: nowrap;
@@ -514,10 +404,7 @@
     .pkg-card__name { font-size: 1.24rem; font-weight: 700; color: var(--text); margin-top: 4px; }
     .pkg-card__desc { font-size: 0.83rem; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
     .pkg-card__price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
-    .pkg-card__price {
-      font-family: var(--font-head); font-weight: 800; font-size: 2.25rem; color: var(--gold-soft);
-      line-height: 1.1;
-    }
+    .pkg-card__price { font-family: var(--font-head); font-weight: 800; font-size: 2.25rem; color: var(--gold-soft); line-height: 1.1; }
     .pkg-card__meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .pkg-card__list { display: grid; gap: 9px; margin-bottom: 22px; flex: 1; }
     .pkg-card__list li { display: flex; gap: 9px; align-items: flex-start; font-size: 0.85rem; color: #eceae4; }
@@ -528,12 +415,7 @@
     }
     .pkg-card .btn { width: 100%; }
 
-    /* =========================================================
-       BOOKING ENGINE & LIVE SUMMARY LAYOUT
-       ========================================================= */
-    .booking-layout {
-      display: grid; gap: 26px; align-items: start;
-    }
+    .booking-layout { display: grid; gap: 26px; align-items: start; }
     @media (min-width: 960px) {
       .booking-layout { grid-template-columns: 1.25fr 0.75fr; }
       .summary-sticky { position: sticky; top: calc(var(--nav-h) + 18px); }
@@ -564,12 +446,6 @@
       background: #09090c; border: 1.5px solid rgba(255, 255, 255, 0.14); border-radius: var(--radius-md);
       color-scheme: dark; transition: border-color .2s, box-shadow .2s;
     }
-    .field input[readonly].venue-readonly {
-      color: var(--gold-soft);
-      border-color: var(--line);
-      background: rgba(212, 175, 55, 0.05);
-      cursor: default;
-    }
     .field input:focus, .field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18); }
     .field.has-error input, .field.has-error select { border-color: var(--error); }
     .field__error { min-height: 1.1em; font-size: 0.78rem; color: var(--error); }
@@ -581,9 +457,7 @@
     }
     .inline-check input { width: 17px; height: 17px; accent-color: var(--gold); cursor: pointer; }
 
-    .stepper {
-      display: flex; align-items: center; gap: 10px;
-    }
+    .stepper { display: flex; align-items: center; gap: 10px; }
     .stepper button {
       width: 44px; height: 48px; border-radius: var(--radius-md); border: 1.5px solid var(--line-strong);
       background: #09090c; color: var(--gold-soft); font-size: 1.25rem; font-weight: 700; cursor: pointer;
@@ -591,12 +465,7 @@
     .stepper button:hover { background: rgba(212, 175, 55, 0.15); }
     .stepper input { text-align: center; font-weight: 700; }
 
-    /* =========================================================
-       HOURLY SLOT BOOKING GRID
-       ========================================================= */
-    .slot-legend {
-      display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; font-size: 0.76rem; color: var(--text-muted);
-    }
+    .slot-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; font-size: 0.76rem; color: var(--text-muted); }
     .slot-legend span { display: inline-flex; align-items: center; gap: 6px; }
     .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
     .dot--avail { background: rgba(74, 222, 128, 0.25); border: 1.5px solid var(--green); }
@@ -605,9 +474,7 @@
     .dot--booked { background: #2b2b33; border: 1.5px solid #52525e; }
     .dot--unavail { background: #141418; border: 1.5px dashed #383842; }
 
-    .slot-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px;
-    }
+    .slot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
     @media (min-width: 560px) { .slot-grid { grid-template-columns: repeat(5, 1fr); } }
     .slot-cell {
       position: relative; min-height: 62px; padding: 8px 6px; border-radius: var(--radius-md);
@@ -624,24 +491,14 @@
 
     .slot-cell.is-selected {
       background: linear-gradient(145deg, var(--gold-soft), var(--gold));
-      border-color: #fff; color: #140f03;
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+      border-color: #fff; color: #140f03; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
     }
     .slot-cell.is-selected .slot-cell__state { color: #2b1f04; font-weight: 700; }
-
-    .slot-cell.is-booked {
-      background: #23232a; border-color: #3f3f4a; color: #7a7a88; cursor: not-allowed;
-    }
+    .slot-cell.is-booked { background: #23232a; border-color: #3f3f4a; color: #7a7a88; cursor: not-allowed; }
     .slot-cell.is-booked .slot-cell__state { color: #8c8c9a; }
-
-    .slot-cell.is-hold {
-      background: rgba(251, 191, 36, 0.12); border-color: var(--amber); color: #fde68a; cursor: not-allowed;
-    }
+    .slot-cell.is-hold { background: rgba(251, 191, 36, 0.12); border-color: var(--amber); color: #fde68a; cursor: not-allowed; }
     .slot-cell.is-hold .slot-cell__state { color: var(--amber); }
-
-    .slot-cell.is-unavailable {
-      background: #0d0d11; border: 1.5px dashed #2e2e38; color: #5c5c69; cursor: not-allowed;
-    }
+    .slot-cell.is-unavailable { background: #0d0d11; border: 1.5px dashed #2e2e38; color: #5c5c69; cursor: not-allowed; }
     .slot-cell.is-unavailable .slot-cell__state { color: #5c5c69; }
 
     .slot-selected-bar {
@@ -651,12 +508,7 @@
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
     }
 
-    /* =========================================================
-       SMART OPTIONAL ADD-ONS
-       ========================================================= */
-    .addons-grid {
-      display: grid; grid-template-columns: 1fr; gap: 10px;
-    }
+    .addons-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
     @media (min-width: 560px) { .addons-grid { grid-template-columns: 1fr 1fr; } }
     .addon-item {
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
@@ -666,34 +518,19 @@
     }
     .addon-item:hover { border-color: var(--line-strong); }
     .addon-item.is-checked { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); }
-    .addon-item.is-included {
-      border-color: rgba(74, 222, 128, 0.45);
-      background: rgba(74, 222, 128, 0.06);
-      cursor: default;
-    }
+    .addon-item.is-included { border-color: rgba(74, 222, 128, 0.45); background: rgba(74, 222, 128, 0.06); cursor: default; }
     .addon-item__left { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .addon-item__left input { width: 18px; height: 18px; accent-color: var(--gold); flex: none; }
     .addon-item__name { font-size: 0.86rem; font-weight: 600; color: #fff; }
     .addon-item__price { font-family: var(--font-head); font-size: 0.84rem; font-weight: 700; color: var(--gold-soft); white-space: nowrap; }
     .addon-item.is-included .addon-item__price { color: var(--green); font-size: 0.78rem; }
 
-    /* =========================================================
-       TERMS & CONDITIONS
-       ========================================================= */
-    .terms-box {
-      margin-top: 20px; padding: 16px; border-radius: var(--radius-md);
-      background: #09090c; border: 1px solid var(--line);
-    }
+    .terms-box { margin-top: 20px; padding: 16px; border-radius: var(--radius-md); background: #09090c; border: 1px solid var(--line); }
     .terms-box h4 { font-size: 0.88rem; color: var(--gold-soft); margin-bottom: 8px; }
     .terms-list { display: grid; gap: 6px; font-size: 0.79rem; color: var(--text-muted); margin-bottom: 12px; padding-left: 16px; list-style: disc; }
-    .terms-accept {
-      display: flex; align-items: flex-start; gap: 10px; font-size: 0.84rem; font-weight: 600; color: #fff; cursor: pointer;
-    }
+    .terms-accept { display: flex; align-items: flex-start; gap: 10px; font-size: 0.84rem; font-weight: 600; color: #fff; cursor: pointer; }
     .terms-accept input { width: 19px; height: 19px; margin-top: 2px; accent-color: var(--gold); flex: none; cursor: pointer; }
 
-    /* =========================================================
-       LIVE PRICE SUMMARY CARD
-       ========================================================= */
     .summary-card {
       background: linear-gradient(180deg, #17171d, #101014);
       border: 1.5px solid var(--gold);
@@ -709,8 +546,7 @@
     .summary-total b { font-size: 1.15rem; color: var(--gold-soft); }
     .summary-paybox {
       margin-top: 14px; padding: 14px; border-radius: var(--radius-md);
-      background: rgba(212, 175, 55, 0.1); border: 1px solid var(--line-strong);
-      display: grid; gap: 6px;
+      background: rgba(212, 175, 55, 0.1); border: 1px solid var(--line-strong); display: grid; gap: 6px;
     }
     .summary-balance {
       margin-top: 12px; padding: 12px 14px; border-radius: var(--radius-md);
@@ -719,69 +555,33 @@
       font-size: 0.9rem; font-weight: 600; color: var(--text-muted);
     }
     .summary-balance b { font-family: var(--font-head); font-size: 1.15rem; color: var(--gold-soft); }
-    .policy-note {
-      margin-top: 10px; padding: 4px 2px 0;
-      font-size: 0.74rem; color: var(--text-muted); line-height: 1.45;
-    }
+    .policy-note { margin-top: 10px; padding: 4px 2px 0; font-size: 0.74rem; color: var(--text-muted); line-height: 1.45; }
     .form-status { text-align: center; font-size: 0.86rem; margin-top: 12px; min-height: 1.3em; color: var(--gold-soft); }
 
-    /* =========================================================
-       CONTACT SECTION & FOOTER
-       ========================================================= */
     .contact-card {
       max-width: 760px; margin: 0 auto;
       background:
         radial-gradient(280px 140px at 85% 0%, rgba(212, 175, 55, 0.1), transparent 70%),
         linear-gradient(175deg, #16161c 0%, var(--card) 100%);
       border: 1.5px solid var(--line-strong);
-      border-radius: var(--radius-xl);
-      padding: 30px 24px;
-      box-shadow: var(--shadow);
-      display: grid; gap: 22px;
+      border-radius: var(--radius-xl); padding: 30px 24px; box-shadow: var(--shadow); display: grid; gap: 22px;
     }
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr; gap: 14px;
-    }
-    @media (min-width: 640px) {
-      .contact-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    .contact-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 640px) { .contact-grid { grid-template-columns: repeat(2, 1fr); } }
     .contact-item {
       padding: 16px; border-radius: var(--radius-md);
-      background: rgba(6, 6, 8, 0.7); border: 1px solid var(--line);
-      display: flex; flex-direction: column; gap: 4px;
+      background: rgba(6, 6, 8, 0.7); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px;
     }
-    .contact-item__label {
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--gold);
-    }
-    .contact-item__val {
-      font-family: var(--font-head); font-size: 0.94rem; font-weight: 600; color: var(--text);
-      overflow-wrap: anywhere;
-    }
-    .contact-item a:hover .contact-item__val,
-    .contact-item__val a:hover { color: var(--gold-soft); }
-    .contact-actions {
-      display: grid; grid-template-columns: 1fr; gap: 10px;
-    }
-    @media (min-width: 560px) {
-      .contact-actions { grid-template-columns: repeat(3, 1fr); }
-    }
+    .contact-item__label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+    .contact-item__val { font-family: var(--font-head); font-size: 0.94rem; font-weight: 600; color: var(--text); overflow-wrap: anywhere; }
+    .contact-actions { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 560px) { .contact-actions { grid-template-columns: repeat(3, 1fr); } }
     .contact-actions .btn { width: 100%; padding: 11px 14px; font-size: 0.84rem; }
 
     .footer { background: #040406; border-top: 1px solid var(--line); padding: 40px 0 28px; text-align: center; }
-    .footer__links {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
-      font-size: 0.85rem; color: var(--gold-soft); font-weight: 500;
-    }
-    .footer__links a:hover { color: var(--text); text-decoration: underline; text-underline-offset: 4px; }
-    .footer__bottom {
-      margin-top: 10px; padding-top: 18px; border-top: 1px solid rgba(212, 175, 55, 0.16);
-      width: 100%; color: var(--text-muted); font-size: 0.82rem;
-    }
+    .footer__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; font-size: 0.85rem; color: var(--gold-soft); font-weight: 500; }
+    .footer__bottom { margin-top: 10px; padding-top: 18px; border-top: 1px solid rgba(212, 175, 55, 0.16); width: 100%; color: var(--text-muted); font-size: 0.82rem; }
 
-    /* =========================================================
-       MODALS: MY BOOKINGS, CONFIRMATION, IN-PAGE ALERT
-       ========================================================= */
     html.mb-lock, html.mb-lock body { overflow: hidden; }
     .mb-overlay {
       position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; padding: 12px;
@@ -813,7 +613,6 @@
     .bk-id { font-family: var(--font-head); font-weight: 800; font-size: 1.15rem; color: var(--gold-soft); }
     .bk-chip { font-size: 0.68rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; color: var(--green); background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.35); }
     .bk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin: 0; }
-    .bk-grid .is-full { grid-column: 1 / -1; }
     .bk-grid dt { font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
     .bk-grid dd { margin: 2px 0 0; font-family: var(--font-head); font-weight: 600; font-size: 0.86rem; overflow-wrap: anywhere; }
     .bk-pay { border: 1px dashed var(--line-strong); border-radius: 12px; padding: 11px 13px; display: grid; gap: 6px; background: rgba(212, 175, 55, 0.06); }
@@ -832,6 +631,11 @@
     .cf-summary div { display: flex; justify-content: space-between; gap: 10px; font-size: 0.85rem; }
     .cf-summary dt { color: var(--text-muted); }
     .cf-summary dd { margin: 0; font-family: var(--font-head); font-weight: 600; text-align: right; }
+    .wa-mandatory-note {
+      font-size: 0.78rem; color: #4ADE80; font-weight: 600;
+      background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.35);
+      padding: 8px 12px; border-radius: 10px; width: 100%;
+    }
 
     .mb-toast {
       position: fixed; left: 50%; bottom: 20px; z-index: 400; max-width: min(440px, calc(100% - 28px));
@@ -844,7 +648,6 @@
   </style>
 </head>
 <body>
-  <!-- ================= NAVIGATION ================= -->
   <header class="nav">
     <div class="container nav__inner">
       <a href="#home" class="brand" aria-label="ARYXWEB home">
@@ -908,7 +711,6 @@
   </header>
 
   <main>
-    <!-- ================= HERO ================= -->
     <section class="hero" id="home">
       <div class="container hero__grid">
         <div>
@@ -966,7 +768,6 @@
       </div>
     </section>
 
-    <!-- ================= VENUE LOCATION ================= -->
     <section class="section section--alt" id="location">
       <div class="container">
         <div class="section__head">
@@ -995,18 +796,13 @@
             </div>
           </div>
           <div class="location-card__actions">
-            <a class="btn btn--gold" href="#book">
-              📅 Check Live Slots
-            </a>
-            <a class="btn btn--ghost" href="https://maps.google.com/?q=Linking+Road+Bandra+West+Mumbai" target="_blank" rel="noopener noreferrer">
-              📍 Open in Maps ↗
-            </a>
+            <a class="btn btn--gold" href="#book">📅 Check Live Slots</a>
+            <a class="btn btn--ghost" href="https://maps.google.com/?q=Linking+Road+Bandra+West+Mumbai" target="_blank" rel="noopener noreferrer">📍 Open in Maps ↗</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= PACKAGES & GALLERY ================= -->
     <section class="section" id="packages">
       <div class="container">
         <div class="section__head">
@@ -1044,7 +840,6 @@
       </div>
     </section>
 
-    <!-- ================= INTERACTIVE BOOKING ENGINE ================= -->
     <section class="section section--alt" id="book">
       <div class="container">
         <div class="section__head">
@@ -1170,7 +965,6 @@
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </form>
 
-          <!-- LIVE PRICE SUMMARY -->
           <aside class="summary-sticky" aria-label="Live Price Summary">
             <div class="summary-card">
               <h3>Live Price Summary</h3>
@@ -1213,7 +1007,6 @@
       </div>
     </section>
 
-    <!-- ================= CONTACT ================= -->
     <section class="section" id="contact">
       <div class="container">
         <div class="section__head">
@@ -1251,7 +1044,6 @@
     </section>
   </main>
 
-  <!-- ================= FOOTER ================= -->
   <footer class="footer">
     <div class="container" style="display: grid; gap: 14px; justify-items: center;">
       <div class="brand" style="justify-content: center;">
@@ -1273,7 +1065,7 @@
     </div>
   </footer>
 
-  <!-- ================= MY BOOKINGS DRAWER ================= -->
+  <!-- MY BOOKINGS DRAWER -->
   <div class="mb-overlay" id="mbOverlay" hidden>
     <div class="mb-panel" role="dialog" aria-modal="true" aria-labelledby="mbTitle" tabindex="-1">
       <div class="mb-panel__head">
@@ -1288,7 +1080,7 @@
     </div>
   </div>
 
-  <!-- ================= BOOKING CONFIRMED MODAL ================= -->
+  <!-- BOOKING CONFIRMED MODAL -->
   <div class="mb-overlay" id="cfOverlay" hidden>
     <div class="mb-panel" id="cfPanel" role="dialog" aria-modal="true" aria-labelledby="cfTitle" tabindex="-1">
       <button type="button" class="mb-close mb-close--float" id="cfClose" aria-label="Close confirmation">✕</button>
@@ -1296,17 +1088,18 @@
         <div class="cf-badge" aria-hidden="true">✓</div>
         <h2 id="cfTitle">Booking Confirmed!</h2>
         <div class="cf-id"><span>Booking Reference</span><b id="cfBookingId">ARYX-000000</b></div>
+        <div class="wa-mandatory-note">⚠️ MANDATORY: Send your booking pass to ARYXWEB WhatsApp below to activate your venue entry gate pass.</div>
         <dl class="cf-summary" id="cfSummary"></dl>
         <div class="bk-actions" style="width: 100%;">
+          <button type="button" class="btn btn--wa-mandatory" id="cfWhatsApp">📲 Send Entry Pass on WhatsApp (Required)</button>
           <button type="button" class="btn btn--gold" id="cfDownload">📥 Download Digital Booking Pass (PNG)</button>
-          <button type="button" class="btn btn--ghost" id="cfWhatsApp">📲 Send Copy on WhatsApp</button>
           <button type="button" class="btn btn--ghost" id="cfView">🎟️ View My Bookings</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ================= IN-PAGE NOTICE MODAL ================= -->
+  <!-- IN-PAGE NOTICE MODAL -->
   <div class="mb-overlay" id="noticeOverlay" hidden>
     <div class="mb-panel" role="dialog" aria-modal="true" aria-labelledby="noticeTitle" tabindex="-1" style="max-width: 420px;">
       <div class="mb-panel__head">
@@ -1322,7 +1115,6 @@
 
   <div class="mb-toast" id="mbToast" role="status" aria-live="polite"></div>
 
-  <!-- Firebase v8 + Razorpay Checkout -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -1331,9 +1123,6 @@
     (function () {
       'use strict';
 
-      /* =========================================================
-         1. CENTRALIZED ARYXWEB, VENUE & PACKAGE CONFIGURATION
-         ========================================================= */
       var BRAND = {
         name: 'ARYXWEB',
         subtitle: 'PRIVATE CELEBRATION & SCREENING LOUNGE',
@@ -1362,186 +1151,45 @@
         verifyPaymentUrl: ''
       };
 
-      var GOOGLE_SHEET_WEBHOOK_URL = 'YAHAN_APNA_COPIED_WEB_APP_URL_PASTE_KARO';
+      var GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyqRoLYqkl9HeZCC28GNsjJK7jQRpai15n85XfPMU8SiPhqnlKJe2hYcgRVufkTN9Tb2A/exec';
 
       const BOOKINGS_NODE = 'aryx_party_bookings';
       const LOCKS_NODE = 'aryx_party_locks';
       var HISTORY_KEY = 'aryx_party_booking_history_v1';
 
       var GALLERY_PHOTOS = [
-        {
-          id: 'romantic_canopy',
-          title: 'Romantic Canopy & Fairy Lights',
-          url: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
-          category: 'couples_movie'
-        },
-        {
-          id: 'luxury_balloon',
-          title: 'Luxury Balloon & Birthday Decor',
-          url: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80',
-          category: 'birthdays_events'
-        },
-        {
-          id: 'candlelight_rose',
-          title: 'Candlelight & Rose Proposal Setup',
-          url: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
-          category: 'couples_movie'
-        },
-        {
-          id: 'private_movie',
-          title: 'Private Movie & Lounge Ambience',
-          url: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80',
-          category: 'birthdays_events'
-        }
+        { id: 'romantic_canopy', title: 'Romantic Canopy & Fairy Lights', url: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80', category: 'couples_movie' },
+        { id: 'luxury_balloon', title: 'Luxury Balloon & Birthday Decor', url: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80', category: 'birthdays_events' },
+        { id: 'candlelight_rose', title: 'Candlelight & Rose Proposal Setup', url: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80', category: 'couples_movie' },
+        { id: 'private_movie', title: 'Private Movie & Lounge Ambience', url: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80', category: 'birthdays_events' }
       ];
 
       var ADDONS = [
-        { id: 'fog_smoke',       name: 'Fog / Smoke Entry',     price: 500 },
-        { id: 'bubble_entry',    name: 'Bubble Entry',          price: 300 },
-        { id: 'screen_setup',    name: 'Projector / Screen',    price: 500 },
-        { id: 'hanging_photo',   name: 'Hanging Photos',        price: 300 },
-        { id: 'cake_half_kg',    name: 'Half Kg Cake',          price: 450 },
-        { id: 'flower_bouquet',  name: 'Flower Bouquet',        price: 400 },
-        { id: 'letter_name',     name: 'Letter Light Name',     price: 300 },
-        { id: 'letter_digit',    name: 'Letter Light Digit',    price: 300 },
-        { id: 'iphone_shoot',    name: 'iPhone Shoot',          price: 400 },
-        { id: 'reel_edit',       name: 'Reel Edit (Per Reel)',  price: 500 },
-        { id: 'candle_decor',    name: 'Candle Decorations',    price: 500 },
-        { id: 'rose_decor',      name: 'Rose Decorations',      price: 1000 }
+        { id: 'fog_smoke', name: 'Fog / Smoke Entry', price: 500 },
+        { id: 'bubble_entry', name: 'Bubble Entry', price: 300 },
+        { id: 'screen_setup', name: 'Projector / Screen', price: 500 },
+        { id: 'hanging_photo', name: 'Hanging Photos', price: 300 },
+        { id: 'cake_half_kg', name: 'Half Kg Cake', price: 450 },
+        { id: 'flower_bouquet', name: 'Flower Bouquet', price: 400 },
+        { id: 'letter_name', name: 'Letter Light Name', price: 300 },
+        { id: 'letter_digit', name: 'Letter Light Digit', price: 300 },
+        { id: 'iphone_shoot', name: 'iPhone Shoot', price: 400 },
+        { id: 'reel_edit', name: 'Reel Edit (Per Reel)', price: 500 },
+        { id: 'candle_decor', name: 'Candle Decorations', price: 500 },
+        { id: 'rose_decor', name: 'Rose Decorations', price: 1000 }
       ];
 
       var PACKAGES = {
-        romantic_couple: {
-          id: 'romantic_couple',
-          category: 'couples_movie',
-          name: 'Romantic Couple Setup',
-          description: 'An intimate canopy & fairy-light venue experience crafted for anniversaries and date nights.',
-          price: 699,
-          durationHours: 1,
-          baseGuests: 2,
-          extraGuestRate: 299,
-          badge: 'STARTS AT ₹699',
-          featured: false,
-          includedAddons: [],
-          features: [
-            'Romantic Canopy & Fairy Lights',
-            'Warm Candlelight Ambience',
-            'Luxury Lounge Seating',
-            'Bluetooth Party Speakers',
-            'Welcome Refreshments'
-          ]
-        },
-        private_movie_date: {
-          id: 'private_movie_date',
-          category: 'couples_movie',
-          name: 'Private Movie Date Experience',
-          description: 'Cozy private screening lounge with big-screen projection, ambient gold lighting, and snacks.',
-          price: 1499,
-          durationHours: 2,
-          baseGuests: 2,
-          extraGuestRate: 299,
-          badge: 'MOST POPULAR',
-          featured: true,
-          includedAddons: ['screen_setup', 'cake_half_kg'],
-          features: [
-            'Everything in Romantic Couple Setup',
-            'Private HD Movie Screening',
-            'Half Kg Celebration Cake',
-            'Custom Name Initials Decor'
-          ]
-        },
-        premium_proposal: {
-          id: 'premium_proposal',
-          category: 'couples_movie',
-          name: 'Premium Proposal Celebration',
-          description: 'Grand rose-petal aisle, candlelight proposal backdrop, fog entry, and keepsake photo corner.',
-          price: 2499,
-          durationHours: 3,
-          baseGuests: 2,
-          extraGuestRate: 299,
-          badge: 'ALL-INCLUSIVE',
-          featured: false,
-          includedAddons: ['fog_smoke', 'candle_decor', 'hanging_photo', 'flower_bouquet', 'cake_half_kg'],
-          features: [
-            'Everything in Private Movie Date',
-            'Candlelight & Rose Proposal Setup',
-            'Fog / Smoke Entry Effect',
-            'Hanging Polaroid Photos (12)',
-            'Fresh Flower Bouquet'
-          ]
-        },
-        luxury_birthday: {
-          id: 'luxury_birthday',
-          category: 'birthdays_events',
-          name: 'Luxury Birthday Decoration',
-          description: 'Chic metallic gold & black balloon styling with neon signage for intimate birthday gatherings.',
-          price: 999,
-          durationHours: 1,
-          baseGuests: 4,
-          extraGuestRate: 249,
-          badge: '',
-          featured: false,
-          includedAddons: [],
-          features: [
-            'Luxury Balloon & Backdrop Decor',
-            'Neon Happy Birthday Signage',
-            'Lounge Seating & Party Speakers',
-            'Complimentary Welcome Snacks'
-          ]
-        },
-        premium_birthday: {
-          id: 'premium_birthday',
-          category: 'birthdays_events',
-          name: 'Premium Birthday Celebration',
-          description: 'Extended celebration with letter-light name display, half kg cake, and private lounge screening.',
-          price: 1999,
-          durationHours: 2,
-          baseGuests: 6,
-          extraGuestRate: 249,
-          badge: 'BESTSELLER',
-          featured: true,
-          includedAddons: ['letter_name', 'cake_half_kg', 'screen_setup'],
-          features: [
-            'Everything in Luxury Birthday',
-            'LED Letter Light Name Setup',
-            'Half Kg Celebration Cake',
-            'Private Lounge Movie / Music Screen'
-          ]
-        },
-        private_special_event: {
-          id: 'private_special_event',
-          category: 'birthdays_events',
-          name: 'Private Special Event Setup',
-          description: 'Full-scale bespoke decor for bride-to-be, milestone parties, and private group celebrations.',
-          price: 3499,
-          durationHours: 3,
-          baseGuests: 8,
-          extraGuestRate: 299,
-          badge: 'GRAND EVENT',
-          featured: false,
-          includedAddons: ['fog_smoke', 'bubble_entry', 'hanging_photo', 'letter_name', 'flower_bouquet', 'cake_half_kg'],
-          features: [
-            'Everything in Premium Birthday',
-            'Fog Entry & Bubble Entry',
-            'Hanging Photo Memory Wall',
-            'Flower Bouquet & Custom Props',
-            'Dedicated Celebration Lounge Access'
-          ]
-        }
+        romantic_couple: { id: 'romantic_couple', category: 'couples_movie', name: 'Romantic Couple Setup', description: 'An intimate canopy & fairy-light venue experience crafted for anniversaries and date nights.', price: 699, durationHours: 1, baseGuests: 2, extraGuestRate: 299, badge: 'STARTS AT ₹699', featured: false, includedAddons: [], features: ['Romantic Canopy & Fairy Lights', 'Warm Candlelight Ambience', 'Luxury Lounge Seating', 'Bluetooth Party Speakers', 'Welcome Refreshments'] },
+        private_movie_date: { id: 'private_movie_date', category: 'couples_movie', name: 'Private Movie Date Experience', description: 'Cozy private screening lounge with big-screen projection, ambient gold lighting, and snacks.', price: 1499, durationHours: 2, baseGuests: 2, extraGuestRate: 299, badge: 'MOST POPULAR', featured: true, includedAddons: ['screen_setup', 'cake_half_kg'], features: ['Everything in Romantic Couple Setup', 'Private HD Movie Screening', 'Half Kg Celebration Cake', 'Custom Name Initials Decor'] },
+        premium_proposal: { id: 'premium_proposal', category: 'couples_movie', name: 'Premium Proposal Celebration', description: 'Grand rose-petal aisle, candlelight proposal backdrop, fog entry, and keepsake photo corner.', price: 2499, durationHours: 3, baseGuests: 2, extraGuestRate: 299, badge: 'ALL-INCLUSIVE', featured: false, includedAddons: ['fog_smoke', 'candle_decor', 'hanging_photo', 'flower_bouquet', 'cake_half_kg'], features: ['Everything in Private Movie Date', 'Candlelight & Rose Proposal Setup', 'Fog / Smoke Entry Effect', 'Hanging Polaroid Photos (12)', 'Fresh Flower Bouquet'] },
+        luxury_birthday: { id: 'luxury_birthday', category: 'birthdays_events', name: 'Luxury Birthday Decoration', description: 'Chic metallic gold & black balloon styling with neon signage for intimate birthday gatherings.', price: 999, durationHours: 1, baseGuests: 4, extraGuestRate: 249, badge: '', featured: false, includedAddons: [], features: ['Luxury Balloon & Backdrop Decor', 'Neon Happy Birthday Signage', 'Lounge Seating & Party Speakers', 'Complimentary Welcome Snacks'] },
+        premium_birthday: { id: 'premium_birthday', category: 'birthdays_events', name: 'Premium Birthday Celebration', description: 'Extended celebration with letter-light name display, half kg cake, and private lounge screening.', price: 1999, durationHours: 2, baseGuests: 6, extraGuestRate: 249, badge: 'BESTSELLER', featured: true, includedAddons: ['letter_name', 'cake_half_kg', 'screen_setup'], features: ['Everything in Luxury Birthday', 'LED Letter Light Name Setup', 'Half Kg Celebration Cake', 'Private Lounge Movie / Music Screen'] },
+        private_special_event: { id: 'private_special_event', category: 'birthdays_events', name: 'Private Special Event Setup', description: 'Full-scale bespoke decor for bride-to-be, milestone parties, and private group celebrations.', price: 3499, durationHours: 3, baseGuests: 8, extraGuestRate: 299, badge: 'GRAND EVENT', featured: false, includedAddons: ['fog_smoke', 'bubble_entry', 'hanging_photo', 'letter_name', 'flower_bouquet', 'cake_half_kg'], features: ['Everything in Premium Birthday', 'Fog Entry & Bubble Entry', 'Hanging Photo Memory Wall', 'Flower Bouquet & Custom Props', 'Dedicated Celebration Lounge Access'] }
       };
 
-      var PACKAGE_ORDER = [
-        'romantic_couple',
-        'private_movie_date',
-        'premium_proposal',
-        'luxury_birthday',
-        'premium_birthday',
-        'private_special_event'
-      ];
+      var PACKAGE_ORDER = ['romantic_couple', 'private_movie_date', 'premium_proposal', 'luxury_birthday', 'premium_birthday', 'private_special_event'];
 
-      /* =========================================================
-         2. FIREBASE INITIALIZATION
-         ========================================================= */
       var db = null;
       try {
         var firebaseConfig = {
@@ -1554,38 +1202,17 @@
           if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
           db = firebase.database();
         }
-      } catch (err) {
-        console.error('Firebase init failed:', err);
-      }
+      } catch (err) { console.error('Firebase init failed:', err); }
 
-      /* =========================================================
-         3. APPLICATION STATE
-         ========================================================= */
       var state = {
-        category: 'couples_movie',
-        packageId: 'romantic_couple',
-        bookingDate: '',
-        selectedStartHour: null,
-        selectedAddons: {},
-        totalPersons: 2,
-        slotLocks: {},
-        legacyBookings: [],
-        processing: false,
-        activeLockRef: null,
-        activeBookingsRef: null
+        category: 'couples_movie', packageId: 'romantic_couple', bookingDate: '',
+        selectedStartHour: null, selectedAddons: {}, totalPersons: 2,
+        slotLocks: {}, legacyBookings: [], processing: false, activeLockRef: null, activeBookingsRef: null
       };
 
-      /* =========================================================
-         4. UTILITIES & DOM HELPERS
-         ========================================================= */
       function pad(n) { return n < 10 ? '0' + n : String(n); }
-      function todayISO() {
-        var d = new Date();
-        return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-      }
-      function money(n) {
-        return '\u20B9' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      }
+      function todayISO() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+      function money(n) { return '\u20B9' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
       function formatDate(iso) {
         if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return 'Not selected';
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -1597,9 +1224,7 @@
         if (hour24 === 12) return '12:00 PM';
         return hour24 > 12 ? pad(hour24 - 12) + ':00 PM' : pad(hour24) + ':00 AM';
       }
-      function formatSlotRange(startHour, duration) {
-        return formatHour12(startHour) + ' – ' + formatHour12(startHour + duration);
-      }
+      function formatSlotRange(startHour, duration) { return formatHour12(startHour) + ' – ' + formatHour12(startHour + duration); }
       function normalizePhone(raw) {
         var digits = String(raw || '').replace(/[\s\-().]/g, '');
         if (digits.indexOf('+91') === 0) digits = digits.slice(3);
@@ -1614,7 +1239,6 @@
         return el;
       }
 
-      /* ---------- In-page notice & toast ---------- */
       var toastTimer = null;
       function toast(msg, isError) {
         var el = document.getElementById('mbToast');
@@ -1631,21 +1255,12 @@
         openModal(document.getElementById('noticeOverlay'));
       }
 
-      /* =========================================================
-         5. NAVIGATION
-         ========================================================= */
       var navToggle = document.getElementById('navToggle');
       var navDrawer = document.getElementById('navDrawer');
-      function setMenu(open) {
-        navDrawer.classList.toggle('is-open', open);
-        navToggle.setAttribute('aria-expanded', String(open));
-      }
+      function setMenu(open) { navDrawer.classList.toggle('is-open', open); navToggle.setAttribute('aria-expanded', String(open)); }
       navToggle.addEventListener('click', function () { setMenu(!navDrawer.classList.contains('is-open')); });
       navDrawer.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
 
-      /* =========================================================
-         6. PACKAGES, GALLERY & SMART ADD-ONS
-         ========================================================= */
       function populatePackageDropdown() {
         var sel = document.getElementById('packageSelect');
         sel.innerHTML = '';
@@ -1665,7 +1280,6 @@
           t.classList.toggle('is-active', active);
           t.setAttribute('aria-selected', String(active));
         });
-
         document.getElementById('pkgCatNote').textContent = state.category === 'couples_movie'
           ? 'Couples & Movie Date \u2022 Base Guests: 2 \u2022 Extra Guest: \u20B9299 per person'
           : 'Birthdays & Events \u2022 Base Guests: 4–8 \u2022 Extra Guest: \u20B9249–\u20B9299 per person';
@@ -1684,7 +1298,6 @@
           var priceRow = h('div', 'pkg-card__price-row');
           priceRow.appendChild(h('span', 'pkg-card__price', money(p.price)));
           card.appendChild(priceRow);
-
           card.appendChild(h('div', 'pkg-card__meta', 'Base Guests: ' + p.baseGuests + ' \u2022 Extra: ' + money(p.extraGuestRate) + '/person'));
 
           var ul = h('ul', 'pkg-card__list');
@@ -1707,41 +1320,27 @@
         var titleEl = document.getElementById('selectedPkgGalleryName');
         var grid = document.getElementById('selectedPackageGallery');
         if (!grid) return;
-
-        if (titleEl && pkg) {
-          titleEl.textContent = pkg.name + ' \u2022 ' + BRAND.locationShort;
-        }
+        if (titleEl && pkg) titleEl.textContent = pkg.name + ' \u2022 ' + BRAND.locationShort;
 
         var ordered = GALLERY_PHOTOS.slice().sort(function (a, b) {
-          var aMatch = a.category === state.category ? 0 : 1;
-          var bMatch = b.category === state.category ? 0 : 1;
-          return aMatch - bMatch;
+          return (a.category === state.category ? 0 : 1) - (b.category === state.category ? 0 : 1);
         });
 
         grid.innerHTML = '';
         ordered.forEach(function (photo) {
           var card = h('div', 'gallery-slot');
-
           var fallback = h('div', 'gallery-fallback');
           fallback.appendChild(h('div', 'gallery-fallback__icon', '✨'));
           fallback.appendChild(h('div', 'gallery-fallback__label', photo.title));
           fallback.appendChild(h('div', 'gallery-fallback__sub', BRAND.name + ' • Private Celebration Lounge'));
 
           var img = document.createElement('img');
-          img.src = photo.url;
-          img.alt = photo.title + ' — ' + BRAND.name;
-          img.loading = 'lazy';
-          img.onerror = function () {
-            img.style.display = 'none';
-            fallback.classList.add('is-visible');
-          };
+          img.src = photo.url; img.alt = photo.title + ' — ' + BRAND.name; img.loading = 'lazy';
+          img.onerror = function () { img.style.display = 'none'; fallback.classList.add('is-visible'); };
 
           var overlay = h('div', 'gallery-slot__overlay');
           overlay.appendChild(h('div', 'gallery-slot__title', photo.title));
-
-          card.appendChild(img);
-          card.appendChild(fallback);
-          card.appendChild(overlay);
+          card.appendChild(img); card.appendChild(fallback); card.appendChild(overlay);
           grid.appendChild(card);
         });
       }
@@ -1753,22 +1352,16 @@
         ADDONS.forEach(function (addon) {
           var isIncluded = pkg.includedAddons.indexOf(addon.id) !== -1;
           var isChecked = isIncluded || !!state.selectedAddons[addon.id];
-          if (isIncluded && state.selectedAddons[addon.id]) {
-            delete state.selectedAddons[addon.id];
-          }
+          if (isIncluded && state.selectedAddons[addon.id]) delete state.selectedAddons[addon.id];
           var label = h('label', 'addon-item' + (isIncluded ? ' is-included' : (isChecked ? ' is-checked' : '')));
           var left = h('span', 'addon-item__left');
           var cb = document.createElement('input');
-          cb.type = 'checkbox';
-          cb.checked = isChecked;
-          cb.disabled = isIncluded;
-          cb.setAttribute('data-addon', addon.id);
+          cb.type = 'checkbox'; cb.checked = isChecked; cb.disabled = isIncluded;
           cb.addEventListener('change', function () {
             if (isIncluded) return;
             if (cb.checked) state.selectedAddons[addon.id] = true;
             else delete state.selectedAddons[addon.id];
-            renderAddons();
-            updatePriceSummary();
+            renderAddons(); updatePriceSummary();
           });
           left.appendChild(cb);
           left.appendChild(h('span', 'addon-item__name', addon.name));
@@ -1781,23 +1374,15 @@
       function selectPackage(pkgId) {
         var p = PACKAGES[pkgId];
         if (!p) return;
-        state.packageId = p.id;
-        state.category = p.category;
-        state.selectedStartHour = null;
-
+        state.packageId = p.id; state.category = p.category; state.selectedStartHour = null;
         var personsInput = document.getElementById('totalPersons');
         personsInput.min = p.baseGuests;
         if (state.totalPersons < p.baseGuests) state.totalPersons = p.baseGuests;
         personsInput.value = state.totalPersons;
         document.getElementById('baseGuestsHint').textContent = 'Min ' + p.baseGuests;
         document.getElementById('extraGuestHint').textContent = 'Base ' + p.baseGuests + ' included; extra guests at ' + money(p.extraGuestRate) + '/person.';
-
         document.getElementById('packageSelect').value = p.id;
-        renderPackages();
-        renderPackageGallery();
-        renderAddons();
-        renderSlotGrid();
-        updatePriceSummary();
+        renderPackages(); renderPackageGallery(); renderAddons(); renderSlotGrid(); updatePriceSummary();
       }
 
       document.querySelectorAll('.pkg-tab').forEach(function (tab) {
@@ -1806,32 +1391,19 @@
           if (state.category === newCat) return;
           state.category = newCat;
           for (var i = 0; i < PACKAGE_ORDER.length; i++) {
-            var p = PACKAGES[PACKAGE_ORDER[i]];
-            if (p.category === newCat) {
-              selectPackage(p.id);
-              return;
-            }
+            if (PACKAGES[PACKAGE_ORDER[i]].category === newCat) { selectPackage(PACKAGE_ORDER[i]); return; }
           }
-          renderPackages();
-          renderPackageGallery();
         });
       });
 
-      document.getElementById('packageSelect').addEventListener('change', function (e) {
-        selectPackage(e.target.value);
-      });
+      document.getElementById('packageSelect').addEventListener('change', function (e) { selectPackage(e.target.value); });
 
-      /* =========================================================
-         7. INTERACTIVE HOURLY SLOT BOOKING GRID + FIREBASE LOCKS
-         ========================================================= */
       function getHourState(hour) {
         var now = Date.now();
         var lock = state.slotLocks && state.slotLocks[pad(hour)];
         if (lock) {
           if (lock.status === 'confirmed') return { status: 'booked' };
-          if (lock.status === 'hold' && lock.expiresAt > now) {
-            return { status: 'hold', expiresAt: lock.expiresAt };
-          }
+          if (lock.status === 'hold' && lock.expiresAt > now) return { status: 'hold', expiresAt: lock.expiresAt };
         }
         for (var i = 0; i < state.legacyBookings.length; i++) {
           var b = state.legacyBookings[i];
@@ -1842,8 +1414,7 @@
           }
         }
         if (state.bookingDate === todayISO()) {
-          var currentHour = new Date().getHours();
-          if (hour <= currentHour) return { status: 'unavailable', reason: 'Past' };
+          if (hour <= new Date().getHours()) return { status: 'unavailable', reason: 'Past' };
         }
         return { status: 'available' };
       }
@@ -1858,8 +1429,7 @@
 
       function renderSlotGrid() {
         var grid = document.getElementById('slotGrid');
-        var pkg = PACKAGES[state.packageId];
-        var dur = pkg.durationHours;
+        var dur = PACKAGES[state.packageId].durationHours;
         grid.innerHTML = '';
 
         if (!state.bookingDate) {
@@ -1875,73 +1445,46 @@
 
             var btn = h('button', 'slot-cell');
             btn.type = 'button';
-
             var stateLabel = 'Available';
-            if (isSelected) {
-              btn.classList.add('is-selected');
-              stateLabel = 'Selected';
-            } else if (hs.status === 'booked') {
-              btn.classList.add('is-booked');
-              btn.disabled = true;
-              stateLabel = 'Booked';
-            } else if (hs.status === 'hold') {
-              btn.classList.add('is-hold');
-              btn.disabled = true;
+            if (isSelected) { btn.classList.add('is-selected'); stateLabel = 'Selected'; }
+            else if (hs.status === 'booked') { btn.classList.add('is-booked'); btn.disabled = true; stateLabel = 'Booked'; }
+            else if (hs.status === 'hold') {
+              btn.classList.add('is-hold'); btn.disabled = true;
               var secs = Math.max(0, Math.ceil((hs.expiresAt - Date.now()) / 1000));
               stateLabel = 'Hold ' + Math.floor(secs / 60) + ':' + pad(secs % 60);
             } else if (!state.bookingDate || hs.status === 'unavailable' || !canStart) {
-              btn.classList.add('is-unavailable');
-              btn.disabled = true;
+              btn.classList.add('is-unavailable'); btn.disabled = true;
               stateLabel = !state.bookingDate ? 'Pick Date' : (hs.reason === 'Past' ? 'Past' : 'Fits < ' + dur + 'h');
             }
 
             btn.appendChild(h('span', 'slot-cell__time', formatHour12(hr)));
             btn.appendChild(h('span', 'slot-cell__state', stateLabel));
-
             btn.addEventListener('click', function () {
-              if (!state.bookingDate) {
-                toast('Please select a celebration date first.', true);
-                return;
-              }
+              if (!state.bookingDate) { toast('Please select a celebration date first.', true); return; }
               if (!canStartPackageAt(hr, dur)) return;
               state.selectedStartHour = hr;
               document.getElementById('slotErr').textContent = '';
-              renderSlotGrid();
-              updatePriceSummary();
+              renderSlotGrid(); updatePriceSummary();
             });
-
             grid.appendChild(btn);
           })(hour);
         }
 
-        if (state.selectedStartHour !== null && !canStartPackageAt(state.selectedStartHour, dur)) {
-          state.selectedStartHour = null;
-        }
+        if (state.selectedStartHour !== null && !canStartPackageAt(state.selectedStartHour, dur)) state.selectedStartHour = null;
         var barText = document.getElementById('slotSelectedText');
-        if (state.selectedStartHour !== null) {
-          barText.textContent = 'Selected: ' + formatSlotRange(state.selectedStartHour, dur) + ' (' + formatDate(state.bookingDate) + ')';
-        } else if (state.bookingDate) {
-          barText.textContent = 'Tap any available start hour for your ' + dur + '-hour package.';
-        }
+        if (state.selectedStartHour !== null) barText.textContent = 'Selected: ' + formatSlotRange(state.selectedStartHour, dur) + ' (' + formatDate(state.bookingDate) + ')';
+        else if (state.bookingDate) barText.textContent = 'Tap any available start hour for your ' + dur + '-hour package.';
         document.getElementById('slotDurationTag').textContent = dur + ' Hour' + (dur > 1 ? 's' : '');
       }
 
       function subscribeAvailability() {
         if (state.activeLockRef) { state.activeLockRef.off(); state.activeLockRef = null; }
         if (state.activeBookingsRef) { state.activeBookingsRef.off(); state.activeBookingsRef = null; }
-        state.slotLocks = {};
-        state.legacyBookings = [];
-
-        if (!db || !state.bookingDate) {
-          renderSlotGrid();
-          return;
-        }
+        state.slotLocks = {}; state.legacyBookings = [];
+        if (!db || !state.bookingDate) { renderSlotGrid(); return; }
 
         state.activeLockRef = db.ref(LOCKS_NODE + '/' + VENUE_KEY + '/' + state.bookingDate);
-        state.activeLockRef.on('value', function (snap) {
-          state.slotLocks = snap.val() || {};
-          renderSlotGrid();
-        });
+        state.activeLockRef.on('value', function (snap) { state.slotLocks = snap.val() || {}; renderSlotGrid(); });
 
         state.activeBookingsRef = db.ref(BOOKINGS_NODE);
         state.activeBookingsRef.on('value', function (snap) {
@@ -1949,62 +1492,39 @@
           snap.forEach(function (child) {
             var v = child.val();
             if (!v) return;
-            var d = v.bookingDate || v.date;
-            if (d === state.bookingDate) list.push(v);
+            if ((v.bookingDate || v.date) === state.bookingDate) list.push(v);
           });
           state.legacyBookings = list;
           renderSlotGrid();
         });
       }
 
-      setInterval(function () {
-        if (state.bookingDate) renderSlotGrid();
-      }, 15000);
+      setInterval(function () { if (state.bookingDate) renderSlotGrid(); }, 15000);
 
-      /* =========================================================
-         8. LIVE PRICE SUMMARY & WHATSAPP INQUIRY LINKS
-         ========================================================= */
       function computePricing() {
         var pkg = PACKAGES[state.packageId];
         var persons = Math.max(pkg.baseGuests, state.totalPersons || pkg.baseGuests);
         var extraGuests = Math.max(0, persons - pkg.baseGuests);
         var extraGuestCharge = extraGuests * pkg.extraGuestRate;
-
         var selectedAddonObjs = [];
         var addonsTotal = 0;
         ADDONS.forEach(function (a) {
           if (pkg.includedAddons.indexOf(a.id) !== -1) return;
-          if (state.selectedAddons[a.id]) {
-            selectedAddonObjs.push(a);
-            addonsTotal += a.price;
-          }
+          if (state.selectedAddons[a.id]) { selectedAddonObjs.push(a); addonsTotal += a.price; }
         });
-
         var totalBookingValue = pkg.price + addonsTotal + extraGuestCharge;
-        var venueAdvance = PAYMENT_CONFIG.venueAdvance;
-        var gatewayFee = PAYMENT_CONFIG.gatewayFee;
-        var onlinePaymentAmount = venueAdvance + gatewayFee;
-        var balanceAtVenue = Math.max(0, totalBookingValue - venueAdvance);
-
+        var onlinePaymentAmount = PAYMENT_CONFIG.venueAdvance + PAYMENT_CONFIG.gatewayFee;
+        var balanceAtVenue = Math.max(0, totalBookingValue - PAYMENT_CONFIG.venueAdvance);
         return {
-          pkg: pkg,
-          persons: persons,
-          extraGuests: extraGuests,
-          extraGuestCharge: extraGuestCharge,
-          selectedAddonObjs: selectedAddonObjs,
-          addonsTotal: addonsTotal,
-          totalBookingValue: totalBookingValue,
-          venueAdvance: venueAdvance,
-          gatewayFee: gatewayFee,
-          onlinePaymentAmount: onlinePaymentAmount,
-          balanceAtVenue: balanceAtVenue
+          pkg: pkg, persons: persons, extraGuests: extraGuests, extraGuestCharge: extraGuestCharge,
+          selectedAddonObjs: selectedAddonObjs, addonsTotal: addonsTotal, totalBookingValue: totalBookingValue,
+          venueAdvance: PAYMENT_CONFIG.venueAdvance, gatewayFee: PAYMENT_CONFIG.gatewayFee,
+          onlinePaymentAmount: onlinePaymentAmount, balanceAtVenue: balanceAtVenue
         };
       }
 
       function buildWhatsAppInquiryUrl(c) {
-        var slotStr = state.selectedStartHour !== null
-          ? formatSlotRange(state.selectedStartHour, c.pkg.durationHours)
-          : 'Not selected yet';
+        var slotStr = state.selectedStartHour !== null ? formatSlotRange(state.selectedStartHour, c.pkg.durationHours) : 'Not selected yet';
         var msg = [
           'Hello *ARYXWEB*! ✨',
           'I would like to inquire about a celebration booking:',
@@ -2022,9 +1542,7 @@
         document.getElementById('sumVenue').textContent = BRAND.locationShort;
         document.getElementById('sumPackage').textContent = c.pkg.name + ' (' + c.pkg.durationHours + ' Hr' + (c.pkg.durationHours > 1 ? 's' : '') + ')';
         document.getElementById('sumDate').textContent = formatDate(state.bookingDate);
-        document.getElementById('sumSlot').textContent = state.selectedStartHour !== null
-          ? formatSlotRange(state.selectedStartHour, c.pkg.durationHours)
-          : 'Not selected';
+        document.getElementById('sumSlot').textContent = state.selectedStartHour !== null ? formatSlotRange(state.selectedStartHour, c.pkg.durationHours) : 'Not selected';
         document.getElementById('sumGuests').textContent = c.persons + ' (Base: ' + c.pkg.baseGuests + (c.extraGuests ? ', +' + c.extraGuests + ' extra' : '') + ')';
         document.getElementById('sumPkgPrice').textContent = money(c.pkg.price);
         document.getElementById('sumAddons').textContent = money(c.addonsTotal);
@@ -2032,9 +1550,7 @@
         document.getElementById('sumTotal').textContent = money(c.totalBookingValue);
         document.getElementById('sumOnlinePay').textContent = money(c.onlinePaymentAmount);
         document.getElementById('sumBalance').textContent = money(c.balanceAtVenue);
-
-        var submitBtn = document.getElementById('submitBtn');
-        submitBtn.textContent = 'Pay ' + money(c.onlinePaymentAmount) + ' Online & Confirm Booking';
+        document.getElementById('submitBtn').textContent = 'Pay ' + money(c.onlinePaymentAmount) + ' Online & Confirm Booking';
 
         var waUrl = buildWhatsAppInquiryUrl(c);
         ['summaryWaBtn', 'galleryWaInquiry', 'contactWaBtn'].forEach(function (id) {
@@ -2043,17 +1559,12 @@
         });
       }
 
-      /* =========================================================
-         9. FORM INTERACTIONS & VALIDATION
-         ========================================================= */
       var dateInput = document.getElementById('bookingDate');
       dateInput.min = todayISO();
       dateInput.addEventListener('change', function () {
-        state.bookingDate = dateInput.value;
-        state.selectedStartHour = null;
+        state.bookingDate = dateInput.value; state.selectedStartHour = null;
         document.getElementById('bookingDateErr').textContent = '';
-        subscribeAvailability();
-        updatePriceSummary();
+        subscribeAvailability(); updatePriceSummary();
       });
 
       var personsInput = document.getElementById('totalPersons');
@@ -2062,8 +1573,7 @@
         var n = parseInt(val, 10);
         if (isNaN(n) || n < minG) n = minG;
         if (n > 50) n = 50;
-        state.totalPersons = n;
-        personsInput.value = n;
+        state.totalPersons = n; personsInput.value = n;
         document.getElementById('totalPersonsErr').textContent = '';
         updatePriceSummary();
       }
@@ -2075,95 +1585,44 @@
       var waInput = document.getElementById('whatsappNumber');
       var sameCheck = document.getElementById('sameAsContact');
       sameCheck.addEventListener('change', function () {
-        if (sameCheck.checked) {
-          waInput.value = contactInput.value;
-          waInput.readOnly = true;
-          document.getElementById('whatsappNumberErr').textContent = '';
-        } else {
-          waInput.readOnly = false;
-        }
+        if (sameCheck.checked) { waInput.value = contactInput.value; waInput.readOnly = true; document.getElementById('whatsappNumberErr').textContent = ''; }
+        else waInput.readOnly = false;
       });
-      contactInput.addEventListener('input', function () {
-        if (sameCheck.checked) waInput.value = contactInput.value;
-      });
+      contactInput.addEventListener('input', function () { if (sameCheck.checked) waInput.value = contactInput.value; });
 
       function validateForm() {
         var ok = true;
-        function setErr(id, msg) {
-          document.getElementById(id).textContent = msg || '';
-          if (msg) ok = false;
-        }
-
+        function setErr(id, msg) { document.getElementById(id).textContent = msg || ''; if (msg) ok = false; }
         var name = document.getElementById('customerName').value.trim();
         setErr('customerNameErr', name.length < 2 ? 'Please enter your full name.' : '');
-
         var contact = normalizePhone(contactInput.value);
         setErr('contactNumberErr', !contact ? 'Enter a valid 10-digit Indian mobile number.' : '');
-
         var wa = normalizePhone(waInput.value);
         setErr('whatsappNumberErr', !wa ? 'Enter a valid 10-digit WhatsApp number.' : '');
-
         var cType = document.getElementById('celebrationType').value;
         setErr('celebrationTypeErr', !cType ? 'Please select a celebration type.' : '');
-
         setErr('bookingDateErr', (!state.bookingDate || state.bookingDate < todayISO()) ? 'Please select today or a future date.' : '');
-
         var pkg = PACKAGES[state.packageId];
-        if (state.selectedStartHour === null || !canStartPackageAt(state.selectedStartHour, pkg.durationHours)) {
-          setErr('slotErr', 'Please select an available hourly slot.');
-        } else {
-          setErr('slotErr', '');
-        }
-
-        if (state.totalPersons < pkg.baseGuests) {
-          setErr('totalPersonsErr', 'Minimum guests for ' + pkg.name + ' is ' + pkg.baseGuests + '.');
-        } else {
-          setErr('totalPersonsErr', '');
-        }
-
-        var termsOk = document.getElementById('termsAccept').checked;
-        setErr('termsErr', !termsOk ? 'You must accept the Terms & Conditions to proceed.' : '');
-
-        if (!ok) return null;
-        return {
-          customerName: name,
-          contactNumber: contact,
-          whatsappNumber: wa,
-          celebrationType: cType
-        };
+        setErr('slotErr', (state.selectedStartHour === null || !canStartPackageAt(state.selectedStartHour, pkg.durationHours)) ? 'Please select an available hourly slot.' : '');
+        setErr('totalPersonsErr', state.totalPersons < pkg.baseGuests ? 'Minimum guests for ' + pkg.name + ' is ' + pkg.baseGuests + '.' : '');
+        setErr('termsErr', !document.getElementById('termsAccept').checked ? 'You must accept the Terms & Conditions to proceed.' : '');
+        return ok ? { customerName: name, contactNumber: contact, whatsappNumber: wa, celebrationType: cType } : null;
       }
 
-      /* =========================================================
-         10. ATOMIC SLOT HOLD + RAZORPAY CHECKOUT + CONFIRMATION
-         ========================================================= */
       function acquireSlotHold(date, startHour, duration, bookingId) {
         var ref = db.ref(LOCKS_NODE + '/' + VENUE_KEY + '/' + date);
         var now = Date.now();
         return ref.transaction(function (current) {
           var map = current ? Object.assign({}, current) : {};
           for (var hIdx = startHour; hIdx < startHour + duration; hIdx++) {
-            var key = pad(hIdx);
-            var existing = map[key];
-            if (existing) {
-              if (existing.status === 'confirmed') return undefined;
-              if (existing.status === 'hold' && existing.expiresAt > now && existing.bookingId !== bookingId) return undefined;
-            }
+            var existing = map[pad(hIdx)];
+            if (existing && (existing.status === 'confirmed' || (existing.status === 'hold' && existing.expiresAt > now && existing.bookingId !== bookingId))) return undefined;
           }
           for (var hSet = startHour; hSet < startHour + duration; hSet++) {
-            map[pad(hSet)] = {
-              status: 'hold',
-              bookingId: bookingId,
-              expiresAt: now + PAYMENT_CONFIG.holdTtlMs
-            };
+            map[pad(hSet)] = { status: 'hold', bookingId: bookingId, expiresAt: now + PAYMENT_CONFIG.holdTtlMs };
           }
           return map;
-        }).then(function (res) {
-          if (!res.committed) {
-            var err = new Error('slot-taken');
-            err.code = 'slot-taken';
-            throw err;
-          }
-        });
+        }).then(function (res) { if (!res.committed) { var err = new Error('slot-taken'); err.code = 'slot-taken'; throw err; } });
       }
 
       function releaseSlotHold(date, startHour, duration, bookingId) {
@@ -2174,9 +1633,7 @@
           var map = Object.assign({}, current);
           for (var hIdx = startHour; hIdx < startHour + duration; hIdx++) {
             var key = pad(hIdx);
-            if (map[key] && map[key].status === 'hold' && map[key].bookingId === bookingId) {
-              delete map[key];
-            }
+            if (map[key] && map[key].status === 'hold' && map[key].bookingId === bookingId) delete map[key];
           }
           return map;
         });
@@ -2188,36 +1645,22 @@
           var map = current ? Object.assign({}, current) : {};
           for (var hIdx = startHour; hIdx < startHour + duration; hIdx++) {
             var key = pad(hIdx);
-            if (map[key] && map[key].status === 'confirmed' && map[key].bookingId !== bookingId) {
-              return undefined;
-            }
+            if (map[key] && map[key].status === 'confirmed' && map[key].bookingId !== bookingId) return undefined;
             map[key] = { status: 'confirmed', bookingId: bookingId };
           }
           return map;
         });
       }
 
-      function generateBookingId() {
-        return 'ARYX-' + Math.floor(100000 + Math.random() * 900000);
-      }
+      function generateBookingId() { return 'ARYX-' + Math.floor(100000 + Math.random() * 900000); }
 
       document.getElementById('bookingForm').addEventListener('submit', function (e) {
         e.preventDefault();
         if (state.processing) return;
-
         var clean = validateForm();
-        if (!clean) {
-          toast('Please complete all required fields.', true);
-          return;
-        }
-        if (!db) {
-          showNotice('Service Unavailable', 'Booking database is currently unavailable. Please contact ' + BRAND.phoneDisplay + '.');
-          return;
-        }
-        if (typeof Razorpay === 'undefined') {
-          showNotice('Payment Unavailable', 'Razorpay could not be loaded. Please check your internet connection and refresh.');
-          return;
-        }
+        if (!clean) { toast('Please complete all required fields.', true); return; }
+        if (!db) { showNotice('Service Unavailable', 'Booking database is currently unavailable. Please contact ' + BRAND.phoneDisplay + '.'); return; }
+        if (typeof Razorpay === 'undefined') { showNotice('Payment Unavailable', 'Razorpay could not be loaded.'); return; }
 
         var pricing = computePricing();
         var startHour = state.selectedStartHour;
@@ -2232,30 +1675,14 @@
 
         acquireSlotHold(state.bookingDate, startHour, duration, pendingId)
           .then(function () {
-            if (BACKEND_CONFIG.enabled && BACKEND_CONFIG.createOrderUrl) {
-              statusEl.textContent = 'Creating secure payment order\u2026';
-              return fetch(BACKEND_CONFIG.createOrderUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  venue: BRAND.locationShort,
-                  bookingDate: state.bookingDate,
-                  startHour: startHour,
-                  packageId: pricing.pkg.id,
-                  totalPersons: pricing.persons,
-                  selectedAddons: pricing.selectedAddonObjs.map(function (a) { return a.id; }),
-                  pendingBookingId: pendingId
-                })
-              }).then(function (r) { return r.json(); });
-            }
             return { orderId: null, amount: pricing.onlinePaymentAmount * 100, currency: 'INR' };
           })
           .then(function (orderData) {
             var paid = false;
             var rzpOptions = {
               key: PAYMENT_CONFIG.razorpayKey,
-              amount: orderData.amount || pricing.onlinePaymentAmount * 100,
-              currency: orderData.currency || 'INR',
+              amount: orderData.amount,
+              currency: 'INR',
               name: BRAND.name,
               description: pricing.pkg.name + ' \u2022 ' + slotStr + ' (' + formatDate(state.bookingDate) + ')',
               prefill: { name: clean.customerName, contact: clean.contactNumber },
@@ -2293,34 +1720,20 @@
                   gatewayFee: pricing.gatewayFee,
                   onlinePaymentAmount: pricing.onlinePaymentAmount,
                   balanceAtVenue: pricing.balanceAtVenue,
-                  razorpayOrderId: response.razorpay_order_id || orderData.orderId || '',
+                  razorpayOrderId: response.razorpay_order_id || '',
                   razorpayPaymentId: response.razorpay_payment_id || '',
-                  paymentStatus: BACKEND_CONFIG.enabled ? 'paid_verified' : 'paid_client_unverified',
+                  paymentStatus: 'paid_client_unverified',
                   bookingStatus: 'confirmed',
                   status: 'confirmed',
+                  venuePayMode: 'Pending',
                   createdAt: nowIso,
                   updatedAt: nowIso
                 };
 
                 statusEl.textContent = 'Finalizing confirmation\u2026';
 
-                var verifyPromise = (BACKEND_CONFIG.enabled && BACKEND_CONFIG.verifyPaymentUrl)
-                  ? fetch(BACKEND_CONFIG.verifyPaymentUrl, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        razorpay_order_id: response.razorpay_order_id,
-                        razorpay_payment_id: response.razorpay_payment_id,
-                        razorpay_signature: response.razorpay_signature,
-                        bookingPayload: record
-                      })
-                    }).then(function (r) { return r.json(); })
-                  : db.ref(BOOKINGS_NODE + '/' + pendingId).set(record).then(function () { return { verified: true }; });
-
-                verifyPromise
-                  .then(function () {
-                    return confirmSlotLock(state.bookingDate, startHour, duration, pendingId);
-                  })
+                db.ref(BOOKINGS_NODE + '/' + pendingId).set(record)
+                  .then(function () { return confirmSlotLock(state.bookingDate, startHour, duration, pendingId); })
                   .then(function () {
                     saveBookingLocally(record);
                     if (GOOGLE_SHEET_WEBHOOK_URL && GOOGLE_SHEET_WEBHOOK_URL.indexOf('https://') === 0) {
@@ -2328,25 +1741,21 @@
                         method: 'POST',
                         mode: 'no-cors',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify(record)
-                      }).catch(function (err) {
-                        console.error('Google Sheet sync error:', err);
-                      });
+                        body: JSON.stringify(Object.assign({ action: 'create' }, record))
+                      }).catch(function (err) { console.error('Google Sheet sync error:', err); });
                     }
                     state.processing = false;
                     document.getElementById('submitBtn').disabled = false;
                     statusEl.textContent = '';
                     state.selectedStartHour = null;
-                    renderSlotGrid();
-                    updatePriceSummary();
-                    openConfirmation(record);
+                    renderSlotGrid(); updatePriceSummary(); openConfirmation(record);
                   })
                   .catch(function (err) {
                     console.error(err);
                     state.processing = false;
                     document.getElementById('submitBtn').disabled = false;
                     statusEl.textContent = '';
-                    showNotice('Confirmation Issue', 'Payment ID ' + record.razorpayPaymentId + ' was captured. Please contact ' + BRAND.phoneDisplay + ' to finalize your slot.');
+                    showNotice('Confirmation Issue', 'Payment ID ' + record.razorpayPaymentId + ' was captured. Please contact ' + BRAND.phoneDisplay + '.');
                   });
               },
               modal: {
@@ -2360,14 +1769,13 @@
                 }
               }
             };
-            if (orderData.orderId) rzpOptions.order_id = orderData.orderId;
             var rzp = new Razorpay(rzpOptions);
             rzp.on('payment.failed', function (resp) {
               releaseSlotHold(state.bookingDate, startHour, duration, pendingId);
               state.processing = false;
               document.getElementById('submitBtn').disabled = false;
               statusEl.textContent = '';
-              showNotice('Payment Failed', (resp && resp.error && resp.error.description) ? resp.error.description : 'Payment could not be completed. Slot hold released.');
+              showNotice('Payment Failed', (resp && resp.error && resp.error.description) ? resp.error.description : 'Payment failed.');
             });
             rzp.open();
           })
@@ -2375,17 +1783,10 @@
             state.processing = false;
             document.getElementById('submitBtn').disabled = false;
             statusEl.textContent = '';
-            if (err && err.code === 'slot-taken') {
-              showNotice('Slot Unavailable', 'This slot was just reserved by another customer. Please choose another available hour.');
-            } else {
-              showNotice('Error', 'Could not initiate booking. Please try again.');
-            }
+            showNotice(err && err.code === 'slot-taken' ? 'Slot Unavailable' : 'Error', err && err.code === 'slot-taken' ? 'This slot was just reserved by another customer.' : 'Could not initiate booking.');
           });
       });
 
-      /* =========================================================
-         11. LOCAL BOOKING HISTORY & MODALS
-         ========================================================= */
       function readHistory() {
         try {
           var raw = localStorage.getItem(HISTORY_KEY);
@@ -2396,8 +1797,7 @@
       function saveBookingLocally(rec) {
         try {
           var list = readHistory();
-          var exists = list.some(function (x) { return x.bookingId === rec.bookingId; });
-          if (!exists) {
+          if (!list.some(function (x) { return x.bookingId === rec.bookingId; })) {
             list.unshift(rec);
             localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
           }
@@ -2412,9 +1812,7 @@
       var openStack = [];
       function openModal(ov) {
         if (!ov) return;
-        ov.hidden = false;
-        document.documentElement.classList.add('mb-lock');
-        openStack.push(ov);
+        ov.hidden = false; document.documentElement.classList.add('mb-lock'); openStack.push(ov);
         requestAnimationFrame(function () { ov.classList.add('is-open'); });
       }
       function closeModal(ov) {
@@ -2439,10 +1837,7 @@
         var list = readHistory();
         var body = document.getElementById('mbList');
         body.innerHTML = '';
-        if (!list.length) {
-          body.appendChild(h('p', '', 'No confirmed bookings saved on this device yet.'));
-          return;
-        }
+        if (!list.length) { body.appendChild(h('p', '', 'No confirmed bookings saved on this device yet.')); return; }
         list.forEach(function (r) {
           var card = h('article', 'bk-card');
           var top = h('div', 'bk-card__top');
@@ -2451,18 +1846,16 @@
           card.appendChild(top);
 
           var grid = h('dl', 'bk-grid');
-          var items = [
+          [
             ['Venue', r.venue || BRAND.locationShort],
             ['Customer', r.customerName || 'Guest'],
             ['Package', r.packageName || 'Package'],
             ['Guests', String(r.totalPersons || 2)],
             ['Date', formatDate(r.bookingDate || r.date)],
             ['Slot', r.slot || ((r.startTime || '') + ' – ' + (r.endTime || ''))]
-          ];
-          items.forEach(function (it) {
+          ].forEach(function (it) {
             var d = document.createElement('div');
-            d.appendChild(h('dt', '', it[0]));
-            d.appendChild(h('dd', '', it[1]));
+            d.appendChild(h('dt', '', it[0])); d.appendChild(h('dd', '', it[1]));
             grid.appendChild(d);
           });
           card.appendChild(grid);
@@ -2474,24 +1867,18 @@
           card.appendChild(pay);
 
           var acts = h('div', 'bk-actions');
+          var wa = h('button', 'btn btn--wa-mandatory', '📲 Send Entry Pass on WhatsApp');
+          wa.type = 'button'; wa.addEventListener('click', function () { openWhatsAppCopy(r); });
           var dl = h('button', 'btn btn--gold', '📥 Download Booking Pass (PNG)');
-          dl.type = 'button';
-          dl.addEventListener('click', function () { downloadPassPNG(r); });
-          var wa = h('button', 'btn btn--ghost', '📲 Send Copy on WhatsApp');
-          wa.type = 'button';
-          wa.addEventListener('click', function () { openWhatsAppCopy(r); });
-          acts.appendChild(dl); acts.appendChild(wa);
+          dl.type = 'button'; dl.addEventListener('click', function () { downloadPassPNG(r); });
+          acts.appendChild(wa); acts.appendChild(dl);
           card.appendChild(acts);
           body.appendChild(card);
         });
       }
 
       document.querySelectorAll('.js-open-bookings').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          setMenu(false);
-          renderBookingsList();
-          openModal(document.getElementById('mbOverlay'));
-        });
+        btn.addEventListener('click', function () { setMenu(false); renderBookingsList(); openModal(document.getElementById('mbOverlay')); });
       });
 
       function openConfirmation(r) {
@@ -2509,8 +1896,7 @@
           ['Balance Payable at Venue', money(r.balanceAtVenue)]
         ].forEach(function (row) {
           var div = document.createElement('div');
-          div.appendChild(h('dt', '', row[0]));
-          div.appendChild(h('dd', '', row[1]));
+          div.appendChild(h('dt', '', row[0])); div.appendChild(h('dd', '', row[1]));
           sum.appendChild(div);
         });
         openModal(document.getElementById('cfOverlay'));
@@ -2525,232 +1911,105 @@
         if (r) openWhatsAppCopy(r);
       });
       document.getElementById('cfView').addEventListener('click', function () {
-        closeModal(document.getElementById('cfOverlay'));
-        renderBookingsList();
-        openModal(document.getElementById('mbOverlay'));
+        closeModal(document.getElementById('cfOverlay')); renderBookingsList(); openModal(document.getElementById('mbOverlay'));
       });
 
       function openWhatsAppCopy(r) {
         var msg = [
-          '✨ *ARYXWEB — BOOKING CONFIRMED*',
-          'Booking Ref: ' + r.bookingId,
-          'Venue: ' + (r.venue || BRAND.locationShort),
-          'Address: ' + BRAND.address,
+          '✨ *ARYXWEB — ENTRY PASS ACTIVATION*',
+          'Booking Ref: *' + r.bookingId + '*',
           'Customer: ' + r.customerName,
+          'Phone: ' + (r.contactNumber || ''),
+          'Venue: ' + (r.venue || BRAND.locationShort),
           'Package: ' + r.packageName,
           'Date: ' + formatDate(r.bookingDate || r.date),
-          'Time: ' + (r.slot || ''),
+          'Time Slot: *' + (r.slot || '') + '*',
           'Guests: ' + (r.totalPersons || 2),
           'Online Advance Paid: ' + money(r.onlinePaymentAmount || 770),
-          'Balance Payable at Venue: ' + money(r.balanceAtVenue || 0),
-          'Contact: ' + BRAND.phoneDisplay
+          'Balance Payable at Venue: *' + money(r.balanceAtVenue || 0) + '*',
+          'Please confirm my entry pass! ✅'
         ].join('\n');
-        var targetPhone = normalizePhone(r.whatsappNumber || r.contactNumber);
-        var waNum = targetPhone ? ('91' + targetPhone) : BRAND.whatsappNumber;
-        window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+        window.open('https://wa.me/' + BRAND.whatsappNumber + '?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
       }
 
-      /* =========================================================
-         12. INSTANT PNG DIGITAL BOOKING PASS GENERATOR
-         ========================================================= */
       function drawCrestOnCanvas(c, cx, cy, r) {
         c.save();
         c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2); c.fillStyle = '#060608'; c.fill();
         c.strokeStyle = '#D4AF37'; c.lineWidth = 3; c.stroke();
-        c.beginPath(); c.arc(cx, cy, r - 6, 0, Math.PI * 2);
-        c.strokeStyle = '#F5D98B'; c.lineWidth = 1.2; c.stroke();
-
-        c.fillStyle = '#D4AF37';
-        c.beginPath(); c.arc(cx, cy - r + 13, 1.8, 0, Math.PI * 2); c.fill();
-        c.beginPath(); c.arc(cx - 7, cy - r + 14.5, 1.1, 0, Math.PI * 2); c.fill();
-        c.beginPath(); c.arc(cx + 7, cy - r + 14.5, 1.1, 0, Math.PI * 2); c.fill();
-
-        c.textAlign = 'center';
-        c.textBaseline = 'middle';
-        c.fillStyle = '#D4AF37';
-        c.font = '700 32px "Cormorant Garamond", Georgia, serif';
-        c.fillText('AX', cx, cy + 2);
-
-        var label = 'ARYXWEB';
-        var arcRadius = r - 17;
-        var totalAngle = 1.18;
-        var step = totalAngle / (label.length - 1);
-        c.fillStyle = '#F5D98B';
-        c.font = '700 7.5px Poppins, sans-serif';
-        for (var i = 0; i < label.length; i++) {
-          var angle = (Math.PI / 2) + (totalAngle / 2) - i * step;
-          var tx = cx + Math.cos(angle) * arcRadius;
-          var ty = cy + Math.sin(angle) * arcRadius;
-          c.save();
-          c.translate(tx, ty);
-          c.rotate(angle - Math.PI / 2);
-          c.fillText(label[i], 0, 0);
-          c.restore();
-        }
+        c.beginPath(); c.arc(cx, cy, r - 6, 0, Math.PI * 2); c.strokeStyle = '#F5D98B'; c.lineWidth = 1.2; c.stroke();
+        c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#D4AF37';
+        c.font = '700 32px "Cormorant Garamond", Georgia, serif'; c.fillText('AX', cx, cy + 2);
         c.restore();
       }
 
       function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-        var str = String(text || '');
-        var words = str.split(/\s+/);
-        var line = '';
-        var lines = [];
-
+        var words = String(text || '').split(/\s+/), line = '', lines = [];
         for (var i = 0; i < words.length; i++) {
-          var word = words[i];
-          var testLine = line ? line + ' ' + word : word;
-          if (ctx.measureText(testLine).width <= maxWidth) {
-            line = testLine;
-          } else {
-            if (line) {
-              lines.push(line);
-              line = '';
-            }
-            if (ctx.measureText(word).width > maxWidth) {
-              var chunk = '';
-              for (var k = 0; k < word.length; k++) {
-                var nextChunk = chunk + word[k];
-                if (ctx.measureText(nextChunk).width > maxWidth && chunk) {
-                  lines.push(chunk);
-                  chunk = word[k];
-                } else {
-                  chunk = nextChunk;
-                }
-              }
-              line = chunk;
-            } else {
-              line = word;
-            }
-          }
+          var testLine = line ? line + ' ' + words[i] : words[i];
+          if (ctx.measureText(testLine).width <= maxWidth) line = testLine;
+          else { if (line) lines.push(line); line = words[i]; }
         }
         if (line) lines.push(line);
-        if (!lines.length) lines.push('');
-
-        for (var j = 0; j < lines.length; j++) {
-          ctx.fillText(lines[j], x, y + j * lineHeight);
-        }
+        for (var j = 0; j < lines.length; j++) ctx.fillText(lines[j], x, y + j * lineHeight);
         return lines.length;
       }
 
       function downloadPassPNG(r) {
-        var W = 680, H = 1180, scale = 2;
-        var maxWidth = W - 112;
-        var lineHeight = 22;
-
-        var probeCv = document.createElement('canvas');
-        var probeCtx = probeCv.getContext('2d');
+        var W = 680, H = 1180, scale = 2, maxWidth = W - 112, lineHeight = 22;
         var rows = [
           ['Customer Name', r.customerName || 'Guest'],
           ['Venue', BRAND.locationShort],
           ['Address', BRAND.address],
           ['Booking Date', formatDate(r.bookingDate || r.date)],
-          ['Time Slot', r.slot || ((r.startTime || '') + ' - ' + (r.endTime || ''))],
+          ['Time Slot', r.slot || ''],
           ['Selected Package', r.packageName || 'Package'],
           ['Total Persons', String(r.totalPersons || 2) + ' Guests'],
           ['Online Advance Paid', money(r.onlinePaymentAmount || 770)],
           ['Balance Payable at Venue', money(r.balanceAtVenue || 0)]
         ];
 
-        probeCtx.font = '600 15px Poppins, sans-serif';
-        var totalExtraY = 0;
-        rows.forEach(function (row) {
-          var words = String(row[1] || '').split(/\s+/);
-          var line = '', count = 0;
-          words.forEach(function (w) {
-            var t = line ? line + ' ' + w : w;
-            if (probeCtx.measureText(t).width <= maxWidth) line = t;
-            else { count++; line = w; }
-          });
-          if (line) count++;
-          if (count > 1) totalExtraY += (count - 1) * lineHeight;
-        });
-        if (totalExtraY > 40) H += (totalExtraY - 40);
-
         var cv = document.createElement('canvas');
         cv.width = W * scale; cv.height = H * scale;
-        var c = cv.getContext('2d');
-        c.scale(scale, scale);
+        var c = cv.getContext('2d'); c.scale(scale, scale);
 
-        c.fillStyle = '#060608';
-        c.fillRect(0, 0, W, H);
-
-        c.strokeStyle = '#D4AF37';
-        c.lineWidth = 3;
-        c.strokeRect(20, 20, W - 40, H - 40);
-        c.strokeStyle = 'rgba(245, 217, 139, 0.35)';
-        c.lineWidth = 1;
-        c.strokeRect(30, 30, W - 60, H - 60);
-
+        c.fillStyle = '#060608'; c.fillRect(0, 0, W, H);
+        c.strokeStyle = '#D4AF37'; c.lineWidth = 3; c.strokeRect(20, 20, W - 40, H - 40);
         drawCrestOnCanvas(c, W / 2, 102, 54);
 
-        c.textAlign = 'center';
-        c.fillStyle = '#F5D98B';
-        c.font = '700 26px Poppins, sans-serif';
-        c.fillText(BRAND.name, W / 2, 188);
+        c.textAlign = 'center'; c.fillStyle = '#F5D98B'; c.font = '700 26px Poppins, sans-serif'; c.fillText(BRAND.name, W / 2, 188);
+        c.fillStyle = '#4ADE80'; c.font = '700 13px Poppins, sans-serif'; c.fillText('✓ CONFIRMED DIGITAL BOOKING PASS', W / 2, 232);
 
-        c.fillStyle = '#B8B4AA';
-        c.font = 'italic 600 14.5px "Cormorant Garamond", Georgia, serif';
-        c.fillText(BRAND.tagline, W / 2, 212);
+        c.fillStyle = '#131317'; c.fillRect(54, 254, W - 108, 76);
+        c.strokeStyle = '#D4AF37'; c.lineWidth = 1.5; c.strokeRect(54, 254, W - 108, 76);
+        c.fillStyle = '#B8B4AA'; c.font = '600 11px Montserrat, sans-serif'; c.fillText('BOOKING REFERENCE', W / 2, 280);
+        c.fillStyle = '#F5D98B'; c.font = '800 28px Poppins, sans-serif'; c.fillText(r.bookingId || 'ARYX-000000', W / 2, 316);
 
-        c.fillStyle = '#4ADE80';
-        c.font = '700 13px Poppins, sans-serif';
-        c.fillText('✓ CONFIRMED DIGITAL BOOKING PASS', W / 2, 240);
-
-        c.fillStyle = '#131317';
-        c.fillRect(54, 260, W - 108, 76);
-        c.strokeStyle = '#D4AF37';
-        c.lineWidth = 1.5;
-        c.strokeRect(54, 260, W - 108, 76);
-        c.fillStyle = '#B8B4AA';
-        c.font = '600 11px Montserrat, sans-serif';
-        c.fillText('BOOKING REFERENCE', W / 2, 286);
-        c.fillStyle = '#F5D98B';
-        c.font = '800 28px Poppins, sans-serif';
-        c.fillText(r.bookingId || 'ARYX-000000', W / 2, 322);
-
-        var y = 382;
+        var y = 376;
         rows.forEach(function (row) {
-          c.textAlign = 'left';
-          c.fillStyle = '#B8B4AA';
-          c.font = '600 11.5px Montserrat, sans-serif';
+          c.textAlign = 'left'; c.fillStyle = '#B8B4AA'; c.font = '600 11.5px Montserrat, sans-serif';
           c.fillText(row[0].toUpperCase(), 56, y);
-
           c.fillStyle = row[0] === 'Online Advance Paid' ? '#F5D98B' : '#FFFFFF';
           c.font = '600 15px Poppins, sans-serif';
           var lineCount = wrapText(c, String(row[1]), 56, y + 23, maxWidth, lineHeight);
           var dividerY = y + 23 + (lineCount - 1) * lineHeight + 13;
-
-          c.strokeStyle = 'rgba(212, 175, 55, 0.16)';
-          c.lineWidth = 1;
+          c.strokeStyle = 'rgba(212, 175, 55, 0.16)'; c.lineWidth = 1;
           c.beginPath(); c.moveTo(56, dividerY); c.lineTo(W - 56, dividerY); c.stroke();
           y = dividerY + 23;
         });
 
-        var footerY = Math.max(H - 110, y + 24);
-        c.textAlign = 'center';
-        c.fillStyle = '#D4AF37';
-        c.font = '600 13px Poppins, sans-serif';
-        c.fillText(BRAND.name + '  •  ' + BRAND.subtitle + '  •  ' + BRAND.phoneDisplay, W / 2, footerY);
-        c.fillStyle = '#B8B4AA';
-        c.font = '500 11.5px Montserrat, sans-serif';
-        c.fillText('Present this confirmed pass at the venue reception. Valid Govt ID mandatory.', W / 2, footerY + 28);
+        c.textAlign = 'center'; c.fillStyle = '#D4AF37'; c.font = '600 13px Poppins, sans-serif';
+        c.fillText(BRAND.name + '  •  ' + BRAND.phoneDisplay, W / 2, Math.max(H - 90, y + 24));
 
         cv.toBlob(function (blob) {
           if (!blob) return;
           var url = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = 'ARYXWEB-Pass-' + (r.bookingId || 'CONFIRMED') + '.png';
-          document.body.appendChild(a);
-          a.click();
+          var a = document.createElement('a'); a.href = url; a.download = 'ARYXWEB-Pass-' + (r.bookingId || 'CONFIRMED') + '.png';
+          document.body.appendChild(a); a.click();
           setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
           toast('Digital Booking Pass downloaded.');
         }, 'image/png');
       }
 
-      /* =========================================================
-         13. BOOTSTRAP
-         ========================================================= */
       populatePackageDropdown();
       selectPackage('romantic_couple');
       refreshCount();
